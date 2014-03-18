@@ -6,11 +6,6 @@ LibLoader::LibLoader(): _dlhandle(NULL)
 
 }
 
-LibLoader::LibLoader(const std::string &name, int flag): _dlhandle(NULL)
-{
-  open(name, flag);
-}
-
 LibLoader::~LibLoader()
 {
   if (isOpen())

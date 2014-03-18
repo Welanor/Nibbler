@@ -9,7 +9,6 @@ class LibLoader
 {
 public:
   LibLoader();
-  LibLoader(const std::string &name, int flag);
   virtual ~LibLoader();
 
   void open(const std::string &name, int flag);
