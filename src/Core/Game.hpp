@@ -3,11 +3,14 @@
 
 # define WINX 800
 # define WINY 600
+# define FPS 60
 
 # include <iostream>
 # include <sstream>
 # include "Exception.hpp"
 # include "LibLoader.hpp"
+# include "IInput.hpp"
+# include "IGraphics.hpp"
 
 class Game
 {
@@ -22,6 +25,9 @@ private:
   int		_y;
   int		_size_winx;
   int		_size_winy;
+  std::string	_map;
+  IGraphics	*_window;
+  IInput	*_input;
   LibLoader	_lib;
 };
 
