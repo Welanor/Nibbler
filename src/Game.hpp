@@ -7,6 +7,7 @@
 # include <iostream>
 # include <sstream>
 # include "Exception.hpp"
+# include "LibLoader.hpp"
 
 class Game
 {
@@ -21,7 +22,7 @@ private:
   int		_y;
   int		_size_winx;
   int		_size_winy;
-  std::string	_libname;
+  LibLoader	_lib;
 };
 
 #endif /* _GAME_H_ */

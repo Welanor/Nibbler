@@ -5,7 +5,7 @@
 ## Login   <dellam_a@epitech.net>
 ##
 ## Started on  Sun Mar  9 03:35:24 2014 Adrien
-## Last update Tue Mar 18 15:01:25 2014 
+## Last update Tue Mar 18 18:31:08 2014 
 ##
 
 CC		=	g++
@@ -15,12 +15,13 @@ RM		=	rm -f
 NAME		=	nibbler
 
 CXXFLAGS	+=	-Wextra -Wall -W -g
-LDFLAGS		+=
+LDFLAGS		+=	-ldl
 
 SRCDIR		=	src/
 SRC		=	main.cpp \
 			Game.cpp \
-			Exception.cpp
+			Exception.cpp \
+			LibLoader.cpp
 
 OBJDIR		=	obj/
 OBJS		=	$(addprefix $(OBJDIR), $(SRC:.cpp=.o))
