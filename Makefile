@@ -5,7 +5,7 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 23:11:50 2014 luc sinet
-## Last update Tue Mar 18 23:36:28 2014 luc sinet
+## Last update Tue Mar 18 23:41:51 2014 luc sinet
 ##
 
 NAME	= Nibbler
@@ -21,19 +21,19 @@ dummy	:= $(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
 
 $(NAME):
 	@for dir in $(PATHS); do \
-		echo -e "\e[30m --- \e[31m$$dir \e[30m---\e[30m"; make --no-print-directory -C $$dir; \
+		echo -e "\e[30m [\e[34mCompiling: \e[31m$$dir\e[30m]\e[30m"; make --no-print-directory -C $$dir; \
 	done
 
 all: $(NAME)
 
 clean:
 	@for dir in $(PATHS); do \
-		echo "--- $$dir ---"; make --no-print-directory -C $$dir clean; \
+		echo -e "\e[30m [\e[34mClearing: \e[31m$$dir\e[30m]\e[30m"; make --no-print-directory -C $$dir clean; \
 	done
 
 fclean:	clean
 	@for dir in $(PATHS); do \
-		echo "--- $$dir ---"; make --no-print-directory -C $$dir fclean; \
+		echo -e "\e[30m [\e[34mRemoving: \e[31m$$dir\e[30m]\e[30m"; make --no-print-directory -C $$dir fclean; \
 	done
 
 re:	fclean all
