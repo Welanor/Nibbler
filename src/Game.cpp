@@ -4,7 +4,6 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _size_winx(WINX), _size_winy(WINY)
 {
   std::stringstream ss("");
 
-  std::cout << "AC = " << ac << std::endl;
   if (ac != 4)
     throw(Exception("Usage: ./nibbler size_x size_y lib_nibbler_XXX.so"));
   ss.str(av[1]);
