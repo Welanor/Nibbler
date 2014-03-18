@@ -5,7 +5,7 @@
 ## Login   <dellam_a@epitech.net>
 ##
 ## Started on  Sun Mar  9 03:35:24 2014 Adrien
-## Last update Tue Mar 18 14:11:39 2014 luc sinet
+## Last update Tue Mar 18 15:01:25 2014 
 ##
 
 CC		=	g++
@@ -31,7 +31,7 @@ $(OBJDIR)%.o: $(SRCDIR)%.cpp
 	$(CC) $(CXXFLAGS) -o $@ -c $<
 
 $(NAME): $(OBJS) $(LOBJS)
-	$(CC) -o $(NAME) $(CXXFLAGS) $(LDFLAGS) $(OBJS) $(LOBJS)
+	$(CC) -o $(NAME) $(LDFLAGS) $(OBJS) $(LOBJS)
 
 all: $(NAME)
 
