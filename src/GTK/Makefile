@@ -5,7 +5,7 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 22:16:29 2014 luc sinet
-## Last update Tue Mar 18 22:37:57 2014 luc sinet
+## Last update Tue Mar 18 23:26:23 2014 luc sinet
 ##
 
 LIBDIR	= ../../bin/
@@ -18,7 +18,7 @@ RM      = rm -f
 SRCDIR 	= ./
 SRC	= main.cpp \
 
-OBJDIR  = ../../obj/
+OBJDIR  = ../../obj/GTK/
 OBJS    = $(addprefix $(OBJDIR), $(SRC:.cpp=.o))
 
 CXXFLAGS += -Wextra -Wall -W

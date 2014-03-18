@@ -1,47 +1,39 @@
 ##
-## Makefile for Makefile in /home/Epitech
+## Makefile for Makefile in /home/sinet_l/Documents/project/cpp_nibbler
+## 
+## Made by luc sinet
+## Login   <sinet_l@epitech.net>
+## 
+## Started on  Tue Mar 18 23:11:50 2014 luc sinet
+## Last update Tue Mar 18 23:27:40 2014 luc sinet
 ##
-## Made by dellam_a
-## Login   <dellam_a@epitech.net>
-##
-## Started on  Sun Mar  9 03:35:24 2014 Adrien
-## Last update Tue Mar 18 18:31:08 2014 
-##
 
-CC		=	g++
+NAME	= Nibbler
 
-RM		=	rm -f
+PATHS	= src/Core \
+	  src/GTK
 
-NAME		=	nibbler
+BINDIR	= ./bin/
+OBJDIR	= ./obj/
 
-CXXFLAGS	+=	-Wextra -Wall -W -g
-LDFLAGS		+=	-ldl
+dummy	:= $(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
+	   $(shell test -d $(BINDIR) || mkdir $(BINDIR)) \
 
-SRCDIR		=	src/
-SRC		=	main.cpp \
-			Game.cpp \
-			Exception.cpp \
-			LibLoader.cpp
-
-OBJDIR		=	obj/
-OBJS		=	$(addprefix $(OBJDIR), $(SRC:.cpp=.o))
-
-dummy		:=	$(shell test -d $(OBJDIR) || mkdir $(OBJDIR))
-
-$(OBJDIR)%.o: $(SRCDIR)%.cpp
-	$(CC) $(CXXFLAGS) -o $@ -c $<
-
-$(NAME): $(OBJS) $(LOBJS)
-	$(CC) -o $(NAME) $(LDFLAGS) $(OBJS) $(LOBJS)
+$(NAME):
+	@for dir in $(PATHS); do \
+		echo "--- $$dir ---"; make --no-print-directory -C $$dir; \
+	done
 
 all: $(NAME)
 
 clean:
-	$(RM) $(OBJS)
+	@for dir in $(PATHS); do \
+		echo "--- $$dir ---"; make --no-print-directory -C $$dir clean; \
+	done
 
-fclean: clean
-	$(RM) $(NAME)
+fclean:	clean
+	@for dir in $(PATHS); do \
+		echo "--- $$dir ---"; make --no-print-directory -C $$dir fclean; \
+	done
 
-re: fclean all
-
-.PHONY:	all clean fclean re
+re:	fclean all
