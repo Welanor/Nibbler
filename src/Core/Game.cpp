@@ -4,6 +4,8 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _size_winx(WINX), _size_winy(WINY)
 {
   std::stringstream ss("");
   std::string libname("");
+  IInput *(*createInput)();
+  IGraphics *(*createGraphics)();
 
   if (ac != 4)
     throw(Exception("Usage: ./nibbler size_x size_y lib_nibbler_XXX.so"));
@@ -15,15 +17,44 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _size_winx(WINX), _size_winy(WINY)
   if (!(ss >> _y) || _y <= 0)
     throw(Exception("Size Y invalid"));
   _lib.open(av[3], RTLD_LAZY);
+
+  createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("createGraphics"));
+  createInput = reinterpret_cast<IInput *(*)()>(_lib.getSym("createInput"));
+
+  if (createInput == NULL || createGraphics == NULL)
+    throw(Exception(""));
+
+  _window = (createGraphics)();
+  _input = (createInput)();
 }
 
 Game::~Game()
 {
   _lib.close();
+  _window->destroyWindows();
+  delete _window;
+  delete _input;
 }
 
 void	Game::start()
 {
-   std::cout << "X = " << _x << std::endl;
-  std::cout << "Y = " << _y << std::endl;
+  unsigned int frameRate = 1000 / FPS;
+  unsigned int begin = 0, end = 0, time= 0;
+
+  while (!_input->isDone())
+    {
+      begin = _input->getTime();
+
+      /* Evenement */
+      _window->clear();
+
+      _input->getEvent();
+
+      _window->draw(_map);
+
+      end = _input->getTime();
+      time = end - begin;
+      if (time < frameRate)
+	_input->sleep(frameRate - time);
+    }
 }
