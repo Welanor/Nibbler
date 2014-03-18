@@ -5,7 +5,7 @@
 ## Login   <dellam_a@epitech.net>
 ##
 ## Started on  Sun Mar  9 03:35:24 2014 Adrien
-## Last update Mon Mar 17 20:12:11 2014 
+## Last update Tue Mar 18 14:11:39 2014 luc sinet
 ##
 
 CC		=	g++
@@ -14,30 +14,33 @@ RM		=	rm -f
 
 NAME		=	nibbler
 
-CFLAGS		+=	-g -Wall -Wextra
-
+CXXFLAGS	+=	-Wextra -Wall -W -g
 LDFLAGS		+=
 
+SRCDIR		=	src/
 SRC		=	main.cpp \
- 			Game.cpp \
- 			Exception.cpp
+			Game.cpp \
+			Exception.cpp
 
-OBJ		=	$(SRC:.cpp=.o)
+OBJDIR		=	obj/
+OBJS		=	$(addprefix $(OBJDIR), $(SRC:.cpp=.o))
 
-%.o:		%.cpp
-		$(CC) $(CFLAGS) -c $< -o $@
+dummy		:=	$(shell test -d $(OBJDIR) || mkdir $(OBJDIR))
 
-$(NAME):	$(OBJ)
-		$(CC) $(LDFLAGS) -o $(NAME) $(OBJ)
+$(OBJDIR)%.o: $(SRCDIR)%.cpp
+	$(CC) $(CXXFLAGS) -o $@ -c $<
 
-all:	$(NAME)
+$(NAME): $(OBJS) $(LOBJS)
+	$(CC) -o $(NAME) $(CXXFLAGS) $(LDFLAGS) $(OBJS) $(LOBJS)
+
+all: $(NAME)
 
 clean:
-	$(RM) $(OBJ)
+	$(RM) $(OBJS)
 
-fclean:	clean
+fclean: clean
 	$(RM) $(NAME)
 
-re:	fclean all
+re: fclean all
 
 .PHONY:	all clean fclean re
