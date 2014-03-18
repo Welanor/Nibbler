@@ -5,7 +5,7 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 23:11:50 2014 luc sinet
-## Last update Tue Mar 18 23:41:51 2014 luc sinet
+## Last update Tue Mar 18 23:44:08 2014 luc sinet
 ##
 
 NAME	= Nibbler
@@ -28,7 +28,7 @@ all: $(NAME)
 
 clean:
 	@for dir in $(PATHS); do \
-		echo -e "\e[30m [\e[34mClearing: \e[31m$$dir\e[30m]\e[30m"; make --no-print-directory -C $$dir clean; \
+		echo -e "\e[30m [\e[34mCleaning: \e[31m$$dir\e[30m]\e[30m"; make --no-print-directory -C $$dir clean; \
 	done
 
 fclean:	clean
