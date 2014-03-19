@@ -5,13 +5,14 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 23:11:50 2014 luc sinet
-## Last update Wed Mar 19 12:22:51 2014 Etienne
+## Last update Wed Mar 19 15:45:37 2014 
 ##
 
 NAME	= Nibbler
 
 PATHS	= src/Core \
-	  src/GTK
+	  src/GTK \
+	  src/SFML
 
 BINDIR	= ./bin/
 OBJDIR	= ./obj/

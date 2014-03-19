@@ -1,7 +1,6 @@
 #include "Game.hpp"
 
-Game::Game(int ac, char **av) : _x(0), _y(0), _size_winx(WINX),
-				_size_winy(WINY), _lib(), _snake()
+Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 {
   IInput *(*createInput)();
   IGraphics *(*createGraphics)();
@@ -52,7 +51,8 @@ void Game::parse_arg(const int ac, char **av)
 
 bool	Game::check_collision() const
 {
-  if (_snake.front().x >= _x || _snake.front().y >= _y || _snake.front().y < 0 || _snake.front().x < 0)
+  if (_snake.front().x >= _x || _snake.front().y >= _y
+      || _snake.front().y < 0 || _snake.front().x < 0)
     return (true);
   return (false);
 }
@@ -62,6 +62,7 @@ void	Game::start()
   unsigned int frameRate = 1000 / FPS;
   unsigned int begin = 0, end = 0, time= 0;
 
+  _window->create_window("Nibbler", WINX, WINY);
   while (!_input->isDone())
     {
       begin = _input->getTime();

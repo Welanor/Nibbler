@@ -29,8 +29,6 @@ private:
 private:
   int			_x;
   int			_y;
-  int			_size_winx;
-  int			_size_winy;
   IGraphics		*_window;
   IInput		*_input;
   LibLoader		_lib;
