@@ -13,7 +13,6 @@ public:
   virtual void clear();
   virtual void draw(const std::string &map);
   virtual void destroyWindow();
-  virtual void talk();
 };
 
 #endif /* _GRAPHICS_H_ */

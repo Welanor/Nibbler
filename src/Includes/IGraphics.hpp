@@ -13,7 +13,6 @@ public:
   virtual void clear() = 0;
   virtual void draw(const std::string &map) = 0;
   virtual void destroyWindow() = 0;
-  virtual void talk() = 0;
 };
 
 #endif /* _IGRAPHICS_H_ */

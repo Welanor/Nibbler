@@ -18,12 +18,11 @@ void	Graphics::destroyWindow()
 {
 }
 
-void	Graphics::talk()
+extern "C"
 {
-  std::cout << "GTK lib" << std::endl;
-}
-
-Graphics	*init_graphics()
-{
-  return (new Graphics);
+  Graphics	*init_graphics()
+  {
+    std::cout << "init_graphics" << std::endl;
+    return (new Graphics);
+  }
 }

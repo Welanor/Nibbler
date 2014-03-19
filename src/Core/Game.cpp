@@ -19,14 +19,13 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _size_winx(WINX), _size_winy(WINY)
   _lib.open(av[3], RTLD_LAZY);
 
   createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
-  //createInput = reinterpret_cast<IInput *(*)()>(_lib.getSym("createInput"));
+  createInput = reinterpret_cast<IInput *(*)()>(_lib.getSym("init_input"));
 
-  if (/*createInput == NULL ||*/ createGraphics == NULL)
+  if (createInput == NULL || createGraphics == NULL)
     throw(Exception(""));
 
   _window = (createGraphics)();
-  _window->talk();
-  //_input = (createInput)();
+  _input = (createInput)();
 }
 
 Game::~Game()
