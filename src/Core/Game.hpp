@@ -7,28 +7,34 @@
 
 # include <iostream>
 # include <sstream>
+# include <list>
 # include "Exception.hpp"
 # include "LibLoader.hpp"
+# include "Snake.hpp"
 # include "IInput.hpp"
 # include "IGraphics.hpp"
 
 class Game
 {
 public:
-  Game(int ac, char **av);
+  Game(const int ac, char **av);
   virtual ~Game();
 
   void	start();
 
 private:
-  int		_x;
-  int		_y;
-  int		_size_winx;
-  int		_size_winy;
-  std::string	_map;
-  IGraphics	*_window;
-  IInput	*_input;
-  LibLoader	_lib;
+  void	parse_arg(const int ac, char **av);
+  bool	check_collision() const;
+
+private:
+  int			_x;
+  int			_y;
+  int			_size_winx;
+  int			_size_winy;
+  IGraphics		*_window;
+  IInput		*_input;
+  LibLoader		_lib;
+  std::list<t_snake>	_snake;
 };
 
 #endif /* _GAME_H_ */
