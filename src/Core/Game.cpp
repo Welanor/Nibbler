@@ -18,14 +18,15 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _size_winx(WINX), _size_winy(WINY)
     throw(Exception("Size Y invalid"));
   _lib.open(av[3], RTLD_LAZY);
 
-  createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("createGraphics"));
-  createInput = reinterpret_cast<IInput *(*)()>(_lib.getSym("createInput"));
+  createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
+  //createInput = reinterpret_cast<IInput *(*)()>(_lib.getSym("createInput"));
 
-  if (createInput == NULL || createGraphics == NULL)
+  if (/*createInput == NULL ||*/ createGraphics == NULL)
     throw(Exception(""));
 
   _window = (createGraphics)();
-  _input = (createInput)();
+  _window->talk();
+  //_input = (createInput)();
 }
 
 Game::~Game()

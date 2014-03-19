@@ -9,7 +9,8 @@ public:
   virtual void create_window(const std::string &name) = 0;
   virtual void clear() = 0;
   virtual void draw(const std::string &map) = 0;
-  virtual void destroyWindow();
+  virtual void destroyWindow() = 0;
+  virtual void talk() = 0;
 };
 
 #endif /* _IGRAPHICS_H_ */
