@@ -5,7 +5,7 @@
 ## Login   <dellam_a@epitech.net>
 ##
 ## Started on  Sun Mar  9 03:35:24 2014 Adrien
-## Last update Wed Mar 19 09:55:14 2014 luc sinet
+## Last update Wed Mar 19 13:11:48 2014 luc sinet
 ##
 
 
@@ -33,7 +33,7 @@ dummy		:=	$(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
 			$(shell test -d $(COREDIR) || mkdir $(COREDIR))
 
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
-	$(CC) $(INCDIR) -o $@ -c $<
+	$(CC) $(CXXFLAGS) $(INCDIR) -o $@ -c $<
 
 $(NAME): $(OBJS)
 	$(CC) -o $(NAME) $(LDFLAGS) $(OBJS) $(LOBJS)

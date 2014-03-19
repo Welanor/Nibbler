@@ -5,7 +5,7 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 22:16:29 2014 luc sinet
-## Last update Wed Mar 19 10:25:58 2014 
+## Last update Wed Mar 19 10:57:57 2014 luc sinet
 ##
 
 LIBDIR	= ../../bin/
@@ -29,7 +29,7 @@ dummy	:= $(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
 	   $(shell test -d $(LIBDIR) || mkdir $(LIBDIR))
 
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
-	$(CC) $(CXXFLAGS) $(INCDIR) -o $@ -c $<
+	$(CC) $(INCDIR) $(CXXFLAGS) -o $@ -c $<
 
 $(NAME): $(OBJS)
 	$(CC) -o $(NAME) $(LDFLAGS) $(OBJS)

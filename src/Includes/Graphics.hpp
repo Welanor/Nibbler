@@ -6,14 +6,14 @@
 class Graphics : IGraphics
 {
 public:
-  Graphics();
-  virtual ~Graphics();
+  // Graphics();
+  //  virtual ~Graphics();
 
   virtual void create_window(const std::string &name);
   virtual void clear();
   virtual void draw(const std::string &map);
   virtual void destroyWindow();
-  void	       talk();
+  virtual void talk();
 };
 
 #endif /* _GRAPHICS_H_ */

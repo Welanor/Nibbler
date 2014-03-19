@@ -1,10 +1,4 @@
-#include <string>
-#include <iostream>
 #include "Graphics.hpp"
-
-Graphics::Graphics()
-{
-}
 
 void	Graphics::create_window(const std::string &name)
 {
@@ -29,7 +23,10 @@ void	Graphics::talk()
   std::cout << "GTK lib" << std::endl;
 }
 
-Graphics       	*init_graphics()
+extern "C"
 {
-  return (new Graphics);
+  Graphics	*init_graphics()
+  {
+    return (new Graphics);
+  }
 }

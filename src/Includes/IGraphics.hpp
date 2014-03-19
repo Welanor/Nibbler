@@ -1,6 +1,9 @@
 #ifndef _IGRAPHICS_H_
 #define _IGRAPHICS_H_
 
+#include <string>
+#include <iostream>
+
 class IGraphics
 {
 public:
