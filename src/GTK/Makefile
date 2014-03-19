@@ -5,7 +5,7 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 22:16:29 2014 luc sinet
-## Last update Wed Mar 19 10:22:43 2014 luc sinet
+## Last update Wed Mar 19 10:25:58 2014 
 ##
 
 LIBDIR	= ../../bin/
@@ -22,14 +22,14 @@ SRC	= main.cpp \
 OBJDIR  = ../../obj/GTK/
 OBJS    = $(addprefix $(OBJDIR), $(SRC:.cpp=.o))
 
-CXXFLAGS += -Wextra -Wall -W
-LDFLAGS	+= -shared -fPIC -lpthread
+CXXFLAGS += -Wextra -Wall -W -fPIC
+LDFLAGS	+= -shared -lpthread
 
 dummy	:= $(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
 	   $(shell test -d $(LIBDIR) || mkdir $(LIBDIR))
 
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
-	$(CC) $(INCDIR) -o $@ -c $<
+	$(CC) $(CXXFLAGS) $(INCDIR) -o $@ -c $<
 
 $(NAME): $(OBJS)
 	$(CC) -o $(NAME) $(LDFLAGS) $(OBJS)
