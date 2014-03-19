@@ -10,7 +10,7 @@ Graphics::~Graphics()
   std::cout << "Destructor GTK" << std::endl;
 }
 
-void	Graphics::create_window(const std::string &name)
+void	Graphics::create_window(const std::string &name, const int /* size_x */, const int /* size_y */)
 {
   (void)name;
 }

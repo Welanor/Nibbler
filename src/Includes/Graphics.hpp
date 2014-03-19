@@ -9,7 +9,7 @@ public:
   Graphics();
    virtual ~Graphics();
 
-  virtual void create_window(const std::string &name);
+  virtual void create_window(const std::string &name, const int, const int);
   virtual void clear();
   virtual void draw(const std::list<t_snake> &snake);
   virtual void destroyWindow();
