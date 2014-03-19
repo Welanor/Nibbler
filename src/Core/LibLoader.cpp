@@ -18,7 +18,7 @@ void LibLoader::open(const std::string &name, int flag)
     close();
   _dlhandle = dlopen(name.c_str(), flag);
   if (_dlhandle == NULL)
-    throw(Exception("Error while the lib openning"));
+    throw(Exception("Error while loading the library: " + name));
   dlerror();
 }
 
