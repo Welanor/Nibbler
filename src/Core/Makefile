@@ -5,7 +5,7 @@
 ## Login   <dellam_a@epitech.net>
 ##
 ## Started on  Sun Mar  9 03:35:24 2014 Adrien
-## Last update Tue Mar 18 23:22:09 2014 luc sinet
+## Last update Wed Mar 19 09:55:14 2014 luc sinet
 ##
 
 
@@ -19,6 +19,7 @@ RM		=	rm -f
 CXXFLAGS	+=	-Wextra -Wall -W -g
 LDFLAGS		+=	-ldl
 
+INCDIR		=	-I../Includes/
 SRCDIR		=	./
 SRC		=	main.cpp \
 			Game.cpp \
@@ -32,9 +33,9 @@ dummy		:=	$(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
 			$(shell test -d $(COREDIR) || mkdir $(COREDIR))
 
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
-	$(CC) -o $@ -c $<
+	$(CC) $(INCDIR) -o $@ -c $<
 
-$(NAME): $(OBJS) $(LOBJS)
+$(NAME): $(OBJS)
 	$(CC) -o $(NAME) $(LDFLAGS) $(OBJS) $(LOBJS)
 
 all: $(NAME)

@@ -5,7 +5,7 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 22:16:29 2014 luc sinet
-## Last update Tue Mar 18 23:26:23 2014 luc sinet
+## Last update Wed Mar 19 09:55:14 2014 luc sinet
 ##
 
 LIBDIR	= ../../bin/
@@ -15,6 +15,7 @@ CC      = g++
 
 RM      = rm -f
 
+INCDIR	= -I../Includes/
 SRCDIR 	= ./
 SRC	= main.cpp \
 
@@ -28,7 +29,7 @@ dummy	:= $(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
 	   $(shell test -d $(LIBDIR) || mkdir $(LIBDIR))
 
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
-	$(CC) -o $@ -c $<
+	$(CC) $(INCDIR) -o $@ -c $<
 
 $(NAME): $(OBJS)
 	$(CC) -o $(NAME) $(LDFLAGS) $(OBJS)
