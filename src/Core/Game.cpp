@@ -31,7 +31,7 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _size_winx(WINX), _size_winy(WINY)
 Game::~Game()
 {
   _lib.close();
-  _window->destroyWindows();
+  _window->destroyWindow();
   delete _window;
   delete _input;
 }
