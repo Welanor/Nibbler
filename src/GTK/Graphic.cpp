@@ -30,7 +30,7 @@ void	Graphics::destroyWindow()
 
 extern "C"
 {
-  Graphics	*init_graphics()
+  IGraphics	*init_graphics()
   {
     std::cout << "init_graphics" << std::endl;
     return (new Graphics);

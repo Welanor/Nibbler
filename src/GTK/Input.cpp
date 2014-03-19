@@ -21,7 +21,7 @@ void		Input::sleep(unsigned int time)
 
 extern "C"
 {
-  Input		*init_input()
+  IInput	*init_input()
   {
     std::cout << "init input" << std::endl;
     return (new Input);

@@ -3,7 +3,7 @@
 
 #include "IInput.hpp"
 
-class Input
+class Input : public IInput
 {
 public:
   virtual unsigned int getTime();
