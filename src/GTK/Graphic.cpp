@@ -23,10 +23,7 @@ void	Graphics::talk()
   std::cout << "GTK lib" << std::endl;
 }
 
-extern "C"
+Graphics	*init_graphics()
 {
-  Graphics	*init_graphics()
-  {
-    return (new Graphics);
-  }
+  return (new Graphics);
 }
