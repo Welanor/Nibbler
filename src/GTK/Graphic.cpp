@@ -19,9 +19,9 @@ void	Graphics::clear()
 {
 }
 
-void	Graphics::draw(const std::string &map)
+void	Graphics::draw(const std::list<t_snake> &snake)
 {
-  (void)map;
+  (void)snake;
 }
 
 void	Graphics::destroyWindow()
