@@ -1,5 +1,15 @@
 #include "Graphics.hpp"
 
+Graphics::Graphics()
+{
+  std::cout << "Constructor GTK" << std::endl;
+}
+
+Graphics::~Graphics()
+{
+  std::cout << "Destructor GTK" << std::endl;
+}
+
 void	Graphics::create_window(const std::string &name)
 {
   (void)name;

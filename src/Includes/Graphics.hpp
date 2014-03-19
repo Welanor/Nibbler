@@ -3,11 +3,11 @@
 
 #include "IGraphics.hpp"
 
-class Graphics : IGraphics
+class Graphics : public IGraphics
 {
 public:
-  // Graphics();
-  //  virtual ~Graphics();
+  Graphics();
+   virtual ~Graphics();
 
   virtual void create_window(const std::string &name);
   virtual void clear();

@@ -29,7 +29,7 @@ void *LibLoader::getSym(const std::string &sym) const
 
   ret = dlsym(_dlhandle, sym.c_str());
   if ((str = dlerror()) != NULL)
-    std::cerr << str << std::endl;
+    std::cerr << "Error : " + std::string(str) << std::endl;
   return (ret);
 }
 
