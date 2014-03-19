@@ -5,7 +5,7 @@
 ## Login   <dellam_a@epitech.net>
 ##
 ## Started on  Sun Mar  9 03:35:24 2014 Adrien
-## Last update Wed Mar 19 13:11:48 2014 luc sinet
+## Last update Wed Mar 19 13:22:00 2014 
 ##
 
 
@@ -26,7 +26,7 @@ SRC		=	main.cpp \
 			Exception.cpp \
 			LibLoader.cpp
 
-OBJDIR		=	../../obj/Core
+OBJDIR		=	../../obj/Core/
 OBJS		=	$(addprefix $(OBJDIR), $(SRC:.cpp=.o))
 
 dummy		:=	$(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
