@@ -1,6 +1,8 @@
 #ifndef _GRAPHICS_H_
 #define _GRAPHICS_H_
 
+#include "IGraphics.hpp"
+
 class Graphics : IGraphics
 {
 public:
@@ -11,6 +13,7 @@ public:
   virtual void clear();
   virtual void draw(const std::string &map);
   virtual void destroyWindow();
+  void	       talk();
 };
 
 #endif /* _GRAPHICS_H_ */

@@ -1,10 +1,35 @@
-int		main()
-{
-  /*  GtkWidget	*window;
+#include <string>
+#include <iostream>
+#include "Graphics.hpp"
 
-  gtk_init(NULL, NULL);
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_widget_show(window);
-  gtk_main();
-  return (0);*/
+Graphics::Graphics()
+{
+}
+
+void	Graphics::create_window(const std::string &name)
+{
+  (void)name;
+}
+
+void	Graphics::clear()
+{
+}
+
+void	Graphics::draw(const std::string &map)
+{
+  (void)map;
+}
+
+void	Graphics::destroyWindow()
+{
+}
+
+void	Graphics::talk()
+{
+  std::cout << "GTK lib" << std::endl;
+}
+
+Graphics       	*init_graphics()
+{
+  return (new Graphics);
 }
