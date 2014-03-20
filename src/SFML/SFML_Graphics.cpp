@@ -32,6 +32,16 @@ void	SFMLGraphics::destroyWindow()
 
 }
 
+void SFMLGraphics::handleEvent()
+{
+
+}
+
+bool SFMLGraphics::isDone()
+{
+  return (false);
+}
+
 extern "C"
 {
   IGraphics	*init_graphics()

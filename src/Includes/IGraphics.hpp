@@ -15,6 +15,9 @@ public:
   virtual void clear() = 0;
   virtual void draw(const std::list<t_snake> &snake) = 0;
   virtual void destroyWindow() = 0;
+
+  virtual void handleEvent() = 0;
+  virtual bool isDone() = 0;
 };
 
 #endif /* _IGRAPHICS_H_ */

@@ -1,16 +1,15 @@
+#include <unistd.h>
 #include "Game.hpp"
 
 Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 {
-  IInput *(*createInput)();
   IGraphics *(*createGraphics)();
 
   parse_arg(ac, av);
 
   createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
-  createInput = reinterpret_cast<IInput *(*)()>(_lib.getSym("init_input"));
 
-  if (createInput == NULL || createGraphics == NULL)
+  if (createGraphics == NULL)
     throw(Exception(""));
 
   t_snake tmp = {_x / 2, _y - 1, NORTH};
@@ -21,7 +20,6 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
   _snake.push_back(tmp);
 
   _window = (createGraphics)();
-  _input = (createInput)();
 }
 
 Game::~Game()
@@ -29,7 +27,6 @@ Game::~Game()
   _lib.close();
   _window->destroyWindow();
   delete _window;
-  delete _input;
 }
 
 void Game::parse_arg(const int ac, char **av)
@@ -57,26 +54,32 @@ bool	Game::check_collision() const
   return (false);
 }
 
+void	Game::move_snake()
+{
+
+}
+
 void	Game::start()
 {
-  unsigned int frameRate = 1000 / FPS;
-  unsigned int begin = 0, end = 0, time= 0;
+  double frameRate = 1000 / FPS;
+  time_t begin = 0;
+  double time= 0;
 
   _window->create_window("Nibbler", WINX, WINY);
-  while (!_input->isDone())
+  while (!_window->isDone())
     {
-      begin = _input->getTime();
+      begin = clock();
 
       /* Evenement */
       _window->clear();
 
-      _input->getEvent();
+      _window->handleEvent();
+      move_snake();
 
       _window->draw(_snake);
 
-      end = _input->getTime();
-      time = end - begin;
+      time = (std::clock() - begin) / (double)(CLOCKS_PER_SEC / 1000);
       if (time < frameRate)
-	_input->sleep(frameRate - time);
+	usleep(frameRate - time);
     }
 }

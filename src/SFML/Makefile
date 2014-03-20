@@ -5,7 +5,7 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 22:16:29 2014 luc sinet
-## Last update Wed Mar 19 16:00:20 2014 
+## Last update Thu Mar 20 11:10:43 2014 
 ##
 
 LIBDIR	= ../../bin/
@@ -17,8 +17,7 @@ RM      = rm -f
 
 INCDIR	= -I../Includes/
 SRCDIR 	= ./
-SRC	= SFML_Graphics.cpp \
-	  SFML_Input.cpp
+SRC	= SFML_Graphics.cpp
 
 OBJDIR  = ../../obj/SFML/
 OBJS    = $(addprefix $(OBJDIR), $(SRC:.cpp=.o))

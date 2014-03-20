@@ -8,10 +8,10 @@
 # include <iostream>
 # include <sstream>
 # include <list>
+# include <ctime>
 # include "Exception.hpp"
 # include "LibLoader.hpp"
 # include "Snake.hpp"
-# include "IInput.hpp"
 # include "IGraphics.hpp"
 
 class Game
@@ -25,13 +25,14 @@ public:
 private:
   void	parse_arg(const int ac, char **av);
   bool	check_collision() const;
+  void	move_snake();
 
 private:
   int			_x;
   int			_y;
   IGraphics		*_window;
-  IInput		*_input;
   LibLoader		_lib;
+  bool			_key[4];
   std::list<t_snake>	_snake;
 };
 
