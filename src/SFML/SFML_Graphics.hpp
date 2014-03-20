@@ -15,6 +15,9 @@ public:
   virtual void draw(const std::list<t_snake> &snake);
   virtual void destroyWindow();
 
+  virtual void handleEvent();
+  virtual bool isDone();
+
 private:
   sf::RenderWindow	_win;
   int			_size_x;

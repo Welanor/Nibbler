@@ -28,6 +28,16 @@ void	Graphics::destroyWindow()
 {
 }
 
+void Graphics::handleEvent()
+{
+
+}
+
+bool Graphics::isDone()
+{
+  return (false);
+}
+
 extern "C"
 {
   IGraphics	*init_graphics()

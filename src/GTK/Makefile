@@ -5,7 +5,7 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 22:16:29 2014 luc sinet
-## Last update Wed Mar 19 13:33:34 2014 luc sinet
+## Last update Thu Mar 20 11:11:13 2014 
 ##
 
 LIBDIR	= ../../bin/
@@ -17,8 +17,7 @@ RM      = rm -f
 
 INCDIR	= -I../Includes/
 SRCDIR 	= ./
-SRC	= Graphic.cpp \
-	  Input.cpp
+SRC	= Graphic.cpp
 
 OBJDIR  = ../../obj/GTK/
 OBJS    = $(addprefix $(OBJDIR), $(SRC:.cpp=.o))
