@@ -28,6 +28,12 @@ void	Graphics::destroyWindow()
 {
 }
 
+void	Graphics::init_events()
+{
+  g_signal_connect(_window, "key-release-event", G_CALLBACK(key_event), NULL);
+  g_signal_connect(_window, "key-press-event", G_CALLBACK(key_event), NULL);
+}
+
 extern "C"
 {
   IGraphics	*init_graphics()
