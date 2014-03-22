@@ -5,7 +5,7 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 22:16:29 2014 luc sinet
-## Last update Thu Mar 20 11:11:13 2014 
+## Last update Sat Mar 22 20:12:14 2014 luc sinet
 ##
 
 LIBDIR	= ../../bin/
@@ -22,7 +22,8 @@ SRC	= Graphic.cpp
 OBJDIR  = ../../obj/GTK/
 OBJS    = $(addprefix $(OBJDIR), $(SRC:.cpp=.o))
 
-CXXFLAGS += -Wextra -Wall -W -fPIC
+CXXFLAGS += -Wextra -Wall -W -fPIC \
+	`pkg-config --cflags gtk+-2.0` `pkg-config --libs gtk+-2.0`
 LDFLAGS	+= -shared -lpthread
 
 dummy	:= $(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \

@@ -10,9 +10,12 @@ Graphics::~Graphics()
   std::cout << "Destructor GTK" << std::endl;
 }
 
-void	Graphics::create_window(const std::string &name, const int /* size_x */, const int /* size_y */)
+void	Graphics::create_window(const std::string &name,
+				const int  size_x, const int size_y)
 {
   (void)name;
+  (void)size_x;
+  (void)size_y;
 }
 
 void	Graphics::clear()
@@ -28,10 +31,12 @@ void	Graphics::destroyWindow()
 {
 }
 
-void	Graphics::init_events()
+void	Graphics::init_events(bool *key)
 {
-  g_signal_connect(_window, "key-release-event", G_CALLBACK(key_event), NULL);
+  (void)key;
+  /*  g_signal_connect(_window, "key-release-event", G_CALLBACK(key_event), NULL);
   g_signal_connect(_window, "key-press-event", G_CALLBACK(key_event), NULL);
+  */
 }
 
 void Graphics::handleEvent()
