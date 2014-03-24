@@ -13,6 +13,7 @@ Graphics::Graphics()
   curs_set(0);
   noecho();
   keypad(stdscr, TRUE);
+  timeout(-1);
   refresh();
 }
 
@@ -26,9 +27,9 @@ void	Graphics::create_window(const std::string &name,
 				int  size_x, int size_y)
 {
   (void)name;(void)size_x;(void)size_y;
-  _window = newwin(LINES, COLS, 0, 0);
+  /*  _window = newwin(LINES, COLS, 0, 0);
   box(_window, ACS_VLINE, ACS_HLINE);
-  wrefresh(_window);
+  wrefresh(_window);*/
 }
 
 void	Graphics::clear()
@@ -46,14 +47,21 @@ void	Graphics::destroyWindow()
   delwin(_window);
 }
 
-void	Graphics::init_events(bool *key)
+void	Graphics::handleEvent(bool *key)
 {
-  (void)key;
-}
+  static int	keys[4] = {258, 259, 260, 261};
+  int		i;
+  int		tmp = 0;
 
-void Graphics::handleEvent()
-{
-
+  tmp = getch();
+  for (i = 0; i < 4 && keys[i] != tmp; i++);
+  if (i == 4)
+    std::cout << "unknown\n" << std::endl;
+  else
+    {
+      std::cout << keys[i] << std::endl;
+      key[i] = true;
+    }
 }
 
 bool Graphics::isDone()
