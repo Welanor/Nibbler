@@ -11,6 +11,22 @@ enum Keypos
     LAST
   };
 
+enum Entities
+  {
+    HEAD = 0,
+    BUDDY,
+    TAIL,
+    APPLE,
+    ELAST
+  };
+
+typedef struct	s_ent
+{
+  int		x;
+  int		y;
+  Entities	type;
+}		t_ent;
+
 typedef struct	s_snake
 {
   int		x;

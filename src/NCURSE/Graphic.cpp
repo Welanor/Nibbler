@@ -13,7 +13,7 @@ Graphics::Graphics()
   curs_set(0);
   noecho();
   keypad(stdscr, TRUE);
-  timeout(300);
+  timeout(100);
   refresh();
 }
 
@@ -39,14 +39,10 @@ void	Graphics::clear()
 
 void	Graphics::draw(int x, int y, int type)
 {
+  std::string caracs = "o~#A";
   char	c;
 
-  if (type == 0)
-    c = 'o';
-  else if (type == 1)
-    c = '~';
-  else
-    c = '#';
+  c = caracs[type];
   mvwaddch(_window, y, x, c);
   wrefresh(_window);
 }
