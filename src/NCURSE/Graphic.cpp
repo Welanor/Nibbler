@@ -13,6 +13,8 @@ Graphics::Graphics()
   curs_set(0);
   noecho();
   keypad(stdscr, TRUE);
+  timeout(300);
+  refresh();
 }
 
 Graphics::~Graphics()
@@ -26,8 +28,7 @@ void	Graphics::create_window(const std::string &name,
 {
   (void)name;(void)size_x;(void)size_y;
   _window = newwin(LINES, COLS, 0, 0);
-  wtimeout(_window, -1);
-  //  box(_window, ACS_VLINE, ACS_HLINE);
+  box(_window, ACS_VLINE, ACS_HLINE);
   wrefresh(_window);
 }
 
@@ -63,8 +64,8 @@ void	Graphics::handleEvent(bool *key)
 
   for (i = 0; i < LAST; i++)
     key[i] = false;
-  std::cerr << "waiting for key" << std::endl;
-  tmp = wgetch(_window);
+  if ((tmp = getch()) == ERR)
+    return ;
   for (i = 0; i < LAST && keys[i] != tmp; i++);
   if (i < LAST)
     key[i] = true;
