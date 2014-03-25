@@ -12,9 +12,9 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
   if (createGraphics == NULL)
     throw(Exception(""));
 
-  t_snake tmp = {_x / 2, _y - 1, LEFT};
-  t_snake tmp1 = {_x / 2 + 1, _y - 1, LEFT};
-  t_snake tmp2 = {_x / 2 + 1, _y - 2, LEFT};
+  t_snake tmp = {_x / 2, _y - 1, NORTH};
+  t_snake tmp1 = {_x / 2 + 1, _y - 1, NORTH};
+  t_snake tmp2 = {_x / 2 + 1, _y - 2, NORTH};
 
   _snake.push_back(tmp);
   _snake.push_back(tmp1);
@@ -60,25 +60,13 @@ void	Game::move_snake(bool *key)
   lit	tmp;
   lit	end;
 
-  /*  std::cerr << key[RIGHT] << " " << beg->dir << std::endl;
-  key[DOWN] = (key[DOWN] && beg->dir == UP) ? false : key[DOWN];
-  key[UP] = (key[UP] && beg->dir == DOWN) ? false : key[UP];
-  key[LEFT] = (key[LEFT] && beg->dir == RIGHT) ? false : key[LEFT];
-  key[RIGHT] = (key[RIGHT] && beg->dir == LEFT) ? false : key[RIGHT];
-
-  if (!key[DOWN] && !key[UP] && !key[LEFT] && !key[RIGHT])
-  key[beg->dir] = true;*/
   for (end = (--_snake.end()); end != beg; --end)
     {
       tmp = end;
       --tmp;
       end->x = tmp->x;
       end->y = tmp->y;
-      end->dir = tmp->dir;
     }
-  /*  for (int i = 0; i < LAST; i++)
-    if (key[i])
-    beg->dir = (Keypos)i;*/
   beg->x += (key[RIGHT]) ? 1 : (key[LEFT]) ? -1 : 0;
   beg->y += (key[DOWN]) ? 1 : (key[UP]) ? -1 : 0;
 }
