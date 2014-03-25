@@ -14,9 +14,11 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 
   t_snake tmp = {_x / 2, _y - 1, NORTH};
   t_snake tmp1 = {_x / 2 + 1, _y - 1, NORTH};
+  t_snake tmp2 = {_x / 2 + 1, _y - 2, NORTH};
 
   _snake.push_back(tmp);
   _snake.push_back(tmp1);
+  _snake.push_back(tmp2);
   _window = (createGraphics)();
 }
 
@@ -58,12 +60,12 @@ void	Game::move_snake(bool *key)
   lit	tmp;
   lit	end;
 
-  for (end = (++_snake.end()); end != beg; end--)
+  for (end = (--_snake.end()); end != beg; --end)
     {
-      tmp = beg;
+      tmp = end;
       --tmp;
-      beg->x = tmp->x;
-      beg->y = tmp->y;
+      end->x = tmp->x;
+      end->y = tmp->y;
     }
   beg->x += (key[RIGHT]) ? 1 : (key[LEFT]) ? -1 : 0;
   beg->y += (key[DOWN]) ? 1 : (key[UP]) ? -1 : 0;

@@ -63,9 +63,9 @@ void	Graphics::handleEvent(bool *key)
   int		tmp = 0;
 
   for (i = 0; i < LAST; i++)
-    keys[i] = false;
+    key[i] = false;
   tmp = getch();
-  for (i = 0; i < 4 && keys[i] != tmp; i++);
+  for (i = 0; i < LAST && keys[i] != tmp; i++);
   if (i < LAST)
     key[i] = true;
 }
