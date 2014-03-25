@@ -54,9 +54,46 @@ bool	Game::check_collision() const
   return (false);
 }
 
-void	Game::move_snake()
+void	Game::move_snake(bool *key)
 {
+  lit	beg;
+  lit	tmp;
+  lit	end = _snake.end();
+  int	i;
 
+  for (i = 0; key[i] != LAST; i++)
+    {
+      for (beg = _snake.begin(); beg != end; beg++)
+	{
+	  if (beg == _snake.begin())
+	    {
+	      beg->x += (key[i] == LEFT) ? -1 : (key[i] == RIGHT) ? 1 : 0;
+	      beg->y += (key[i] == DOWN) ? -1 : (key[i] == UP) ? 1 : 0;
+	    }
+	  else
+	    {
+	      tmp = beg;
+	      --tmp;
+	      beg->x = tmp->x;
+	      beg->y = tmp->y;
+	    }
+	}
+    }
+}
+
+void	Game::display()
+{
+  lit	beg = _snake.begin();
+  lit	end = _snake.end();
+  lit	tmp;
+
+  for (;beg != end; ++beg)
+    {
+      tmp = beg;
+      ++tmp;
+      _window->draw(beg->x, beg->y, (beg == _snake.begin()) ? 0 :
+		    (tmp == end) ? 2 : 1);
+    }
 }
 
 void	Game::start()
@@ -64,7 +101,10 @@ void	Game::start()
   double frameRate = 1000 / FPS;
   time_t begin = 0;
   double time= 0;
+  bool	 key[4];
 
+  for (int i = 0; i < LAST; i++)
+    key[i] = LAST;
   _window->create_window("Nibbler", WINX, WINY);
   while (!_window->isDone())
     {
@@ -73,11 +113,9 @@ void	Game::start()
       /* Evenement */
       _window->clear();
 
-      _window->handleEvent();
-      move_snake();
-
-      _window->draw(_snake);
-
+      _window->handleEvent(key);
+      move_snake(key);
+      display();
       time = (std::clock() - begin) / (double)(CLOCKS_PER_SEC / 1000);
       if (time < frameRate)
 	usleep(frameRate - time);

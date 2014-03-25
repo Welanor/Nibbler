@@ -3,10 +3,19 @@
 
 enum Direction
   {
-    NORTH = 0,
+    SOUTH = 0,
+    NORTH,
+    WEST,
     EAST,
-    SOUTH,
-    WEST
+  };
+
+enum Keypos
+  {
+    DOWN = 0,
+    UP,
+    LEFT,
+    RIGHT,
+    LAST
   };
 
 typedef struct	s_snake

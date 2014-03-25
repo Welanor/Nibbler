@@ -14,6 +14,8 @@
 # include "Snake.hpp"
 # include "IGraphics.hpp"
 
+typedef std::list<t_snake>::iterator lit;
+
 class Game
 {
 public:
@@ -25,7 +27,8 @@ public:
 private:
   void	parse_arg(const int ac, char **av);
   bool	check_collision() const;
-  void	move_snake();
+  void	move_snake(bool *key);
+  void	display();
 
 private:
   int			_x;
