@@ -57,20 +57,16 @@ void	Game::move_snake(bool *key)
   lit	beg = _snake.begin();
   lit	tmp;
   lit	end;
-  int	i;
 
-  for (i = 0; key[i] != LAST; i++)
+  for (end = (++_snake.end()); end != beg; end--)
     {
-      for (end = (++_snake.end()); end != beg; end--)
-	{
-	  tmp = beg;
-	  --tmp;
-	  beg->x = tmp->x;
-	  beg->y = tmp->y;
-	}
-      beg->x += (i == RIGHT && key[i]) ? 1 : (i == LEFT && key[i]) ? -1 : 0;
-      beg->y += (i == UP && key[i]) ? 1 : (i == DOWN && key[i]) ? -1 : 0;
+      tmp = beg;
+      --tmp;
+      beg->x = tmp->x;
+      beg->y = tmp->y;
     }
+  beg->x += (key[RIGHT]) ? 1 : (key[LEFT]) ? -1 : 0;
+  beg->y += (key[DOWN]) ? 1 : (key[UP]) ? -1 : 0;
 }
 
 void	Game::display()
