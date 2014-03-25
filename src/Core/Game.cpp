@@ -96,8 +96,9 @@ bool		Game::check_collision()
 void	Game::move_snake(bool *key)
 {
   lit	beg = _snake.begin();
-  lit	tmp;
-  lit	end;
+  lit	end = _snake.end();
+  t_snake tmp;
+  t_snake old;
 
   key[DOWN] = (key[DOWN] && beg->dir == UP) ? false : key[DOWN];
   key[UP] = (key[UP] && beg->dir == DOWN) ? false : key[UP];
@@ -105,22 +106,23 @@ void	Game::move_snake(bool *key)
   key[RIGHT] = (key[RIGHT] && beg->dir == LEFT) ? false : key[RIGHT];
   if (!key[DOWN] && !key[UP] && !key[LEFT] && !key[RIGHT])
     key[beg->dir] = true;
-  for (end = (--_snake.end()); end != beg; --end)
-    {
-      tmp = end;
-      --tmp;
-      if (end->x != tmp->x || end->y != tmp->y)
-	{
-	  end->x = tmp->x;
-	  end->y = tmp->y;
-	  end->dir = tmp->dir;
-	}
-    }
+  beg = _snake.begin();
+  old = *beg;
   for (int i = 0; i < LAST; i++)
     if (key[i])
-    beg->dir = (Keypos)i;
+      beg->dir = static_cast<Keypos>(i);
   beg->x += (key[RIGHT]) ? 1 : (key[LEFT]) ? -1 : 0;
   beg->y += (key[DOWN]) ? 1 : (key[UP]) ? -1 : 0;
+  ++beg;
+  while (beg != end)
+    {
+      tmp = *beg;
+      *beg = old;
+      old = tmp;
+      ++beg;
+      if (beg == end || (beg->x == old.x && beg->y == old.y && beg->dir == old.dir))
+	break;
+    }
 }
 
 void	Game::display()
