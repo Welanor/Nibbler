@@ -13,12 +13,10 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
     throw(Exception(""));
 
   t_snake tmp = {_x / 2, _y - 1, NORTH};
+  t_snake tmp1 = {_x / 2 + 1, _y - 1, NORTH};
 
   _snake.push_back(tmp);
-  _snake.push_back(tmp);
-  _snake.push_back(tmp);
-  _snake.push_back(tmp);
-
+  _snake.push_back(tmp1);
   _window = (createGraphics)();
 }
 
@@ -56,28 +54,22 @@ bool	Game::check_collision() const
 
 void	Game::move_snake(bool *key)
 {
-  lit	beg;
+  lit	beg = _snake.begin();
   lit	tmp;
-  lit	end = _snake.end();
+  lit	end;
   int	i;
 
   for (i = 0; key[i] != LAST; i++)
     {
-      for (beg = _snake.begin(); beg != end; beg++)
+      for (end = (++_snake.end()); end != beg; end--)
 	{
-	  if (beg == _snake.begin())
-	    {
-	      beg->x += (key[i] == LEFT) ? -1 : (key[i] == RIGHT) ? 1 : 0;
-	      beg->y += (key[i] == DOWN) ? -1 : (key[i] == UP) ? 1 : 0;
-	    }
-	  else
-	    {
-	      tmp = beg;
-	      --tmp;
-	      beg->x = tmp->x;
-	      beg->y = tmp->y;
-	    }
+	  tmp = beg;
+	  --tmp;
+	  beg->x = tmp->x;
+	  beg->y = tmp->y;
 	}
+      beg->x += (i == RIGHT && key[i]) ? 1 : (i == LEFT && key[i]) ? -1 : 0;
+      beg->y += (i == UP && key[i]) ? 1 : (i == DOWN && key[i]) ? -1 : 0;
     }
 }
 
@@ -101,10 +93,10 @@ void	Game::start()
   double frameRate = 1000 / FPS;
   time_t begin = 0;
   double time= 0;
-  bool	 key[4];
+  bool	 key[LAST];
 
   for (int i = 0; i < LAST; i++)
-    key[i] = LAST;
+    key[i] = false;
   _window->create_window("Nibbler", WINX, WINY);
   while (!_window->isDone())
     {

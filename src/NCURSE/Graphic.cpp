@@ -27,9 +27,9 @@ void	Graphics::create_window(const std::string &name,
 				int  size_x, int size_y)
 {
   (void)name;(void)size_x;(void)size_y;
-  /*  _window = newwin(LINES, COLS, 0, 0);
+  _window = newwin(LINES, COLS, 0, 0);
   box(_window, ACS_VLINE, ACS_HLINE);
-  wrefresh(_window);*/
+  wrefresh(_window);
 }
 
 void	Graphics::clear()
@@ -41,20 +41,19 @@ void	Graphics::draw(int x, int y, int type)
 {
   char	c;
 
-  (void)x;
-  (void)y;
   if (type == 0)
     c = 'o';
   else if (type == 1)
     c = '~';
   else
     c = '#';
-  std::cout << c << std::endl;
+  mvwaddch(_window, y, x, c);
+  wrefresh(_window);
 }
 
 void	Graphics::destroyWindow()
 {
-  delwin(_window);
+  //  delwin(_window);
 }
 
 void	Graphics::handleEvent(bool *key)
@@ -63,9 +62,11 @@ void	Graphics::handleEvent(bool *key)
   int		i;
   int		tmp = 0;
 
+  for (i = 0; i < LAST; i++)
+    keys[i] = false;
   tmp = getch();
   for (i = 0; i < 4 && keys[i] != tmp; i++);
-  if (i < 4)
+  if (i < LAST)
     key[i] = true;
 }
 
