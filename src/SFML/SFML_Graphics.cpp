@@ -27,12 +27,12 @@ void SFMLGraphics::draw(int x, int y, int type)
 
 }
 
-void	SFMLGraphics::destroyWindow()
+void SFMLGraphics::destroyWindow()
 {
 
 }
 
-void SFML_Graphics::handleKey(bool *key, bool val)
+void SFMLGraphics::handleKey(bool *key, bool val)
 {
 
 }
@@ -41,7 +41,7 @@ void SFMLGraphics::handleEvent(bool *key)
 {
   sf::Event event;
 
-  while (window.pollEvent(event))
+  while (_win.pollEvent(event))
     {
       switch (event.type)
 	{
