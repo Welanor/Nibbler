@@ -24,9 +24,9 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 
 Game::~Game()
 {
-  _lib.close();
   _window->destroyWindow();
   delete _window;
+  _lib.close();
 }
 
 void Game::parse_arg(const int ac, char **av)
@@ -106,13 +106,12 @@ void	Game::start()
   for (int i = 0; i < LAST; i++)
     key[i] = false;
   _window->create_window("Nibbler", WINX, WINY);
-  while (!_window->isDone())
+  while (!key[ESC])
     {
       begin = clock();
 
       /* Evenement */
       _window->clear();
-
       _window->handleEvent(key);
       move_snake(key);
       display();

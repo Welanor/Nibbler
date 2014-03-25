@@ -7,6 +7,7 @@ enum Keypos
     UP,
     LEFT,
     RIGHT,
+    ESC,
     LAST
   };
 

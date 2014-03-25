@@ -58,7 +58,7 @@ void	Graphics::destroyWindow()
 
 void	Graphics::handleEvent(bool *key)
 {
-  static int	keys[4] = {258, 259, 260, 261};
+  static int	keys[5] = {258, 259, 260, 261, 27};
   int		i;
   int		tmp = 0;
 
@@ -69,11 +69,6 @@ void	Graphics::handleEvent(bool *key)
   for (i = 0; i < LAST && keys[i] != tmp; i++);
   if (i < LAST)
     key[i] = true;
-}
-
-bool Graphics::isDone()
-{
-  return (false);
 }
 
 extern "C"

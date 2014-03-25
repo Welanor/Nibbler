@@ -15,7 +15,6 @@ public:
   virtual void clear();
   virtual void draw(int x, int y, int type);
   virtual void destroyWindow();
-  virtual bool isDone();
 
 private:
   WINDOW	*_window;
