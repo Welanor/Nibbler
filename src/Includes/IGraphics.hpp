@@ -13,7 +13,7 @@ public:
 
   virtual void create_window(const std::string &name, const int ,const int) = 0;
   virtual void clear() = 0;
-  virtual void draw(const std::list<t_snake> &snake) = 0;
+  virtual void draw(int x, int y, int type) = 0;
   virtual void destroyWindow() = 0;
 
   virtual void handleEvent(bool *key) = 0;

@@ -37,9 +37,19 @@ void	Graphics::clear()
   wclear(_window);
 }
 
-void	Graphics::draw(const std::list<t_snake> &snake)
+void	Graphics::draw(int x, int y, int type)
 {
-  (void)snake;
+  char	c;
+
+  (void)x;
+  (void)y;
+  if (type == 0)
+    c = 'o';
+  else if (type == 1)
+    c = '~';
+  else
+    c = '#';
+  std::cout << c << std::endl;
 }
 
 void	Graphics::destroyWindow()
@@ -55,13 +65,8 @@ void	Graphics::handleEvent(bool *key)
 
   tmp = getch();
   for (i = 0; i < 4 && keys[i] != tmp; i++);
-  if (i == 4)
-    std::cout << "unknown\n" << std::endl;
-  else
-    {
-      std::cout << keys[i] << std::endl;
-      key[i] = true;
-    }
+  if (i < 4)
+    key[i] = true;
 }
 
 bool Graphics::isDone()
