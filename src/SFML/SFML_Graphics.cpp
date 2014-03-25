@@ -22,9 +22,9 @@ void	SFMLGraphics::clear()
   _win.clear();
 }
 
-void	SFMLGraphics::draw(const std::list<t_snake> &snake)
+void SFMLGraphics::draw(int x, int y, int type)
 {
-  (void)snake;
+
 }
 
 void	SFMLGraphics::destroyWindow()
@@ -32,21 +32,41 @@ void	SFMLGraphics::destroyWindow()
 
 }
 
-void SFMLGraphics::handleEvent()
+void SFML_Graphics::handleKey(bool *key, bool val)
 {
 
 }
 
-bool SFMLGraphics::isDone()
+void SFMLGraphics::handleEvent(bool *key)
 {
-  return (false);
+  sf::Event event;
+
+  while (window.pollEvent(event))
+    {
+      switch (event.type)
+	{
+        case sf::Event::Closed:
+	  key[ESC] = true;
+	  break;
+
+        case sf::Event::KeyPressed:
+	  handleKey(key, true);
+	  break;
+
+        case sf::Event::KeyReleased:
+	  handleKey(key, false);
+	  break;
+
+        default:
+	  break;
+	}
+    }
 }
 
 extern "C"
 {
   IGraphics	*init_graphics()
   {
-    std::cout << "init_graphics SFML" << std::endl;
     return (new SFMLGraphics);
   }
 }
