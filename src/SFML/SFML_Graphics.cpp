@@ -22,19 +22,38 @@ void	SFMLGraphics::clear()
   _win.clear();
 }
 
-void SFMLGraphics::draw(int x, int y, int type)
+void SFMLGraphics::draw(int /*x*/, int /*y*/, int /* type */)
 {
 
 }
 
 void SFMLGraphics::destroyWindow()
 {
-
+  _win.close();
 }
 
-void SFMLGraphics::handleKey(bool *key, bool val)
+void SFMLGraphics::handleKey(sf::Event event, bool *key, bool val)
 {
-
+  switch (event.key.code)
+    {
+    case sf::Keyboard::Escape:
+      key[ESC] = val;
+      break;
+    case sf::Keyboard::Left:
+      key[LEFT] = val;
+      break;
+    case sf::Keyboard::Right:
+      key[RIGHT] = val;
+      break;
+    case sf::Keyboard::Up:
+      key[UP] = val;
+      break;
+    case sf::Keyboard::Down:
+      key[DOWN] = val;
+      break;
+    default:
+      break;
+    }
 }
 
 void SFMLGraphics::handleEvent(bool *key)
@@ -48,15 +67,16 @@ void SFMLGraphics::handleEvent(bool *key)
         case sf::Event::Closed:
 	  key[ESC] = true;
 	  break;
-
+        case sf::Event::Resized:
+	  _size_x = event.size.width;
+	  _size_y = event.size.height;
+	  break;
         case sf::Event::KeyPressed:
-	  handleKey(key, true);
+	  handleKey(event, key, true);
 	  break;
-
         case sf::Event::KeyReleased:
-	  handleKey(key, false);
+	  handleKey(event, key, false);
 	  break;
-
         default:
 	  break;
 	}

@@ -16,7 +16,7 @@ public:
   virtual void destroyWindow();
 
   virtual void handleEvent(bool *key);
-  virtual void handleKey(bool *key, bool val);
+  virtual void handleKey(sf::Event event, bool *key, bool val);
 
 private:
   sf::RenderWindow	_win;
