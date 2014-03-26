@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <iterator>
+#include <algorithm>
 #include "Game.hpp"
 
 Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
@@ -50,6 +51,8 @@ void Game::parse_arg(const int ac, char **av)
 
 void	Game::add_entities()
 {
+  c_vit	beg;
+  c_vit	end;
   t_ent	ent;
   int	nb;
 
@@ -58,6 +61,11 @@ void	Game::add_entities()
   ent.x = nb % _x;
   ent.y = nb % _y;
   ent.type = APPLE;
+  for (beg = _ent.begin(), end = _ent.end(); beg != end; ++beg)
+    {
+      if (beg->x == ent.x && beg->y == ent.y)
+	return ;
+    }
   _ent.push_back(ent);
 }
 
@@ -83,7 +91,7 @@ bool		Game::check_collision()
 	{
 	  if (vbeg->type == APPLE)
 	    {
-	      _snake.insert(_snake.begin(), *(++_snake.begin()));
+	      _snake.push_back(*_snake.begin());
 	      _ent.erase(vbeg);
 	      if ((vend = _ent.end()) == vbeg)
 		break ;
@@ -120,8 +128,6 @@ void	Game::move_snake(bool *key)
       *beg = old;
       old = tmp;
       ++beg;
-      if (beg == end || (beg->x == old.x && beg->y == old.y && beg->dir == old.dir))
-	break;
     }
 }
 
