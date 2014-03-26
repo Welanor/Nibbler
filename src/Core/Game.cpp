@@ -1,20 +1,21 @@
 #include <unistd.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <iterator>
 #include <algorithm>
 #include "Game.hpp"
 
 Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 {
+  int	seed;
+
   IGraphics *(*createGraphics)();
-
   parse_arg(ac, av);
-
   createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
-
   if (createGraphics == NULL)
     throw(Exception(""));
 
+  __asm__ volatile ("rdtsc" : "=A" (seed));
+  std::srand(seed);
   t_snake tmp = {_x / 2, _y - 1, LEFT};
   t_snake tmp1 = {_x / 2 + 1, _y - 1, LEFT};
   t_snake tmp2 = {_x / 2 + 1, _y - 2, LEFT};
@@ -49,24 +50,43 @@ void Game::parse_arg(const int ac, char **av)
   _lib.open(av[3], RTLD_LAZY);
 }
 
-void	Game::add_entities()
+void		Game::add_entities()
 {
-  c_vit	beg;
-  c_vit	end;
-  t_ent	ent;
-  int	nb;
+  int		probs[] = {PROB_ONE, PROB_TWO, PROB_THREE, PROB_FOUR, PROB_FIVE};
+  Entities	types[] = {APPLE, GOLD_APPLE, BREAD, CHICKEN, PORK};
+  int		idx = 0;
+  int		nb_ent = _ent.size();
+  c_vit		beg;
+  c_vit		end;
+  t_ent		ent;
+  unsigned int	nb;
 
-  if ((nb = rand()) % PROB != 0)
+  nb = std::rand();
+  if (nb_ent == MAX_ENT || (nb_ent != 0 && nb % probs[nb_ent] != 0))
     return ;
-  ent.x = nb % _x;
-  ent.y = nb % _y;
-  ent.type = APPLE;
+  for (unsigned int i = 0; i < sizeof(probs) / sizeof(int); ++i)
+    if (nb % probs[i] == 0)
+      idx = i;
+  ent.x = std::rand() % _x;
+  ent.y = std::rand() % _y;
+  ent.type = types[idx];
   for (beg = _ent.begin(), end = _ent.end(); beg != end; ++beg)
-    {
-      if (beg->x == ent.x && beg->y == ent.y)
-	return ;
-    }
+    if (beg->x == ent.x && beg->y == ent.y)
+      return ;
   _ent.push_back(ent);
+}
+
+bool		Game::spe_collision(vit &vbeg, vit &vend)
+{
+  if (vbeg->type >= APPLE && vbeg->type <= PORK)
+    {
+      for (unsigned int tmp = vbeg->type; tmp >= APPLE; --tmp)
+	_snake.push_back(*_snake.begin());
+      _ent.erase(vbeg);
+      if ((vend = _ent.end()) == vbeg)
+	return (false);
+    }
+  return (true);
 }
 
 bool		Game::check_collision()
@@ -88,15 +108,8 @@ bool		Game::check_collision()
   for (vbeg = _ent.begin(), vend = _ent.end(); vbeg != vend; vbeg++)
     {
       if (head.x == vbeg->x && head.y == vbeg->y)
-	{
-	  if (vbeg->type == APPLE)
-	    {
-	      _snake.push_back(*_snake.begin());
-	      _ent.erase(vbeg);
-	      if ((vend = _ent.end()) == vbeg)
-		break ;
-	    }
-	}
+	if (!spe_collision(vbeg, vend))
+	  break ;
     }
   return (false);
 }

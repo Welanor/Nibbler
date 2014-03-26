@@ -39,7 +39,7 @@ void	Graphics::clear()
 
 void	Graphics::draw(int x, int y, int type)
 {
-  std::string caracs = "o~#A";
+  std::string caracs = "o~#AGBCP";
   char	c;
 
   c = caracs[type];

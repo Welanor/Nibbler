@@ -20,7 +20,12 @@ typedef std::list<t_snake>::const_iterator c_lit;
 typedef std::vector<t_ent>::iterator vit;
 typedef std::vector<t_ent>::const_iterator c_vit;
 
-# define PROB	20
+# define MAX_ENT 5
+# define PROB_ONE 1
+# define PROB_TWO 50
+# define PROB_THREE 100
+# define PROB_FOUR 200
+# define PROB_FIVE 300
 
 class Game
 {
@@ -33,6 +38,7 @@ public:
 private:
   void	parse_arg(const int ac, char **av);
   bool	check_collision();
+  bool	spe_collision(vit &vbeg, vit &vend);
   void	move_snake(bool *key);
   void	display();
   void	add_entities();

@@ -17,6 +17,10 @@ enum Entities
     BUDDY,
     TAIL,
     APPLE,
+    GOLD_APPLE,
+    BREAD,
+    CHICKEN,
+    PORK,
     ELAST
   };
 
