@@ -3,7 +3,7 @@
 
 # define WINX 800
 # define WINY 600
-# define FPS 5
+# define FPS 20
 
 # include <iostream>
 # include <sstream>
@@ -14,6 +14,7 @@
 # include "LibLoader.hpp"
 # include "Snake.hpp"
 # include "IGraphics.hpp"
+# include "Time.hpp"
 
 typedef std::list<t_snake>::iterator lit;
 typedef std::list<t_snake>::const_iterator c_lit;

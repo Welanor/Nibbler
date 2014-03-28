@@ -16,13 +16,15 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 
   __asm__ volatile ("rdtsc" : "=A" (seed));
   std::srand(seed);
-  t_snake tmp = {_x / 2, _y - 1, LEFT};
-  t_snake tmp1 = {_x / 2 + 1, _y - 1, LEFT};
-  t_snake tmp2 = {_x / 2 + 1, _y - 2, LEFT};
+  t_snake tmp = {_x / 2, _y / 2, LEFT};
+  t_snake tmp1 = {_x / 2, _y / 2 - 1, LEFT};
+  t_snake tmp2 = {_x / 2, _y / 2 - 2, LEFT};
+  t_snake tmp3 = {_x / 2, _y / 2 - 3, LEFT};
 
   _snake.push_back(tmp);
   _snake.push_back(tmp1);
   _snake.push_back(tmp2);
+  _snake.push_back(tmp3);
   _window = (createGraphics)();
 }
 
@@ -165,27 +167,27 @@ void	Game::display()
 
 void	Game::start()
 {
-  double frameRate = 1000 / FPS;
-  time_t begin = 0;
-  double time= 0;
+  double frameRate = (1.0 / static_cast<double>(FPS)) * 1000.0;
+  Time begin, end;
   bool	 key[LAST];
-  bool	end = false;
+  bool	done = false;
 
   for (int i = 0; i < LAST; i++)
     key[i] = false;
   _window->create_window("Nibbler", WINX, WINY);
-  while (!end && !key[ESC])
+  while (!done && !key[ESC])
     {
-      begin = clock();
+      begin.startTime();
       /* Evenement */
       _window->clear();
       _window->handleEvent(key);
       move_snake(key);
-      end = check_collision();
+      done = check_collision();
       add_entities();
       display();
-      time = (std::clock() - begin) / (double)(CLOCKS_PER_SEC / 1000);
-      if (time < frameRate)
-	usleep(frameRate - time);
+      end.startTime();
+      end -= begin;
+      if (end < frameRate)
+      	usleep((frameRate - end.getTime()) * 1000);
     }
 }

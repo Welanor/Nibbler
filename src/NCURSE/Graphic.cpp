@@ -13,7 +13,7 @@ Graphics::Graphics()
   curs_set(0);
   noecho();
   keypad(stdscr, TRUE);
-  timeout(100);
+  timeout(0);
   refresh();
 }
 

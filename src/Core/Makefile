@@ -5,7 +5,7 @@
 ## Login   <dellam_a@epitech.net>
 ##
 ## Started on  Sun Mar  9 03:35:24 2014 Adrien
-## Last update Wed Mar 19 13:22:00 2014 
+## Last update Fri Mar 28 11:32:27 2014 
 ##
 
 
@@ -24,7 +24,8 @@ SRCDIR		=	./
 SRC		=	main.cpp \
 			Game.cpp \
 			Exception.cpp \
-			LibLoader.cpp
+			LibLoader.cpp \
+			Time.cpp
 
 OBJDIR		=	../../obj/Core/
 OBJS		=	$(addprefix $(OBJDIR), $(SRC:.cpp=.o))
