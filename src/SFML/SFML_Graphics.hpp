@@ -2,6 +2,7 @@
 # define _SFML_HPP_
 
 # include <SFML/Graphics.hpp>
+# include <map>
 # include "IGraphics.hpp"
 
 class SFMLGraphics : public IGraphics
@@ -13,10 +14,11 @@ public:
   virtual void create_window(const std::string &name, const int *, const int *);
   virtual void clear();
   virtual void draw(int x, int y, int type);
+  virtual void update();
   virtual void destroyWindow();
 
   virtual void handleEvent(bool *key);
-  virtual void handleKey(sf::Event event, bool *key, bool val);
+  virtual void handleKey(sf::Event event, bool *key);
 
 private:
   sf::RenderWindow	_win;

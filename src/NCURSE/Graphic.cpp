@@ -14,7 +14,7 @@ Graphics::Graphics()
   noecho();
   keypad(stdscr, TRUE);
   timeout(0);
-  refresh();
+  // refresh();
 }
 
 Graphics::~Graphics()
@@ -23,10 +23,9 @@ Graphics::~Graphics()
   endwin();
 }
 
-void	Graphics::create_window(const std::string &name,
-				int  size_x, int size_y)
+void	Graphics::create_window(const std::string &/*name*/,
+				const int */*size_win*/, const int */*size_map*/)
 {
-  (void)name;(void)size_x;(void)size_y;
   _window = newwin(LINES, COLS, 0, 0);
   box(_window, ACS_VLINE, ACS_HLINE);
   wrefresh(_window);
@@ -66,6 +65,12 @@ void	Graphics::handleEvent(bool *key)
   if (i < LAST)
     key[i] = true;
 }
+
+void Graphics::update()
+{
+  refresh();
+}
+
 
 extern "C"
 {

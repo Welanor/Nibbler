@@ -14,8 +14,6 @@ SFMLGraphics::~SFMLGraphics()
   std::cout << "Destructor SFML" << std::endl;
 }
 
-#include <unistd.h>
-
 void	SFMLGraphics::create_window(const std::string &name, const int *size_win, const int *size_map)
 {
   _size_win[0] = size_win[0];
@@ -41,9 +39,19 @@ void SFMLGraphics::draw(int x, int y, int type)
   rate_y = _size_win[1] / _size_map[1];
   rect.setSize(sf::Vector2f(rate_x, rate_y));
   rect.setPosition(_x  * rate_x, _y * rate_y);
-  rect.setFillColor(sf::Color(255, 255, 255));
+  if (type == HEAD || type == BUDDY || type == TAIL)
+    rect.setFillColor(sf::Color(255, 255, 255));
+  else if (type == APPLE)
+    rect.setFillColor(sf::Color(124, 252, 0));
+  else if (type == GOLD_APPLE)
+    rect.setFillColor(sf::Color(255, 215, 0));
+  else if (type == BREAD)
+    rect.setFillColor(sf::Color(205, 133, 63));
+  else if (type == CHICKEN)
+    rect.setFillColor(sf::Color(255, 228, 181));
+  else if (type == PORK)
+    rect.setFillColor(sf::Color(245, 222, 179));
   _win.draw(rect);
-  _win.display();
 }
 
 void SFMLGraphics::destroyWindow()
@@ -51,28 +59,17 @@ void SFMLGraphics::destroyWindow()
   _win.close();
 }
 
-void SFMLGraphics::handleKey(sf::Event event, bool *key, bool val)
+void SFMLGraphics::handleKey(sf::Event event, bool *key)
 {
-  switch (event.key.code)
-    {
-    case sf::Keyboard::Escape:
-      key[ESC] = val;
-      break;
-    case sf::Keyboard::Left:
-      key[LEFT] = val;
-      break;
-    case sf::Keyboard::Right:
-      key[RIGHT] = val;
-      break;
-    case sf::Keyboard::Up:
-      key[UP] = val;
-      break;
-    case sf::Keyboard::Down:
-      key[DOWN] = val;
-      break;
-    default:
-      break;
-    }
+  int		keys[LAST] = { sf::Keyboard::Down, sf::Keyboard::Up, sf::Keyboard::Left,
+			   sf::Keyboard::Right, sf::Keyboard::Escape};
+  int		i;
+
+  for (i = 0; i < LAST; i++)
+    key[i] = false;
+  for (i = 0; i < LAST && keys[i] != event.key.code; i++);
+  if (i < LAST)
+    key[i] = true;
 }
 
 void SFMLGraphics::handleEvent(bool *key)
@@ -91,15 +88,17 @@ void SFMLGraphics::handleEvent(bool *key)
 	  _size_win[1] = event.size.height;
 	  break;
         case sf::Event::KeyPressed:
-	  handleKey(event, key, true);
-	  break;
-        case sf::Event::KeyReleased:
-	  handleKey(event, key, false);
+	  handleKey(event, key);
 	  break;
         default:
 	  break;
 	}
     }
+}
+
+void	SFMLGraphics::update()
+{
+  _win.display();
 }
 
 extern "C"

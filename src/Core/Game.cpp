@@ -163,6 +163,7 @@ void	Game::display()
     }
   for (;ebeg != eend; ebeg++)
     _window->draw(ebeg->x, ebeg->y, ebeg->type);
+  _window->update();
 }
 
 void	Game::start()
