@@ -171,10 +171,12 @@ void	Game::start()
   Time begin, end;
   bool	 key[LAST];
   bool	done = false;
+  int	size_win[] = { WINX, WINY };
+  int	size_map[] = { _x, _y };
 
   for (int i = 0; i < LAST; i++)
     key[i] = false;
-  _window->create_window("Nibbler", WINX, WINY);
+  _window->create_window("Nibbler", size_win, size_map);
   while (!done && !key[ESC])
     {
       begin.startTime();

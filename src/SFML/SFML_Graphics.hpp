@@ -10,7 +10,7 @@ public:
   SFMLGraphics();
    virtual ~SFMLGraphics();
 
-  virtual void create_window(const std::string &name, const int, const int);
+  virtual void create_window(const std::string &name, const int *, const int *);
   virtual void clear();
   virtual void draw(int x, int y, int type);
   virtual void destroyWindow();
@@ -20,8 +20,8 @@ public:
 
 private:
   sf::RenderWindow	_win;
-  int			_size_x;
-  int			_size_y;
+  float			_size_win[2];
+  float			_size_map[2];
 };
 
 #endif /* _SFML_HPP_ */
