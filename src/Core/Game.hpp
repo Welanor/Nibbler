@@ -3,7 +3,9 @@
 
 # define WINX 800
 # define WINY 600
-# define FPS 100
+
+# define FPS 40
+# define MAXENT 5
 
 # include <iostream>
 # include <sstream>
@@ -20,13 +22,6 @@ typedef std::list<t_snake>::iterator lit;
 typedef std::list<t_snake>::const_iterator c_lit;
 typedef std::vector<t_ent>::iterator vit;
 typedef std::vector<t_ent>::const_iterator c_vit;
-
-# define MAX_ENT 5
-# define PROB_ONE 1
-# define PROB_TWO 50
-# define PROB_THREE 100
-# define PROB_FOUR 200
-# define PROB_FIVE 300
 
 class Game
 {
@@ -47,11 +42,13 @@ private:
 private:
   int			_x;
   int			_y;
+  unsigned int		_fps;
   IGraphics		*_window;
   LibLoader		_lib;
   bool			_key[4];
   std::list<t_snake>	_snake;
   std::vector<t_ent>	_ent;
+  std::vector<t_ent>	_entlist;
   int			_score;
 };
 

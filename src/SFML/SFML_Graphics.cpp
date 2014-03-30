@@ -51,13 +51,13 @@ void SFMLGraphics::draw(int x, int y, int type, int dir)
     rect.setFillColor(sf::Color(255, 255, 255));
   else if (type == APPLE)
     rect.setFillColor(sf::Color(124, 252, 0));
-  else if (type == GOLD_APPLE)
+  else if (type == PEAR)
     rect.setFillColor(sf::Color(255, 215, 0));
-  else if (type == BREAD)
+  else if (type == STRAWBERRY)
     rect.setFillColor(sf::Color(205, 133, 63));
-  else if (type == CHICKEN)
+  else if (type == BANANA)
     rect.setFillColor(sf::Color(255, 228, 181));
-  else if (type == PORK)
+  else if (type == KIWI)
     rect.setFillColor(sf::Color(245, 222, 179));
   _win.draw(rect);
 }
