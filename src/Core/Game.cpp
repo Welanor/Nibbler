@@ -6,9 +6,10 @@
 
 Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 {
-  int	seed;
+  int		seed;
+  IGraphics	*(*createGraphics)();
 
-  IGraphics *(*createGraphics)();
+  _fps = FPS;
   parse_arg(ac, av);
   createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
   if (createGraphics == NULL)
@@ -27,7 +28,7 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
       t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1};
       _entlist.push_back(tmp);
     }
-  t_ent tmp = {0, 0, BOOSTER, 350};
+  t_ent tmp = {0, 0, BOOSTER, 10};
   _entlist.push_back(tmp);
   _window = (createGraphics)();
 }
@@ -64,7 +65,7 @@ void		Game::add_entities()
   t_ent		ent = {0, 0, ELAST, 0};
   unsigned int	nb;
 
-  if (nb_ent >= MAX_ENT)
+  if (nb_ent >= MAXENT)
     return ;
   nb = std::rand();
   for (; beg != end; ++beg)
@@ -84,15 +85,19 @@ void		Game::add_entities()
 
 bool		Game::spe_collision(vit &vbeg, vit &vend)
 {
+  bool		ret = true;
+
   if (vbeg->type >= APPLE && vbeg->type <= KIWI)
     {
       for (unsigned int tmp = vbeg->type; tmp >= APPLE; --tmp)
 	_snake.push_back(*_snake.begin());
-      _ent.erase(vbeg);
       if ((vend = _ent.end()) == vbeg)
-	return (false);
+	ret = false;
     }
-  return (true);
+  else if (vbeg->type == BOOSTER)
+    _fps = (rand() % 2) == 0 ? (FPS / 4) : (FPS * 2);
+  _ent.erase(vbeg);
+  return (ret);
 }
 
 bool		Game::check_collision()
@@ -172,18 +177,17 @@ void	Game::display()
 
 void	Game::start()
 {
-  double frameRate = (1.0 / static_cast<double>(FPS)) * 1000.0;
+  double frameRate;
   Time begin, end;
-  bool	 key[LAST];
+  bool	 key[LAST] = { false };
   bool	done = false;
   int	size_win[] = { WINX, WINY };
   int	size_map[] = { _x, _y };
 
-  for (int i = 0; i < LAST; i++)
-    key[i] = false;
   _window->create_window("Nibbler", size_win, size_map);
   while (!done && !key[ESC])
     {
+      frameRate = (1.0 / static_cast<double>(_fps)) * 1000.0;
       begin.startTime();
       /* Evenement */
       _window->clear();
