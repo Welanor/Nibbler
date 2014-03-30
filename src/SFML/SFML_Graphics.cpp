@@ -1,6 +1,6 @@
 #include "SFML_Graphics.hpp"
 
-SFMLGraphics::SFMLGraphics(): IGraphics(), _win()
+SFMLGraphics::SFMLGraphics(): IGraphics(), _music(), _font(), _win()
 {
   _size_map[0] = 0;
   _size_map[1] = 0;
@@ -11,16 +11,24 @@ SFMLGraphics::SFMLGraphics(): IGraphics(), _win()
 
 SFMLGraphics::~SFMLGraphics()
 {
+  _music.stop();
   std::cout << "Destructor SFML" << std::endl;
 }
 
-void	SFMLGraphics::create_window(const std::string &name, const int *size_win, const int *size_map)
+bool	SFMLGraphics::create_window(const std::string &name, const int *size_win, const int *size_map)
 {
   _size_win[0] = size_win[0];
   _size_win[1] = size_win[1];
   _size_map[0] = size_map[0];
   _size_map[1] = size_map[1];
   _win.create(sf::VideoMode(size_win[0], size_win[1]), name);
+  if (!_music.openFromFile("Ressource SFML/music.ogg")
+      || !_font.loadFromFile("Ressource SFML/font.ttf"))
+    return (false);
+  _music.setLoop(true);
+  _music.setVolume(50);
+  _music.play();
+  return (true);
 }
 
 void	SFMLGraphics::clear()
@@ -28,7 +36,7 @@ void	SFMLGraphics::clear()
   _win.clear();
 }
 
-void SFMLGraphics::draw(int x, int y, int type)
+void SFMLGraphics::draw(int x, int y, int type, int dir)
 {
   float			rate_x, rate_y, _x, _y;
   sf::RectangleShape	rect;
@@ -99,6 +107,23 @@ void SFMLGraphics::handleEvent(bool *key)
 void	SFMLGraphics::update()
 {
   _win.display();
+}
+
+void	SFMLGraphics::display_score(int score)
+{
+  sf::Text text;
+  std::stringstream ss("");
+
+  ss << "Score: ";
+  ss << score;
+
+  std::cout << ss.str() << std::endl;
+  text.setFont(_font);
+  text.setString(ss.str());
+  text.setCharacterSize(24);
+  text.setPosition(0, 0);
+  text.setColor(sf::Color::Red);
+  _win.draw(text);
 }
 
 extern "C"

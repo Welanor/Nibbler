@@ -23,12 +23,13 @@ Graphics::~Graphics()
   endwin();
 }
 
-void	Graphics::create_window(const std::string &/*name*/,
+bool	Graphics::create_window(const std::string &/*name*/,
 				const int */*size_win*/, const int */*size_map*/)
 {
   _window = newwin(LINES, COLS, 0, 0);
   box(_window, ACS_VLINE, ACS_HLINE);
   wrefresh(_window);
+  return (true);
 }
 
 void	Graphics::clear()
@@ -36,7 +37,7 @@ void	Graphics::clear()
   wclear(_window);
 }
 
-void	Graphics::draw(int x, int y, int type)
+void	Graphics::draw(int x, int y, int type, int dir)
 {
   std::string caracs = "o~#AGBCP";
   char	c;
@@ -64,6 +65,11 @@ void	Graphics::handleEvent(bool *key)
   for (i = 0; i < LAST && keys[i] != tmp; i++);
   if (i < LAST)
     key[i] = true;
+}
+
+void display_score(int score)
+{
+
 }
 
 void Graphics::update()

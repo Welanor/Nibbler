@@ -3,7 +3,7 @@
 
 # define WINX 800
 # define WINY 600
-# define FPS 20
+# define FPS 100
 
 # include <iostream>
 # include <sstream>
@@ -52,6 +52,7 @@ private:
   bool			_key[4];
   std::list<t_snake>	_snake;
   std::vector<t_ent>	_ent;
+  int			_score;
 };
 
 #endif /* _GAME_H_ */

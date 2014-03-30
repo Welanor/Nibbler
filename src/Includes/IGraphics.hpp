@@ -11,9 +11,10 @@ class IGraphics
 public:
   virtual ~IGraphics() {};
 
-  virtual void create_window(const std::string &name, const int *,const int *) = 0;
+  virtual bool create_window(const std::string &name, const int *,const int *) = 0;
   virtual void clear() = 0;
-  virtual void draw(int x, int y, int type) = 0;
+  virtual void draw(int x, int y, int type, int dir) = 0;
+  virtual void display_score(int score) = 0;
   virtual void update() = 0;
   virtual void destroyWindow() = 0;
 

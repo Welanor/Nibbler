@@ -2,9 +2,10 @@
 #include <cstdlib>
 #include <iterator>
 #include <algorithm>
+#include <cmath>
 #include "Game.hpp"
 
-Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
+Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake(), _score(0)
 {
   int	seed;
 
@@ -88,6 +89,7 @@ bool		Game::spe_collision(vit &vbeg, vit &vend)
       if ((vend = _ent.end()) == vbeg)
 	return (false);
     }
+  _score += pow(2, vbeg->type);
   return (true);
 }
 
@@ -159,10 +161,11 @@ void	Game::display()
       tmp = beg;
       ++tmp;
       _window->draw(beg->x, beg->y, (beg == _snake.begin()) ? HEAD :
-		    (tmp == end) ? TAIL : BUDDY);
+		    (tmp == end) ? TAIL : BUDDY, beg->dir);
     }
   for (;ebeg != eend; ebeg++)
-    _window->draw(ebeg->x, ebeg->y, ebeg->type);
+    _window->draw(ebeg->x, ebeg->y, ebeg->type, 0);
+  _window->display_score(_score);
   _window->update();
 }
 
@@ -193,4 +196,5 @@ void	Game::start()
       if (end < frameRate)
       	usleep((frameRate - end.getTime()) * 1000);
     }
+  std::cout << _score << std::endl;
 }
