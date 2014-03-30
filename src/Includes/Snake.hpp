@@ -17,10 +17,11 @@ enum Entities
     BUDDY,
     TAIL,
     APPLE,
-    GOLD_APPLE,
-    BREAD,
-    CHICKEN,
-    PORK,
+    PEAR,
+    STRAWBERRY,
+    BANANA,
+    KIWI,
+    BOOSTER,
     ELAST
   };
 
@@ -29,6 +30,7 @@ typedef struct	s_ent
   int		x;
   int		y;
   Entities	type;
+  int		prob;
 }		t_ent;
 
 typedef struct	s_snake

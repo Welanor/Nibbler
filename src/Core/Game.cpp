@@ -16,15 +16,19 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 
   __asm__ volatile ("rdtsc" : "=A" (seed));
   std::srand(seed);
-  t_snake tmp = {_x / 2, _y / 2, LEFT};
-  t_snake tmp1 = {_x / 2, _y / 2 - 1, LEFT};
-  t_snake tmp2 = {_x / 2, _y / 2 - 2, LEFT};
-  t_snake tmp3 = {_x / 2, _y / 2 - 3, LEFT};
 
-  _snake.push_back(tmp);
-  _snake.push_back(tmp1);
-  _snake.push_back(tmp2);
-  _snake.push_back(tmp3);
+  for (int i = 0; i < 4; ++i)
+    {
+      t_snake tmp = {_x / 2, _y / 2 - i, LEFT};
+      _snake.push_back(tmp);
+    }
+  for (int i = APPLE; i <= KIWI; ++i)
+    {
+      t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1};
+      _entlist.push_back(tmp);
+    }
+  t_ent tmp = {0, 0, BOOSTER, 350};
+  _entlist.push_back(tmp);
   _window = (createGraphics)();
 }
 
@@ -54,33 +58,33 @@ void Game::parse_arg(const int ac, char **av)
 
 void		Game::add_entities()
 {
-  int		probs[] = {PROB_ONE, PROB_TWO, PROB_THREE, PROB_FOUR, PROB_FIVE};
-  Entities	types[] = {APPLE, GOLD_APPLE, BREAD, CHICKEN, PORK};
-  int		idx = 0;
   int		nb_ent = _ent.size();
-  c_vit		beg;
-  c_vit		end;
-  t_ent		ent;
+  c_vit		beg = _entlist.begin();
+  c_vit		end = _entlist.end();
+  t_ent		ent = {0, 0, ELAST, 0};
   unsigned int	nb;
 
-  nb = std::rand();
-  if (nb_ent == MAX_ENT || (nb_ent != 0 && nb % probs[nb_ent] != 0))
+  if (nb_ent >= MAX_ENT)
     return ;
-  for (unsigned int i = 0; i < sizeof(probs) / sizeof(int); ++i)
-    if (nb % probs[i] == 0)
-      idx = i;
+  nb = std::rand();
+  for (; beg != end; ++beg)
+    {
+      if (nb % beg->prob == 0)
+	ent = *beg;
+    }
+  if (ent.type == ELAST)
+    return ;
   ent.x = std::rand() % _x;
   ent.y = std::rand() % _y;
-  ent.type = types[idx];
   for (beg = _ent.begin(), end = _ent.end(); beg != end; ++beg)
-    if (beg->x == ent.x && beg->y == ent.y)
+    if (beg->type == ent.type || (beg->x == ent.x && beg->y == ent.y))
       return ;
   _ent.push_back(ent);
 }
 
 bool		Game::spe_collision(vit &vbeg, vit &vend)
 {
-  if (vbeg->type >= APPLE && vbeg->type <= PORK)
+  if (vbeg->type >= APPLE && vbeg->type <= KIWI)
     {
       for (unsigned int tmp = vbeg->type; tmp >= APPLE; --tmp)
 	_snake.push_back(*_snake.begin());

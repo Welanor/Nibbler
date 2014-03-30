@@ -14,7 +14,6 @@ Graphics::Graphics()
   noecho();
   keypad(stdscr, TRUE);
   timeout(0);
-  // refresh();
 }
 
 Graphics::~Graphics()
@@ -38,7 +37,7 @@ void	Graphics::clear()
 
 void	Graphics::draw(int x, int y, int type)
 {
-  std::string caracs = "o~#AGBCP";
+  std::string caracs = "o~#APSBK!";
   char	c;
 
   c = caracs[type];
@@ -48,7 +47,7 @@ void	Graphics::draw(int x, int y, int type)
 
 void	Graphics::destroyWindow()
 {
-  //  delwin(_window);
+  delwin(_window);
 }
 
 void	Graphics::handleEvent(bool *key)
@@ -68,7 +67,7 @@ void	Graphics::handleEvent(bool *key)
 
 void Graphics::update()
 {
-  refresh();
+  wrefresh(_window);
 }
 
 
