@@ -25,8 +25,8 @@ bool	Graphics::create_window(const std::string &/*name*/,
 {
   _x = size_map[0];
   _y = size_map[1];
-  if (_x > 190 || _y > 50 ||
-      (_window = newwin(_y, _x, 0, 0)) == NULL)
+  if (_x + 2 > 190 || _y + 2 > 50 ||
+      (_window = newwin(_y + 2, _x + 2, 0, 0)) == NULL)
     return (false);
   keypad(_window, TRUE);
   wtimeout(_window, 0);
@@ -45,7 +45,7 @@ void	Graphics::draw(int x, int y, int type, int dir)
   char	c;
 
   c = caracs[type];
-  mvwaddch(_window, y, x, c);
+  mvwaddch(_window, y + 1, x + 1, c);
 }
 
 void	Graphics::destroyWindow()
