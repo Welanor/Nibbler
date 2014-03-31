@@ -39,7 +39,7 @@ void	Graphics::clear()
   box(_window, ACS_VLINE, ACS_HLINE);
 }
 
-void	Graphics::draw(int x, int y, int type)
+void	Graphics::draw(int x, int y, int type, int dir)
 {
   std::string caracs = "o~#APSBK!";
   char	c;
@@ -66,6 +66,11 @@ void	Graphics::handleEvent(bool *key)
   for (i = 0; i < LAST && keys[i] != tmp; i++);
   if (i < LAST)
     key[i] = true;
+}
+
+void display_score(int score)
+{
+
 }
 
 void Graphics::update()

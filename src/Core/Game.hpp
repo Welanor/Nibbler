@@ -48,6 +48,7 @@ private:
   std::list<t_snake>	_snake;
   std::vector<t_ent>	_ent;
   std::vector<t_ent>	_entlist;
+  int			_score;
 };
 
 #endif /* _GAME_H_ */
