@@ -65,9 +65,9 @@ void		Game::remove_entities()
 
   for (; beg != end; ++beg)
     {
-      if (beg->time != NOTIME && (beg->time + 1) >= MAXTIME)
+      if (beg->time > NOTIME && (beg->time + 1) >= MAXTIME)
 	_ent.erase(beg);
-      else
+      else if (beg->time != NOTIME)
 	++(beg->time);
     }
 }
