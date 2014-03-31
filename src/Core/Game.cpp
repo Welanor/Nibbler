@@ -234,5 +234,4 @@ void	Game::start()
       if (end < frameRate)
       	usleep((frameRate - end.getTime()) * 1000);
     }
-  std::cout << _score << std::endl;
 }
