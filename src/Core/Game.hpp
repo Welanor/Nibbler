@@ -5,6 +5,8 @@
 # define WINY 600
 # define FPS 20
 # define MAXENT 5
+# define NOTIME -1
+# define MAXTIME (7 * FPS)
 
 # include <iostream>
 # include <sstream>
@@ -37,6 +39,7 @@ private:
   void	move_snake(bool *key);
   void	display();
   void	add_entities();
+  void	remove_entities();
 
 private:
   int			_x;

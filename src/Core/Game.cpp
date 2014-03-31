@@ -26,10 +26,10 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake(), _score(0)
     }
   for (int i = APPLE; i <= KIWI; ++i)
     {
-      t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1};
+      t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1, NOTIME};
       _entlist.push_back(tmp);
     }
-  t_ent tmp = {0, 0, BOOSTER, 10};
+  t_ent tmp = {0, 0, BOOSTER, 10, 0};
   _entlist.push_back(tmp);
   _window = (createGraphics)();
 }
@@ -58,12 +58,26 @@ void Game::parse_arg(const int ac, char **av)
   _lib.open(av[3], RTLD_LAZY);
 }
 
+void		Game::remove_entities()
+{
+  vit		beg = _ent.begin();
+  vit		end = _ent.end();
+
+  for (; beg != end; ++beg)
+    {
+      if (beg->time > NOTIME && (beg->time + 1) >= MAXTIME)
+	_ent.erase(beg);
+      else if (beg->time != NOTIME)
+	++(beg->time);
+    }
+}
+
 void		Game::add_entities()
 {
   int		nb_ent = _ent.size();
   c_vit		beg = _entlist.begin();
   c_vit		end = _entlist.end();
-  t_ent		ent = {0, 0, ELAST, 0};
+  t_ent		ent = {0, 0, ELAST, 0, NOTIME};
   unsigned int	nb;
 
   if (nb_ent >= MAXENT)
@@ -81,6 +95,7 @@ void		Game::add_entities()
   for (beg = _ent.begin(), end = _ent.end(); beg != end; ++beg)
     if (beg->type == ent.type || (beg->x == ent.x && beg->y == ent.y))
       return ;
+  std::cerr << "adding enti with maxtime: " << ent.time << std::endl;
   _ent.push_back(ent);
 }
 
@@ -197,6 +212,7 @@ void	Game::start()
       _window->handleEvent(key);
       move_snake(key);
       done = check_collision();
+      remove_entities();
       add_entities();
       display();
       end.startTime();
