@@ -8,6 +8,7 @@
 # define NOTIME -1
 # define MAXTIME (7 * _fps)
 # define BOOSTTIME (5 * _fps)
+# define SCOREPATH "../ressources/scores.txt"
 
 # include <iostream>
 # include <sstream>
@@ -24,6 +25,13 @@ typedef std::list<t_snake>::iterator lit;
 typedef std::list<t_snake>::const_iterator c_lit;
 typedef std::vector<t_ent>::iterator vit;
 typedef std::vector<t_ent>::const_iterator c_vit;
+typedef struct s_player	t_player;
+
+struct		s_player
+{
+  std::string	name;
+  unsigned int	score;
+};
 
 class Game
 {
@@ -42,6 +50,7 @@ private:
   void	add_entities();
   void	remove_entities();
   void	handle_fps(int &idx);
+  void	print_scores();
 
 private:
   int			_x;
@@ -53,7 +62,7 @@ private:
   std::list<t_snake>	_snake;
   std::vector<t_ent>	_ent;
   std::vector<t_ent>	_entlist;
-  int			_score;
+  t_player		_player;
 };
 
 #endif /* _GAME_H_ */
