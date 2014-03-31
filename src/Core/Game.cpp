@@ -95,7 +95,6 @@ void		Game::add_entities()
   for (beg = _ent.begin(), end = _ent.end(); beg != end; ++beg)
     if (beg->type == ent.type || (beg->x == ent.x && beg->y == ent.y))
       return ;
-  std::cerr << "adding enti with maxtime: " << ent.time << std::endl;
   _ent.push_back(ent);
 }
 
@@ -193,18 +192,33 @@ void	Game::display()
   _window->update();
 }
 
+void	Game::handle_fps(int &idx)
+{
+  if (_fps != FPS && idx == -1)
+    idx = 0;
+  if (idx >= BOOSTTIME)
+    {
+      _fps = FPS;
+      idx = -1;
+    }
+  else
+    ++idx;
+}
+
 void	Game::start()
 {
   double frameRate;
-  Time begin, end;
-  bool	 key[LAST] = { false };
+  Time	begin, end;
+  bool	key[LAST] = { false };
   bool	done = false;
   int	size_win[] = { WINX, WINY };
   int	size_map[] = { _x, _y };
+  int	idx = -1;
 
   _window->create_window("Nibbler", size_win, size_map);
   while (!done && !key[ESC])
     {
+      handle_fps(idx);
       frameRate = (1.0 / static_cast<double>(_fps)) * 1000.0;
       begin.startTime();
       /* Evenement */

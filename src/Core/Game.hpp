@@ -6,7 +6,8 @@
 # define FPS 20
 # define MAXENT 5
 # define NOTIME -1
-# define MAXTIME (7 * FPS)
+# define MAXTIME (7 * _fps)
+# define BOOSTTIME (5 * _fps)
 
 # include <iostream>
 # include <sstream>
@@ -40,6 +41,7 @@ private:
   void	display();
   void	add_entities();
   void	remove_entities();
+  void	handle_fps(int &idx);
 
 private:
   int			_x;
