@@ -68,7 +68,7 @@ void	Graphics::handleEvent(bool *key)
     key[i] = true;
 }
 
-void display_score(int score)
+void Graphics::display_score(int score)
 {
 
 }
