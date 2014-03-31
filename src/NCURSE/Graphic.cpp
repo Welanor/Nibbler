@@ -12,8 +12,6 @@ Graphics::Graphics()
   */
   curs_set(0);
   noecho();
-  keypad(stdscr, TRUE);
-  timeout(0);
 }
 
 Graphics::~Graphics()
@@ -22,17 +20,23 @@ Graphics::~Graphics()
   endwin();
 }
 
-void	Graphics::create_window(const std::string &/*name*/,
-				const int */*size_win*/, const int */*size_map*/)
+bool	Graphics::create_window(const std::string &/*name*/,
+				const int */*size_win*/, const int *size_map)
 {
-  _window = newwin(LINES, COLS, 0, 0);
-  box(_window, ACS_VLINE, ACS_HLINE);
-  wrefresh(_window);
+  _x = size_map[0];
+  _y = size_map[1];
+  if (_x > 190 || _y > 50 ||
+      (_window = newwin(_y, _x, 0, 0)) == NULL)
+    return (false);
+  keypad(_window, TRUE);
+  wtimeout(_window, 0);
+  return (true);
 }
 
 void	Graphics::clear()
 {
-  wclear(_window);
+  werase(_window);
+  box(_window, ACS_VLINE, ACS_HLINE);
 }
 
 void	Graphics::draw(int x, int y, int type)
@@ -42,7 +46,6 @@ void	Graphics::draw(int x, int y, int type)
 
   c = caracs[type];
   mvwaddch(_window, y, x, c);
-  wrefresh(_window);
 }
 
 void	Graphics::destroyWindow()
@@ -54,11 +57,11 @@ void	Graphics::handleEvent(bool *key)
 {
   static int	keys[5] = {258, 259, 260, 261, 27};
   int		i;
-  int		tmp = 0;
+  int		tmp;
 
   for (i = 0; i < LAST; i++)
     key[i] = false;
-  if ((tmp = getch()) == ERR)
+  if ((tmp = wgetch(_window)) == ERR)
     return ;
   for (i = 0; i < LAST && keys[i] != tmp; i++);
   if (i < LAST)

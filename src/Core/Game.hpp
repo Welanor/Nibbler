@@ -3,7 +3,7 @@
 
 # define WINX 800
 # define WINY 600
-# define FPS 40
+# define FPS 20
 # define MAXENT 5
 
 # include <iostream>

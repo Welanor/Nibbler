@@ -10,7 +10,7 @@ public:
   Graphics();
   virtual ~Graphics();
 
-  virtual void create_window(const std::string &name, const int *, const int *);
+  virtual bool create_window(const std::string &name, const int *, const int *);
   virtual void handleEvent(bool *key);
   virtual void clear();
   virtual void draw(int x, int y, int type);
@@ -19,6 +19,8 @@ public:
 
 private:
   WINDOW	*_window;
+  int		_x;
+  int		_y;
 };
 
 #endif /* _GRAPHICS_H_ */
