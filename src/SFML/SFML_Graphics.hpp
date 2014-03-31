@@ -7,6 +7,8 @@
 # include <sstream>
 # include "IGraphics.hpp"
 
+# define RESSOURCE_SFML "../Ressource/SFML/"
+
 class SFMLGraphics : public IGraphics
 {
 public:
@@ -24,7 +26,7 @@ public:
   virtual void handleKey(sf::Event event, bool *key);
 
 private:
-  std::map<int, sf::Sprite>	_sprites;
+  std::map<int, sf::Texture *>	_sprites;
   std::map<int, sf::Color>	_color;
   sf::Music			_music;
   sf::Font			_font;

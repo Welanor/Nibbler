@@ -2,10 +2,28 @@
 
 SFMLGraphics::SFMLGraphics(): IGraphics(), _music(), _font(), _win()
 {
+  sf::Texture tmp;
+
   _size_map[0] = 0;
   _size_map[1] = 0;
   _size_win[0] = 0;
   _size_win[1] = 0;
+  _color[HEAD] = sf::Color(255, 255, 255);
+  _color[BUDDY] = sf::Color(255, 255, 255);
+  _color[TAIL] = sf::Color(255, 255, 255);
+  _color[APPLE] = sf::Color(124, 252, 0);
+  _color[PEAR] = sf::Color(255, 215, 0);
+  _color[STRAWBERRY] = sf::Color(205, 133, 63);
+  _color[BANANA] = sf::Color(255, 228, 181);
+  _color[KIWI] = sf::Color(245, 222, 179);
+  _sprites[HEAD] = NULL;
+  _sprites[BUDDY] = NULL;
+  _sprites[TAIL] = NULL;
+  _sprites[APPLE] = NULL;
+  _sprites[PEAR] = NULL;
+  _sprites[STRAWBERRY] = NULL;
+  _sprites[BANANA] = NULL;
+  _sprites[KIWI] = NULL;
   std::cout << "Constructor SFML" << std::endl;
 }
 
@@ -22,8 +40,8 @@ bool	SFMLGraphics::create_window(const std::string &name, const int *size_win, c
   _size_map[0] = size_map[0];
   _size_map[1] = size_map[1];
   _win.create(sf::VideoMode(size_win[0], size_win[1]), name);
-  if (!_music.openFromFile("Ressource SFML/music.ogg")
-      || !_font.loadFromFile("Ressource SFML/font.ttf"))
+  if (!_music.openFromFile(std::string(RESSOURCE_SFML) + "music.ogg")
+    || !_font.loadFromFile(std::string(RESSOURCE_SFML) + "font.ttf"))
     return (false);
   _music.setLoop(true);
   _music.setVolume(50);
@@ -47,18 +65,9 @@ void SFMLGraphics::draw(int x, int y, int type, int dir)
   rate_y = _size_win[1] / _size_map[1];
   rect.setSize(sf::Vector2f(rate_x, rate_y));
   rect.setPosition(_x  * rate_x, _y * rate_y);
-  if (type == HEAD || type == BUDDY || type == TAIL)
-    rect.setFillColor(sf::Color(255, 255, 255));
-  else if (type == APPLE)
-    rect.setFillColor(sf::Color(124, 252, 0));
-  else if (type == PEAR)
-    rect.setFillColor(sf::Color(255, 215, 0));
-  else if (type == STRAWBERRY)
-    rect.setFillColor(sf::Color(205, 133, 63));
-  else if (type == BANANA)
-    rect.setFillColor(sf::Color(255, 228, 181));
-  else if (type == KIWI)
-    rect.setFillColor(sf::Color(245, 222, 179));
+  if (_sprites[type] == NULL)
+    rect.setFillColor(_color[type]);
+  // else
   _win.draw(rect);
 }
 
@@ -117,7 +126,6 @@ void	SFMLGraphics::display_score(int score)
   ss << "Score: ";
   ss << score;
 
-  std::cout << ss.str() << std::endl;
   text.setFont(_font);
   text.setString(ss.str());
   text.setCharacterSize(24);
