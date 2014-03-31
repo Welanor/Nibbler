@@ -31,6 +31,7 @@ typedef struct	s_ent
   int		y;
   Entities	type;
   int		prob;
+  int		time;
 }		t_ent;
 
 typedef struct	s_snake
