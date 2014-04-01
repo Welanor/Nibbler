@@ -41,7 +41,7 @@ void	Graphics::clear()
 
 void	Graphics::draw(int x, int y, int type, int /*dir*/)
 {
-  std::string caracs = "o~#APSBK!";
+  std::string caracs = "o~#APSBK!W";
   char	c;
 
   c = caracs[type];

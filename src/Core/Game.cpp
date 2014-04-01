@@ -32,6 +32,11 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
       t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1, NOTIME};
       _entlist.push_back(tmp);
     }
+  for (int i = 0; i < 30; ++i)
+    {
+      t_ent tmp = {(std::rand() % _x), (std::rand() % _y), WALL, 0, NOTIME};
+      _ent.push_back(tmp);
+    }
   t_ent tmp = {0, 0, BOOSTER, 10, 0};
   _entlist.push_back(tmp);
   _window = (createGraphics)();
@@ -102,20 +107,22 @@ void		Game::add_entities()
   _ent.push_back(ent);
 }
 
-bool		Game::spe_collision(vit &vbeg, vit &vend)
+int		Game::spe_collision(vit &vbeg, vit &vend)
 {
-  bool		ret = true;
+  bool		ret = 1;
 
   if (vbeg->type >= APPLE && vbeg->type <= KIWI)
     {
       for (unsigned int tmp = vbeg->type; tmp >= APPLE; --tmp)
 	_snake.push_back(*_snake.begin());
       if ((vend = _ent.end()) == vbeg)
-	ret = false;
+	ret = 0;
       _player.score += pow(2, vbeg->type);
     }
   else if (vbeg->type == BOOSTER)
     _fps = (rand() % 2) == 0 ? (FPS / 4) : (FPS * 2);
+  else if (vbeg->type == WALL)
+    return (2);
   _ent.erase(vbeg);
   return (ret);
 }
@@ -139,8 +146,13 @@ bool		Game::check_collision()
   for (vbeg = _ent.begin(), vend = _ent.end(); vbeg != vend; vbeg++)
     {
       if (head.x == vbeg->x && head.y == vbeg->y)
-	if (!spe_collision(vbeg, vend))
-	  break ;
+	{
+	  int ret = spe_collision(vbeg, vend);
+	  if (!ret)
+	    break;
+	  else if (ret == 2)
+	    return (true);
+	}
     }
   return (false);
 }
