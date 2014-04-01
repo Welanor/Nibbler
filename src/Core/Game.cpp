@@ -91,7 +91,7 @@ void	Game::move_entities()
   t_ent	*ent = NULL;
   int	dist[2];
 
-  for (; beg != end; ++beg)
+  for (int brk = 0 ; beg != end; ++beg)
     {
       if (beg->type != MONSTER)
 	continue ;
@@ -121,16 +121,30 @@ void	Game::move_entities()
 	}
       for (tmp = _ent.begin(); tmp != end; ++tmp)
 	{
-	  if (tmp->type >= APPLE && tmp->type <= KIWI &&
-	      tmp->x == beg->x && tmp->y && beg->y)
+	  if (tmp->x == beg->x && tmp->y == beg->y)
 	    {
-	      _ent.erase(tmp);
-	      end = _ent.end();
-	      break ;
+	      std::cerr << "inter " << tmp->type << std::endl;
+	      if (tmp->type >= APPLE && tmp->type <= KIWI)
+		{
+		  std::cerr << "erase" << std::endl;
+		  _ent.erase(tmp);
+		}
+	      else if (tmp->type == WALL)
+		{
+		  _ent.erase(beg);
+		  brk = 1;
+		}
+	      if (tmp->type == WALL || (tmp->type >= APPLE && tmp->type <= KIWI))
+		{
+		  end = _ent.end();
+		  break ;
+		}
 	    }
 	}
+      if (brk)
+	beg = _ent.begin();
       if (beg == end)
-	break ;
+      break ;
     }
 }
 
