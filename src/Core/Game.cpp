@@ -12,6 +12,7 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
   IGraphics	*(*createGraphics)();
 
   _player.score = 0;
+  _player.name = "You";
   _fps = FPS;
   parse_arg(ac, av);
   createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
@@ -180,19 +181,39 @@ void	Game::print_scores()
   std::string	line;
   std::string	name;
   std::string	filename(SCOREPATH);
-  unsigned int	score;
+  std::list<t_player> pl;
+  std::list<t_player>::iterator beg;
+  std::list<t_player>::iterator end;
   unsigned int	i;
 
-  file.open (filename.c_str(), std::ios::out | std::ios::in);
+  file.open (filename.c_str(), std::ios::in);
   if (file.is_open())
     {
       for (i = 0; std::getline(file, line); ++i)
 	{
+	  t_player player;
 	  std::stringstream iss(line);
-	  iss >> name >> score;
-	  //	  _window->display_scores(name, score, i);
+
+	  iss >> player.name >> player.score;
+	  pl.push_back(player);
+	  std::cerr << player.name << " " << player.score << std::endl;
+	  if (_player.score > player.score)
+	    _window->display_f_score(_player.name, _player.score, i);
+	  else
+	    _window->display_f_score(player.name, player.score, i);
 	}
-      //      _window->display_scores(_player.name, _player.score, i + 1);
+      if (i == 0)
+	{
+	  _window->display_f_score(_player.name, _player.score, i);
+	  pl.push_back(_player);
+	}
+      file.close();
+    }
+  file.open (filename.c_str(), std::fstream::out | std::fstream::trunc);
+  if (file.is_open())
+    {
+      for (beg = pl.begin(), end = pl.end(); beg != end; ++beg)
+	file << beg->name << " " << beg->score << std::endl;
       file.close();
     }
 }
@@ -260,4 +281,8 @@ void	Game::start()
       if (end < frameRate)
       	usleep((frameRate - end.getTime()) * 1000);
     }
+  _window->clear();
+  print_scores();
+  _window->update();
+  getchar();
 }

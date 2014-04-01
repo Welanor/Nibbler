@@ -8,7 +8,7 @@
 # define NOTIME -1
 # define MAXTIME (7 * _fps)
 # define BOOSTTIME (5 * _fps)
-# define SCOREPATH "../ressources/scores.txt"
+# define SCOREPATH "../Ressource/scores.txt"
 
 # include <iostream>
 # include <sstream>

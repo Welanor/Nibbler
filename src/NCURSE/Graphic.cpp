@@ -68,16 +68,20 @@ void	Graphics::handleEvent(bool *key)
     key[i] = true;
 }
 
-void Graphics::display_score(int score)
+void	Graphics::display_score(int score)
 {
   mvwprintw(_window, 0, 1, " Score: %d ", score);
 }
 
-void Graphics::update()
+void	Graphics::update()
 {
   wrefresh(_window);
 }
 
+void	Graphics::display_f_score(const std::string &name, int score, int y)
+{
+  mvwprintw(_window, y + y / 3 + 1, _x / 3, "%s  %d", name.c_str(), score);
+}
 
 extern "C"
 {

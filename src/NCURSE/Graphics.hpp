@@ -17,6 +17,7 @@ public:
   virtual void display_score(int score);
   virtual void update();
   virtual void destroyWindow();
+  virtual void display_f_score(const std::string &name, int score, int y);
 
 private:
   WINDOW	*_window;
