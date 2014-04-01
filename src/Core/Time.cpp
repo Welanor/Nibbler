@@ -22,7 +22,7 @@ bool	Time::operator<(double val) const
   return ((_time.tv_sec * 1000.0 + _time.tv_usec / 1000.0) < val);
 }
 
-const double	Time::getTime() const
+double	Time::getTime() const
 {
   return (_time.tv_sec * 1000.0 + _time.tv_usec / 1000.0);
 }

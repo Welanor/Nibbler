@@ -14,7 +14,7 @@ public:
   bool	operator<(double val) const;
 
   void	startTime();
-  const double getTime() const;
+  double getTime() const;
 
 private:
 
