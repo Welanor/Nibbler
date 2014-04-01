@@ -85,6 +85,8 @@ void	Game::move_entities()
   vit  	beg = _ent.begin();
   vit  	end = _ent.end();
   vit	tmp;
+  c_lit	lbeg;
+  c_lit	lend;
   t_ent	*ent = NULL;
   int	dist[2];
 
@@ -126,7 +128,7 @@ void	Game::move_entities()
 		  std::cerr << "erase" << std::endl;
 		  _ent.erase(tmp);
 		}
-	      else if (tmp->type == WALL || (tmp->type >= HEAD && tmp->type <= TAIL))
+	      else if (tmp->type == WALL)
 		{
 		  _ent.erase(beg);
 		  brk = 1;
@@ -142,7 +144,18 @@ void	Game::move_entities()
       if (brk)
 	beg = _ent.begin();
       if (beg == end)
-      break ;
+	break ;
+      for (lbeg = _snake.begin(), lend = _snake.end(); lbeg != lend; ++lbeg)
+	{
+	  if (lbeg->x == beg->x && lbeg->y == beg->y)
+	    {
+	      _ent.erase(beg);
+	      end = _ent.end();
+	      break;
+	    }
+	}
+      if (beg == end)
+	break ;
     }
 }
 
