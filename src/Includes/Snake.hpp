@@ -24,6 +24,7 @@ enum Entities
     KIWI,
     BOOSTER,
     WALL,
+    MONSTER,
     ELAST
   };
 

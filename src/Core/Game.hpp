@@ -10,6 +10,8 @@
 # define BOOSTTIME (5 * _fps)
 # define SCOREPATH "../Ressource/scores.txt"
 
+# define ABS(x) (((x) < 0) ? -(x) : (x))
+
 # include <iostream>
 # include <sstream>
 # include <list>
@@ -49,6 +51,7 @@ private:
   void	display();
   void	add_entities();
   void	remove_entities();
+  void	move_entities();
   void	handle_fps(int &idx);
   void	print_scores();
 

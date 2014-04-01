@@ -39,6 +39,8 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
     }
   t_ent tmp = {0, 0, BOOSTER, 10, 0};
   _entlist.push_back(tmp);
+  t_ent tmp1 = {0, 0, MONSTER, 100, NOTIME};
+  _entlist.push_back(tmp1);
   _window = (createGraphics)();
 }
 
@@ -78,6 +80,57 @@ void		Game::remove_entities()
 	_ent.erase(beg);
       else if (beg->time != NOTIME)
 	++(beg->time);
+    }
+}
+
+void	Game::move_entities()
+{
+  vit  	beg = _ent.begin();
+  vit  	end = _ent.end();
+  vit	tmp;
+  t_ent	*ent = NULL;
+  int	dist[2];
+
+  for (; beg != end; ++beg)
+    {
+      if (beg->type != MONSTER)
+	continue ;
+      for (tmp = _ent.begin(); tmp != end; ++tmp)
+	{
+	  if (tmp->type >= APPLE && tmp->type <= KIWI)
+	    {
+	      if (ent == NULL)
+		ent = &(*tmp);
+	      else
+		{
+		  dist[0] = ABS(beg->x - tmp->x) + ABS(beg->y - tmp->y);
+		  dist[1] = ABS(beg->x - ent->x) + ABS(beg->y - ent->y);
+		  if (dist[0] < dist[1])
+		    ent = &(*tmp);
+		}
+	    }
+	}
+      if (ent)
+	{
+	  dist[0] = ABS(beg->x - ent->x);
+	  dist[1] = ABS(beg->y - ent->y);
+	  if (dist[0] > dist[1])
+	    beg->x += (beg->x > ent->x) ? -1 : 1;
+	  else
+	    beg->y += (beg->y > ent->y) ? -1 : 1;
+	}
+      for (tmp = _ent.begin(); tmp != end; ++tmp)
+	{
+	  if (tmp->type >= APPLE && tmp->type <= KIWI &&
+	      tmp->x == beg->x && tmp->y && beg->y)
+	    {
+	      _ent.erase(tmp);
+	      end = _ent.end();
+	      break ;
+	    }
+	}
+      if (beg == end)
+	break ;
     }
 }
 
@@ -290,6 +343,7 @@ void	Game::start()
       move_snake(key);
       done = check_collision();
       remove_entities();
+      move_entities();
       add_entities();
       display();
       end.startTime();
