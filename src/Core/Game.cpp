@@ -1,15 +1,17 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <iterator>
+#include <fstream>
 #include <algorithm>
 #include <cmath>
 #include "Game.hpp"
 
-Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake(), _score(0)
+Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 {
   int		seed;
   IGraphics	*(*createGraphics)();
 
+  _player.score = 0;
   _fps = FPS;
   parse_arg(ac, av);
   createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
@@ -67,10 +69,11 @@ void		Game::remove_entities()
 {
   vit		beg = _ent.begin();
   vit		end = _ent.end();
+  int		notime = NOTIME, maxtime = MAXTIME;
 
   for (; beg != end; ++beg)
     {
-      if (beg->time > NOTIME && (beg->time + 1) >= MAXTIME)
+      if (beg->time > notime && (beg->time + 1) >= maxtime)
 	_ent.erase(beg);
       else if (beg->time != NOTIME)
 	++(beg->time);
@@ -113,7 +116,7 @@ int		Game::spe_collision(vit &vbeg, vit &vend)
 	_snake.push_back(*_snake.begin());
       if ((vend = _ent.end()) == vbeg)
 	ret = 0;
-      _score += pow(2, vbeg->type);
+      _player.score += pow(2, vbeg->type);
     }
   else if (vbeg->type == BOOSTER)
     _fps = (rand() % 2) == 0 ? (FPS / 4) : (FPS * 2);
@@ -183,6 +186,29 @@ void	Game::move_snake(bool *key)
     }
 }
 
+void	Game::print_scores()
+{
+  std::fstream	file;
+  std::string	line;
+  std::string	name;
+  std::string	filename(SCOREPATH);
+  unsigned int	score;
+  unsigned int	i;
+
+  file.open (filename.c_str(), std::ios::out | std::ios::in);
+  if (file.is_open())
+    {
+      for (i = 0; std::getline(file, line); ++i)
+	{
+	  std::stringstream iss(line);
+	  iss >> name >> score;
+	  //	  _window->display_scores(name, score, i);
+	}
+      //      _window->display_scores(_player.name, _player.score, i + 1);
+      file.close();
+    }
+}
+
 void	Game::display()
 {
   lit	beg = _snake.begin();
@@ -200,7 +226,7 @@ void	Game::display()
     }
   for (;ebeg != eend; ebeg++)
     _window->draw(ebeg->x, ebeg->y, ebeg->type, 0);
-  _window->display_score(_score);
+  _window->display_score(_player.score);
   _window->update();
 }
 
@@ -208,7 +234,7 @@ void	Game::handle_fps(int &idx)
 {
   if (_fps != FPS && idx == -1)
     idx = 0;
-  if (idx >= BOOSTTIME)
+  if (idx >= static_cast<int>(BOOSTTIME))
     {
       _fps = FPS;
       idx = -1;
