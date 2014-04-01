@@ -4,7 +4,7 @@
 # define WINX 800
 # define WINY 600
 # define FPS 20
-# define MAXENT 5
+# define MAXENT 40
 # define NOTIME -1
 # define MAXTIME (7 * _fps)
 # define BOOSTTIME (5 * _fps)
@@ -36,7 +36,7 @@ public:
 private:
   void	parse_arg(const int ac, char **av);
   bool	check_collision();
-  bool	spe_collision(vit &vbeg, vit &vend);
+  int	spe_collision(vit &vbeg, vit &vend);
   void	move_snake(bool *key);
   void	display();
   void	add_entities();
