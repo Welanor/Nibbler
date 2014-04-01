@@ -22,6 +22,7 @@ enum Entities
     BANANA,
     KIWI,
     BOOSTER,
+    WALL,
     ELAST
   };
 

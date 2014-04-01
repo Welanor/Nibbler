@@ -2,8 +2,6 @@
 
 SFMLGraphics::SFMLGraphics(): IGraphics(), _music(), _font(), _win()
 {
-  sf::Texture tmp;
-
   _size_map[0] = 0;
   _size_map[1] = 0;
   _size_win[0] = 0;
@@ -16,14 +14,7 @@ SFMLGraphics::SFMLGraphics(): IGraphics(), _music(), _font(), _win()
   _color[STRAWBERRY] = sf::Color(205, 133, 63);
   _color[BANANA] = sf::Color(255, 228, 181);
   _color[KIWI] = sf::Color(245, 222, 179);
-  _sprites[HEAD] = NULL;
-  _sprites[BUDDY] = NULL;
-  _sprites[TAIL] = NULL;
-  _sprites[APPLE] = NULL;
-  _sprites[PEAR] = NULL;
-  _sprites[STRAWBERRY] = NULL;
-  _sprites[BANANA] = NULL;
-  _sprites[KIWI] = NULL;
+  _color[WALL] = sf::Color(255, 0, 0);
   std::cout << "Constructor SFML" << std::endl;
 }
 
@@ -35,13 +26,23 @@ SFMLGraphics::~SFMLGraphics()
 
 bool	SFMLGraphics::create_window(const std::string &name, const int *size_win, const int *size_map)
 {
+  sf::Texture tmp;
+
+  _sprites[HEAD] = NULL;
+  _sprites[BUDDY] = NULL;
+  _sprites[TAIL] = NULL;
+  _sprites[APPLE] = NULL;
+  _sprites[PEAR] = NULL;
+  _sprites[STRAWBERRY] = NULL;
+  _sprites[BANANA] = NULL;
+  _sprites[KIWI] = NULL;
   _size_win[0] = size_win[0];
   _size_win[1] = size_win[1];
   _size_map[0] = size_map[0];
   _size_map[1] = size_map[1];
   _win.create(sf::VideoMode(size_win[0], size_win[1]), name);
   if (!_music.openFromFile(std::string(RESSOURCE_SFML) + "music.ogg")
-    || !_font.loadFromFile(std::string(RESSOURCE_SFML) + "font.ttf"))
+      || !_font.loadFromFile(std::string(RESSOURCE_SFML) + "font.ttf"))
     return (false);
   _music.setLoop(true);
   _music.setVolume(50);
