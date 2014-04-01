@@ -1,6 +1,7 @@
 #include "SFML_Graphics.hpp"
 
-SFMLGraphics::SFMLGraphics(): IGraphics(), _music(), _font(), _win()
+SFMLGraphics::SFMLGraphics(): IGraphics(), _background(), _music(), _font(),
+			      _win(), _vol(50)
 {
   _size_map[0] = 0;
   _size_map[1] = 0;
@@ -15,6 +16,7 @@ SFMLGraphics::SFMLGraphics(): IGraphics(), _music(), _font(), _win()
   _color[BANANA] = sf::Color(255, 228, 181);
   _color[KIWI] = sf::Color(245, 222, 179);
   _color[WALL] = sf::Color(255, 0, 0);
+  _color[MONSTER] = sf::Color(0, 0, 255);
   std::cout << "Constructor SFML" << std::endl;
 }
 
@@ -41,29 +43,37 @@ bool	SFMLGraphics::create_window(const std::string &name, const int *size_win, c
   _size_map[0] = size_map[0];
   _size_map[1] = size_map[1];
   _win.create(sf::VideoMode(size_win[0], size_win[1]), name);
-  if (!_music.openFromFile(std::string(RESSOURCE_SFML) + "music.ogg")
-      || !_font.loadFromFile(std::string(RESSOURCE_SFML) + "font.ttf"))
+  if (!_background.loadFromFile(std::string(RESSOURCE_SFML) + "grass.png") ||
+      !_music.openFromFile(std::string(RESSOURCE_SFML) + "music.ogg") ||
+      !_font.loadFromFile(std::string(RESSOURCE_SFML) + "font.ttf"))
     return (false);
   _music.setLoop(true);
-  _music.setVolume(50);
+  _music.setVolume(_vol);
   _music.play();
   return (true);
 }
 
 void	SFMLGraphics::clear()
 {
+  sf::Sprite tmp;
+
+  tmp.setTexture(_background);
+  tmp.setScale(sf::Vector2f(_size_win[0] / _background.getSize().x,
+			    _size_win[1] / _background.getSize().y));
   _win.clear();
+  _win.draw(tmp);
 }
 
 void SFMLGraphics::draw(int x, int y, int type, int dir)
 {
-  float			rate_x, rate_y, _x, _y;
+  double		rate_x, rate_y, _x, _y;
   sf::RectangleShape	rect;
 
   _x = x;
   _y = y;
   rate_x = _size_win[0] / _size_map[0];
   rate_y = _size_win[1] / _size_map[1];
+  std::cout << rate_x << " | "<< rate_y << std::endl;
   rect.setSize(sf::Vector2f(rate_x, rate_y));
   rect.setPosition(_x  * rate_x, _y * rate_y);
   if (_sprites[type] == NULL)
@@ -80,7 +90,7 @@ void SFMLGraphics::destroyWindow()
 void SFMLGraphics::handleKey(sf::Event event, bool *key)
 {
   int		keys[LAST] = { sf::Keyboard::Down, sf::Keyboard::Up, sf::Keyboard::Left,
-			   sf::Keyboard::Right, sf::Keyboard::Escape};
+			       sf::Keyboard::Right, sf::Keyboard::Escape, sf::Keyboard::P};
   int		i;
 
   for (i = 0; i < LAST; i++)
@@ -104,6 +114,7 @@ void SFMLGraphics::handleEvent(bool *key)
         case sf::Event::Resized:
 	  _size_win[0] = event.size.width;
 	  _size_win[1] = event.size.height;
+	  std::cout << _size_win[0] << " | " << _size_win[1] << std::endl;
 	  break;
         case sf::Event::KeyPressed:
 	  handleKey(event, key);
@@ -133,6 +144,38 @@ void	SFMLGraphics::display_score(int score)
   text.setPosition(0, 0);
   text.setColor(sf::Color::Red);
   _win.draw(text);
+}
+
+void	SFMLGraphics::display_f_score(const std::string &name, int score, int y)
+{
+  sf::Text text;
+  std::stringstream ss("");
+
+  ss << name;
+  ss << " ";
+  ss << score;
+
+  std::cout << ss.str() << std::endl;
+  text.setFont(_font);
+  text.setString(ss.str());
+  text.setCharacterSize(24);
+  text.setPosition(_size_win[0] / 2 - 15, (_size_win[1] / 10) * y);
+  text.setColor(sf::Color::Blue);
+  _win.draw(text);
+}
+
+void	SFMLGraphics::display_pause_msg()
+{
+  sf::Text text;
+
+  std::cout << "Pause" << std::endl;
+  text.setFont(_font);
+  text.setString("PAUSE");
+  text.setCharacterSize(24);
+  text.setPosition(_size_win[0] / 2 - 15, _size_win[1] / 2);
+  text.setColor(sf::Color::Red);
+  _win.draw(text);
+  _win.display();
 }
 
 extern "C"

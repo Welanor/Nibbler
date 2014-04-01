@@ -338,6 +338,7 @@ void	Game::start()
 	  _window->handleEvent(key);
 	  if (key[PAUSE] && i == 0)
 	    _window->display_pause_msg();
+	  usleep(1000);
 	}
       _window->clear();
       move_snake(key);
@@ -354,5 +355,9 @@ void	Game::start()
   _window->clear();
   print_scores();
   _window->update();
-  getchar();
+  while (!key[ESC])
+    {
+      _window->handleEvent(key);
+      usleep(1000);
+    }
 }

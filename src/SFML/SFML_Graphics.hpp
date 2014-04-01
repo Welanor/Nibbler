@@ -19,6 +19,8 @@ public:
   virtual void clear();
   virtual void draw(int x, int y, int type, int dir);
   virtual void display_score(int score);
+  virtual void display_pause_msg();
+  virtual void display_f_score(const std::string &name, int score, int y);
   virtual void update();
   virtual void destroyWindow();
 
@@ -28,9 +30,11 @@ public:
 private:
   std::map<int, sf::Texture *>	_sprites;
   std::map<int, sf::Color>	_color;
+  sf::Texture			_background;
   sf::Music			_music;
   sf::Font			_font;
   sf::RenderWindow		_win;
+  int				_vol;
   float				_size_win[2];
   float				_size_map[2];
 };
