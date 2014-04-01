@@ -280,8 +280,13 @@ void	Game::start()
       frameRate = (1.0 / static_cast<double>(_fps)) * 1000.0;
       begin.startTime();
       /* Evenement */
+      for (int i = 0; i == 0 || key[PAUSE]; i = 1)
+	{
+	  _window->handleEvent(key);
+	  if (key[PAUSE] && i == 0)
+	    _window->display_pause_msg();
+	}
       _window->clear();
-      _window->handleEvent(key);
       move_snake(key);
       done = check_collision();
       remove_entities();

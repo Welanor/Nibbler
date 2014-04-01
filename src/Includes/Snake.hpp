@@ -8,6 +8,7 @@ enum Keypos
     LEFT,
     RIGHT,
     ESC,
+    PAUSE,
     LAST
   };
 

@@ -18,6 +18,7 @@ public:
   virtual void update();
   virtual void destroyWindow();
   virtual void display_f_score(const std::string &name, int score, int y);
+  virtual void display_pause_msg();
 
 private:
   WINDOW	*_window;

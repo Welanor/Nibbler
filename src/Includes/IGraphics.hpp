@@ -18,7 +18,7 @@ public:
   virtual void display_f_score(const std::string &name, int score, int y) = 0;
   virtual void update() = 0;
   virtual void destroyWindow() = 0;
-
+  virtual void display_pause_msg() = 0;
   virtual void handleEvent(bool *key) = 0;
 
 };

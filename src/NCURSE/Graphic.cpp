@@ -55,17 +55,20 @@ void	Graphics::destroyWindow()
 
 void	Graphics::handleEvent(bool *key)
 {
-  static int	keys[5] = {258, 259, 260, 261, 27};
+  static int	keys[LAST] = {258, 259, 260, 261, 27, 'p'};
   int		i;
   int		tmp;
 
   for (i = 0; i < LAST; i++)
-    key[i] = false;
+    {
+      if (i != PAUSE)
+	key[i] = false;
+    }
   if ((tmp = wgetch(_window)) == ERR)
     return ;
   for (i = 0; i < LAST && keys[i] != tmp; i++);
   if (i < LAST)
-    key[i] = true;
+    key[i] = !key[i];
 }
 
 void	Graphics::display_score(int score)
@@ -81,6 +84,11 @@ void	Graphics::update()
 void	Graphics::display_f_score(const std::string &name, int score, int y)
 {
   mvwprintw(_window, _y / 3 + y + 1, _x / 2 - 5, "%s  %d", name.c_str(), score);
+}
+
+void	Graphics::display_pause_msg()
+{
+  mvwaddstr(_window, _y, _x - 6, "Pause");
 }
 
 extern "C"
