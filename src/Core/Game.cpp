@@ -32,7 +32,7 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
       t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1, NOTIME};
       _entlist.push_back(tmp);
     }
-  for (int i = 0; i < 30; ++i)
+  for (int i = 0; i < 10; ++i)
     {
       t_ent tmp = {(std::rand() % _x), (std::rand() % _y), WALL, 0, NOTIME};
       _ent.push_back(tmp);
@@ -187,6 +187,11 @@ void	Game::move_snake(bool *key)
     }
 }
 
+bool	score_compare(t_player pl1, t_player pl2)
+{
+  return (pl1.score >= pl2.score);
+}
+
 void	Game::print_scores()
 {
   std::fstream	file;
@@ -201,30 +206,24 @@ void	Game::print_scores()
   file.open (filename.c_str(), std::ios::in);
   if (file.is_open())
     {
-      for (i = 0; std::getline(file, line); ++i)
+      for (i = 0; std::getline(file, line) && i < 6; ++i)
 	{
 	  t_player player;
 	  std::stringstream iss(line);
 
 	  iss >> player.name >> player.score;
 	  pl.push_back(player);
-	  std::cerr << player.name << " " << player.score << std::endl;
-	  if (_player.score > player.score)
-	    _window->display_f_score(_player.name, _player.score, i);
-	  else
-	    _window->display_f_score(player.name, player.score, i);
+	  _window->display_f_score(player.name, player.score, i);
 	}
-      if (i == 0)
-	{
-	  _window->display_f_score(_player.name, _player.score, i);
-	  pl.push_back(_player);
-	}
+      _window->display_f_score(_player.name, _player.score, i + 1);
+      pl.push_back(_player);
       file.close();
     }
   file.open (filename.c_str(), std::fstream::out | std::fstream::trunc);
   if (file.is_open())
     {
-      for (beg = pl.begin(), end = pl.end(); beg != end; ++beg)
+      pl.sort(&score_compare);
+      for (i = 0, beg = pl.begin(), end = pl.end(); beg != end && i < 5; ++beg, ++i)
 	file << beg->name << " " << beg->score << std::endl;
       file.close();
     }

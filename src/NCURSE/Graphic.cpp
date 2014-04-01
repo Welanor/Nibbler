@@ -80,7 +80,7 @@ void	Graphics::update()
 
 void	Graphics::display_f_score(const std::string &name, int score, int y)
 {
-  mvwprintw(_window, y + y / 3 + 1, _x / 3, "%s  %d", name.c_str(), score);
+  mvwprintw(_window, _y / 3 + y + 1, _x / 2 - 5, "%s  %d", name.c_str(), score);
 }
 
 extern "C"
