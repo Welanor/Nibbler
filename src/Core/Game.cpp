@@ -8,7 +8,6 @@
 
 Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 {
-  int		seed;
   IGraphics	*(*createGraphics)();
 
   _player.score = 0;
@@ -19,9 +18,7 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
   if (createGraphics == NULL)
     throw(Exception(""));
 
-  __asm__ volatile ("rdtsc" : "=A" (seed));
-  std::srand(seed);
-
+  std::srand(time(NULL));
   for (int i = 0; i < 4; ++i)
     {
       t_snake tmp = {_x / 2, _y / 2 - i, LEFT};
@@ -88,10 +85,12 @@ void	Game::move_entities()
   vit  	beg = _ent.begin();
   vit  	end = _ent.end();
   vit	tmp;
+  c_lit	lbeg;
+  c_lit	lend;
   t_ent	*ent = NULL;
   int	dist[2];
 
-  for (; beg != end; ++beg)
+  for (int brk = 0 ; beg != end; ++beg)
     {
       if (beg->type != MONSTER)
 	continue ;
@@ -121,12 +120,38 @@ void	Game::move_entities()
 	}
       for (tmp = _ent.begin(); tmp != end; ++tmp)
 	{
-	  if (tmp->type >= APPLE && tmp->type <= KIWI &&
-	      tmp->x == beg->x && tmp->y && beg->y)
+	  if (tmp->x == beg->x && tmp->y == beg->y)
 	    {
-	      _ent.erase(tmp);
+	      std::cerr << "inter " << tmp->type << std::endl;
+	      if (tmp->type >= APPLE && tmp->type <= KIWI)
+		{
+		  std::cerr << "erase" << std::endl;
+		  _ent.erase(tmp);
+		}
+	      else if (tmp->type == WALL)
+		{
+		  _ent.erase(beg);
+		  brk = 1;
+		}
+	      if (tmp->type == WALL || (tmp->type >= HEAD && tmp->type <= TAIL) ||
+		  (tmp->type >= APPLE && tmp->type <= KIWI))
+		{
+		  end = _ent.end();
+		  break ;
+		}
+	    }
+	}
+      if (brk)
+	beg = _ent.begin();
+      if (beg == end)
+	break ;
+      for (lbeg = _snake.begin(), lend = _snake.end(); lbeg != lend; ++lbeg)
+	{
+	  if (lbeg->x == beg->x && lbeg->y == beg->y)
+	    {
+	      _ent.erase(beg);
 	      end = _ent.end();
-	      break ;
+	      break;
 	    }
 	}
       if (beg == end)
@@ -307,6 +332,8 @@ void	Game::handle_fps(int &idx)
 {
   if (_fps != FPS && idx == -1)
     idx = 0;
+  if (idx == -1)
+    return ;
   if (idx >= static_cast<int>(BOOSTTIME))
     {
       _fps = FPS;
