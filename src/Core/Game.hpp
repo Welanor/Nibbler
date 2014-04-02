@@ -54,6 +54,7 @@ private:
   void	move_entities();
   void	handle_fps(int &idx);
   void	print_scores();
+  bool	monster_colision(vit &beg, vit &end);
 
 private:
   int			_x;

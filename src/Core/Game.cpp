@@ -11,7 +11,7 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
   IGraphics	*(*createGraphics)();
 
   _player.score = 0;
-  _player.name = "You";
+  _player.name = "Unknown";
   _fps = FPS;
   parse_arg(ac, av);
   createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
@@ -48,13 +48,13 @@ Game::~Game()
   _lib.close();
 }
 
-void Game::parse_arg(const int ac, char **av)
+void	Game::parse_arg(const int ac, char **av)
 {
   std::stringstream ss("");
   std::string libname("");
 
-  if (ac != 4)
-    throw(Exception("Usage: ./nibbler size_x size_y lib_nibbler_XXX.so"));
+  if (ac < 4)
+    throw(Exception("Usage: ./nibbler size_x size_y [Name] lib_nibbler_XXX.so"));
   ss.str(av[1]);
   if (!(ss >> _x) || _x <= 0)
     throw(Exception("Size X invalid"));
@@ -62,7 +62,9 @@ void Game::parse_arg(const int ac, char **av)
   ss.str(av[2]);
   if (!(ss >> _y) || _y <= 0)
     throw(Exception("Size Y invalid"));
-  _lib.open(av[3], RTLD_LAZY);
+  if (ac == 5)
+    _player.name = av[3];
+  _lib.open(av[ac - 1], RTLD_LAZY);
 }
 
 void		Game::remove_entities()
@@ -80,6 +82,28 @@ void		Game::remove_entities()
     }
 }
 
+bool	Game::monster_colision(vit &beg, vit &end)
+{
+  for (vit tmp = _ent.begin(); tmp != end; ++tmp)
+    {
+      if (tmp->x == beg->x && tmp->y == beg->y &&
+	  (tmp->type == WALL || (tmp->type >= HEAD && tmp->type <= TAIL) ||
+	   (tmp->type >= APPLE && tmp->type <= KIWI)))
+	{
+	  if (tmp->type >= APPLE && tmp->type <= KIWI)
+	    _ent.erase(tmp);
+	  else if (tmp->type == WALL)
+	    {
+	      _ent.erase(beg);
+	      return (true);
+	    }
+	  end = _ent.end();
+	  return (false);
+	}
+    }
+  return (false);
+}
+
 void	Game::move_entities()
 {
   vit  	beg = _ent.begin();
@@ -90,7 +114,7 @@ void	Game::move_entities()
   t_ent	*ent = NULL;
   int	dist[2];
 
-  for (int brk = 0 ; beg != end; ++beg)
+  for (;beg != end; ++beg)
     {
       if (beg->type != MONSTER)
 	continue ;
@@ -118,30 +142,7 @@ void	Game::move_entities()
 	  else
 	    beg->y += (beg->y > ent->y) ? -1 : 1;
 	}
-      for (tmp = _ent.begin(); tmp != end; ++tmp)
-	{
-	  if (tmp->x == beg->x && tmp->y == beg->y)
-	    {
-	      std::cerr << "inter " << tmp->type << std::endl;
-	      if (tmp->type >= APPLE && tmp->type <= KIWI)
-		{
-		  std::cerr << "erase" << std::endl;
-		  _ent.erase(tmp);
-		}
-	      else if (tmp->type == WALL)
-		{
-		  _ent.erase(beg);
-		  brk = 1;
-		}
-	      if (tmp->type == WALL || (tmp->type >= HEAD && tmp->type <= TAIL) ||
-		  (tmp->type >= APPLE && tmp->type <= KIWI))
-		{
-		  end = _ent.end();
-		  break ;
-		}
-	    }
-	}
-      if (brk)
+      if (monster_colision(beg, end))
 	beg = _ent.begin();
       if (beg == end)
 	break ;
