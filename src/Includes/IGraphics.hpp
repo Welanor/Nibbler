@@ -20,7 +20,6 @@ public:
   virtual void destroyWindow() = 0;
   virtual void display_pause_msg() = 0;
   virtual void handleEvent(bool *key) = 0;
-
 };
 
 #endif /* _IGRAPHICS_H_ */

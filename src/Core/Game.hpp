@@ -48,12 +48,12 @@ private:
   bool	check_collision();
   int	spe_collision(vit &vbeg, vit &vend);
   void	move_snake(bool *key);
-  void	display();
+  void	display() const;
   void	add_entities();
   void	remove_entities();
   void	move_entities();
   void	handle_fps(int &idx);
-  void	print_scores();
+  void	print_scores() const;
   bool	monster_colision(vit &beg, vit &end);
 
 private:

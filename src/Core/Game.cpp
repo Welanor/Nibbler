@@ -218,7 +218,8 @@ bool		Game::check_collision()
   head = _snake.front();
   if (head.x >= _x || head.y >= _y || head.y < 0 || head.x < 0)
     return (true);
-  for (i = 0, lbeg = _snake.begin(), lend = _snake.end(); lbeg != lend && i < 2; ++i, ++lbeg);
+  for (i = 0, lbeg = _snake.begin(), lend = _snake.end();
+       lbeg != lend && i < 2; ++i, ++lbeg);
   for (; lbeg != lend; ++lbeg)
     if (head.x == lbeg->x && head.y == lbeg->y)
       return (true);
@@ -271,7 +272,7 @@ bool	score_compare(t_player pl1, t_player pl2)
   return (pl1.score >= pl2.score);
 }
 
-void	Game::print_scores()
+void	Game::print_scores() const
 {
   std::fstream	file;
   std::string	line;
@@ -308,13 +309,13 @@ void	Game::print_scores()
     }
 }
 
-void	Game::display()
+void	Game::display() const
 {
-  lit	beg = _snake.begin();
-  lit	end = _snake.end();
-  lit	tmp;
-  vit	ebeg = _ent.begin();
-  vit	eend = _ent.end();
+  c_lit	beg = _snake.begin();
+  c_lit	end = _snake.end();
+  c_lit	tmp;
+  c_vit	ebeg = _ent.begin();
+  c_vit	eend = _ent.end();
 
   for (;beg != end; ++beg)
     {
