@@ -3,10 +3,10 @@
 
 enum Keypos
   {
-    DOWN = 0,
+    LEFT = 0,
     UP,
-    LEFT,
     RIGHT,
+    DOWN,
     ESC,
     PAUSE,
     LAST

@@ -49,7 +49,7 @@ void	Graphics::destroyWindow()
 
 void	Graphics::handleEvent(bool *key)
 {
-  static int	keys[LAST] = {258, 259, 260, 261, 27, 'p'};
+  static int	keys[LAST] = {KEY_LEFT, KEY_UP, KEY_RIGHT, KEY_DOWN, 27, 'p'};
   int		i;
   int		tmp;
 
