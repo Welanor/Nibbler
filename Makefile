@@ -5,13 +5,12 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 23:11:50 2014 luc sinet
-## Last update Mon Mar 31 20:35:59 2014 Etienne
+## Last update Thu Apr  3 21:26:42 2014 
 ##
 
 NAME	= Nibbler
 
 PATHS	= src/Core \
-	  src/GTK \
 	  src/SFML \
 	  src/NCURSE \
 	  src/OpenGL
