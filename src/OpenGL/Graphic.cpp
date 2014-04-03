@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Thu Apr  3 20:47:56 2014 Etienne
+// Last update Thu Apr  3 23:40:22 2014 Etienne
 //
 
 #include <unistd.h>
@@ -26,7 +26,6 @@ bool		Graphics::create_window(const std::string &name,
 					const int *size_win, const int *size_map)
 {
   int		argc;
-  GLfloat	WHITE[] = {1, 1, 1};
 
   argc = 1;
   glutInit(&argc, NULL);
@@ -36,13 +35,14 @@ bool		Graphics::create_window(const std::string &name,
   _size["mapx"] = size_map[0];
   _size["mapy"] = size_map[1];
 
+  _isFirst = false;
+
   for (int i = 0 ; i < LAST ; i++)
     _key[i] = false;
 
   glutInitWindowSize(1920, 1080);
   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
   glutCreateWindow(name.c_str());
-  // glutFullScreen();
 
   glutIdleFunc(idle);
   glutSpecialFunc(catchSpecialKey);
@@ -50,13 +50,8 @@ bool		Graphics::create_window(const std::string &name,
   glutReshapeFunc(resize);
   glutDisplayFunc(display);
 
-  glEnable(GL_DEPTH_TEST);
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, WHITE);
-  glLightfv(GL_LIGHT0, GL_SPECULAR, WHITE);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, WHITE);
-  glMaterialf(GL_FRONT, GL_SHININESS, 30);
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
+  init_light();
+  init_cam();
 
   create_plane();
 
@@ -69,6 +64,7 @@ void		Graphics::handleEvent(bool *key)
     key[i] = false;
   for (int i = 0 ; i < LAST ; i++)
     key[i] = _key[i];
+  glutMainLoopEvent();
 }
 
 void		Graphics::clear()
@@ -80,6 +76,11 @@ void		Graphics::draw(int x, int y, int type, int dir)
 {
   _pos[0] = x;
   _pos[1] = y;
+  if (type == HEAD)
+    {
+      _headpos[0] = x;
+      _headpos[1] = y;
+    }
   _type = type;
   _dir = dir;
 
@@ -108,14 +109,39 @@ void		Graphics::setKey(int index, bool value)
 
 void		Graphics::updateCam()
 {
+  if (_isFirst)
+    {
+      cam->look(_headpos[0] + 0.5f, 0, -(_headpos[1] + 0.5f));
+    }
+  else
+    {
+      cam->look();
+    }
+}
+
+void		Graphics::init_cam()
+{
   float         z;
   float         y;
+  float		eyex;
+  float		eyey;
+  float		eyez;
+  float		dirx;
+  float		diry;
+  float		dirz;
 
   z = ((_size["mapx"] / 2.0) / tanf(M_PI * VIEW_FOV / 2.0 / 180.0));
   y = ((z + _size["mapy"] / 2.0) * tanf(FOV_ANGLE * M_PI / 180.0));
-  gluLookAt(_size["mapx"] / 2.0, y, z,
-            _size["mapx"] / 2.0, 0, -_size["mapy"] / 2.0,
-            0,1,0);
+
+  eyex = _size["mapx"] / 2.0;
+  eyey = y;
+  eyez = z;
+  dirx = _size["mapx"] / 2.0;
+  diry = 0;
+  dirz = -_size["mapy"] / 2.0;
+  cam = new Camera(eyex, eyey, eyez,
+		   dirx, diry, dirz,
+		   3);
 }
 
 void		Graphics::updateDisplayMap()
@@ -131,37 +157,46 @@ void		Graphics::updateDisplayMap()
   glPopMatrix();
 }
 
+void		Graphics::init_light()
+{
+  GLfloat	WHITE[] = {1, 1, 1};
+
+  glCullFace(GL_FRONT);
+  glEnable(GL_DEPTH_TEST);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, WHITE);
+  glLightfv(GL_LIGHT0, GL_SPECULAR, WHITE);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, WHITE);
+  glMaterialf(GL_FRONT, GL_SHININESS, 30);
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+}
+
 void		Graphics::create_plane()
 {
-  GLfloat RED[] = {1, 0, 0};
+  GLfloat RED[] = {0, 0, 0.5};
+  // GLfloat lightPosition[] = {_size["mapx"] / 2.0f, 30.0f, -(_size["mapy"]), 1.0f};
+  GLfloat lightColor0[] = {1.0f, 1.0f, 0.0f, 1.0f}; //Color (0.5, 0.5, 0.5)
+  GLfloat high_shininess[] = { 50.0f };
 
   _displayId = glGenLists(1);
   glNewList(_displayId, GL_COMPILE);
 
-  GLfloat lightPosition[] = {_size["mapx"] / 2.0f, 30.0f, -(_size["mapy"] / 2.0f), 1.0f};
-  GLfloat lightColor0[] = {1.0f, 1.0f, 0.0f, 1.0f}; //Color (0.5, 0.5, 0.5)
   glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+  // glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
-  const GLfloat high_shininess[] = { 50.0f };
   glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
   glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 100);
+
 
   glBegin(GL_QUADS);
   glNormal3d(0, 1, 0);
   for (float z = 0; z < _size["mapy"] - 1; z++) {
-    for (float x = 0; x < _size["mapx"] - 1; x++) {
+    for (float x = 0; x < _size["mapx"]; x++) {
       glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, RED);
       glVertex3d(x, 0, -z);
       glVertex3d(x, 0, -(z+1));
       glVertex3d(x+1, 0, -(z+1));
       glVertex3d(x+1, 0, -z);
-
-      // glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, RED);
-      // glVertex3d(0, 0, 0);
-      // glVertex3d(0, 0, -(_size["mapy"]));
-      // glVertex3d(_size["mapx"], 0, -(_size["mapy"]));
-      // glVertex3d(_size["mapx"], 0, 0);
     }
   }
   glEnd();
@@ -174,6 +209,11 @@ void		Graphics::display_f_score(const std::string&, int, int)
 
 void		Graphics::display_pause_msg()
 {
+}
+
+void		Graphics::changeFirst()
+{
+  _isFirst = !_isFirst;
 }
 
 extern "C"

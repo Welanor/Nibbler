@@ -4,6 +4,7 @@
 # include "IGraphics.hpp"
 # include <GL/glut.h>
 # include <GL/freeglut_ext.h>
+# include "Camera.hpp"
 # include <map>
 # include <string>
 
@@ -26,18 +27,24 @@ public:
   virtual void setKey(int index, bool value);
   virtual void updateDisplayMap();
   virtual void updateCam();
+  virtual void init_cam();
+  virtual void init_light();
   virtual void display_f_score(const std::string &, int, int);
   virtual void display_pause_msg();
+  virtual void changeFirst();
   void	       create_plane();
 private:
-  bool	_key[LAST];		// status des key
-  int	_displayId;
+  bool					_key[LAST];		// status des key
+  int					_displayId;
   std::map<std::string, float>		_size;
-  int	_pos[2];
-  int	_type;
-  int	_dir;
-  float	_eye[3];
-  float	_vecdir[3];
+  int					_pos[2];
+  int					_headpos[2];
+  int					_type;
+  int					_dir;
+  float					_eye[3];
+  float					_vecdir[3];
+  bool					_isFirst;
+  Camera				*cam;
 };
 
 void		catchSpecialKey(int key, int x, int y);

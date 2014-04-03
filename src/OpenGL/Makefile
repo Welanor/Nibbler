@@ -5,7 +5,7 @@
 ## Login   <debas_e@epitech.net>
 ## 
 ## Started on  Mon Mar 31 15:43:18 2014 Etienne
-## Last update Thu Apr  3 17:00:26 2014 Etienne
+## Last update Thu Apr  3 22:48:37 2014 Etienne
 ##
 
 LIBDIR	= ../../bin/
@@ -18,8 +18,9 @@ RM      = rm -f
 INCDIR	= -I../Includes/
 SRCDIR 	= ./
 
-SRC	= Graphic.cpp \
-	  GLEvent.cpp \
+SRC	= Graphic.cpp	\
+	  GLEvent.cpp	\
+	  Camera.cpp	\
 
 OBJDIR  = ../../obj/OpenGL/
 OBJS    = $(addprefix $(OBJDIR), $(SRC:.cpp=.o))
