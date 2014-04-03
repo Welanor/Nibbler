@@ -252,7 +252,7 @@ void	Game::move_snake(bool *key)
     key[beg->dir] = true;
   beg = _snake.begin();
   old = *beg;
-  for (int i = 0; i < LAST; i++)
+  for (int i = 0; i <= DOWN; i++)
     if (key[i])
       beg->dir = static_cast<Keypos>(i);
   beg->x += (key[RIGHT]) ? 1 : (key[LEFT]) ? -1 : 0;
