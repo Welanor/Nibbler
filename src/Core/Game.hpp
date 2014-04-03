@@ -55,6 +55,8 @@ private:
   void	handle_fps(int &idx);
   void	print_scores() const;
   bool	monster_colision(vit &beg, vit &end);
+  void	encrypt_line(std::string &line) const;
+  void	decrypt_line(std::string &line) const;
 
 private:
   int			_x;

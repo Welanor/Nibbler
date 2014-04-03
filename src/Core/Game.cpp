@@ -272,6 +272,26 @@ bool	score_compare(t_player pl1, t_player pl2)
   return (pl1.score >= pl2.score);
 }
 
+void	Game::encrypt_line(std::string &line) const
+{
+  for (std::string::iterator it = line.begin();it != line.end();it++)
+    {
+      (*it) ^= 0x20;
+      (*it) ^= 0x50;
+      (*it) ^= 0x02;
+    }
+}
+
+void	Game::decrypt_line(std::string &line) const
+{
+  for (std::string::iterator it = line.begin();it != line.end();it++)
+    {
+      (*it) ^= 0x02;
+      (*it) ^= 0x50;
+      (*it) ^= 0x20;
+    }
+}
+
 void	Game::print_scores() const
 {
   std::fstream	file;
@@ -281,13 +301,14 @@ void	Game::print_scores() const
   std::list<t_player> pl;
   std::list<t_player>::iterator beg;
   std::list<t_player>::iterator end;
-  unsigned int	i;
+  unsigned int	i = 0;
 
   file.open (filename.c_str(), std::ios::in);
   if (file.is_open())
     {
-      for (i = 0; std::getline(file, line) && i < 6; ++i)
+      for (; std::getline(file, line) && i < 6; ++i)
 	{
+	  decrypt_line(line);
 	  t_player player;
 	  std::stringstream iss(line);
 
@@ -295,16 +316,20 @@ void	Game::print_scores() const
 	  pl.push_back(player);
 	  _window->display_f_score(player.name, player.score, i);
 	}
-      _window->display_f_score(_player.name, _player.score, i + 1);
-      pl.push_back(_player);
       file.close();
     }
+  _window->display_f_score(_player.name, _player.score, i + 1);
+  pl.push_back(_player);
   file.open (filename.c_str(), std::fstream::out | std::fstream::trunc);
   if (file.is_open())
     {
+      std::stringstream iss("");
       pl.sort(&score_compare);
       for (i = 0, beg = pl.begin(), end = pl.end(); beg != end && i < 5; ++beg, ++i)
-	file << beg->name << " " << beg->score << std::endl;
+	iss << beg->name << " " << beg->score << std::endl;
+      line = iss.str();
+      encrypt_line(line);
+      file << line;
       file.close();
     }
 }
