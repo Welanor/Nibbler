@@ -57,6 +57,7 @@ private:
   bool	monster_colision(vit &beg, vit &end);
   void	encrypt_line(std::string &line) const;
   void	decrypt_line(std::string &line) const;
+  void	end_score(bool *key, bool &done) const;
 
 private:
   int			_x;

@@ -9,6 +9,7 @@ enum Keypos
     DOWN,
     ESC,
     PAUSE,
+    NEWGAME,
     LAST
   };
 

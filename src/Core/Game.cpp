@@ -370,6 +370,21 @@ void	Game::handle_fps(int &idx)
     ++idx;
 }
 
+void	Game::end_score(bool *key, bool &done) const
+{
+  for (int i = 0; i < LAST; ++i)
+    key[i] = false;
+  _window->clear();
+  print_scores();
+  _window->update();
+  while (!key[ESC] && !key[NEWGAME])
+    {
+      _window->handleEvent(key);
+      usleep(1000);
+    }
+  done = key[NEWGAME];
+}
+
 void	Game::start()
 {
   double frameRate;
@@ -405,13 +420,7 @@ void	Game::start()
       end -= begin;
       if (end < frameRate)
       	usleep((frameRate - end.getTime()) * 1000);
-    }
-  _window->clear();
-  print_scores();
-  _window->update();
-  while (!key[ESC])
-    {
-      _window->handleEvent(key);
-      usleep(1000);
+      if (done || key[ESC])
+	end_score(key, done);
     }
 }

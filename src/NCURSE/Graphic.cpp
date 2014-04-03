@@ -49,7 +49,7 @@ void	Graphics::destroyWindow()
 
 void	Graphics::handleEvent(bool *key)
 {
-  static int	keys[LAST] = {KEY_LEFT, KEY_UP, KEY_RIGHT, KEY_DOWN, 27, 'p'};
+  static int	keys[LAST] = {KEY_LEFT, KEY_UP, KEY_RIGHT, KEY_DOWN, 27, 'p', 'r'};
   int		i;
   int		tmp;
 
@@ -62,7 +62,7 @@ void	Graphics::handleEvent(bool *key)
     return ;
   for (i = 0; i < LAST && keys[i] != tmp; i++);
   if (i < LAST)
-    key[i] = !key[i];
+      key[i] = !key[i];
 }
 
 void	Graphics::display_score(int score)
