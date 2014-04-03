@@ -252,7 +252,7 @@ void	Game::move_snake(bool *key)
     key[beg->dir] = true;
   beg = _snake.begin();
   old = *beg;
-  for (int i = 0; i < LAST; i++)
+  for (int i = 0; i <= DOWN; i++)
     if (key[i])
       beg->dir = static_cast<Keypos>(i);
   beg->x += (key[RIGHT]) ? 1 : (key[LEFT]) ? -1 : 0;
@@ -395,7 +395,8 @@ void	Game::start()
   int	size_map[] = { _x, _y };
   int	idx = -1;
 
-  _window->create_window("Nibbler", size_win, size_map);
+  if (_window->create_window("Nibbler", size_win, size_map) == false)
+    throw (Exception("Init Windows Failed"));
   while (!done && !key[ESC])
     {
       handle_fps(idx);
