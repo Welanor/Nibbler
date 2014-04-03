@@ -49,6 +49,7 @@ private:
   int	spe_collision(vit &vbeg, vit &vend);
   void	move_snake(bool *key);
   void	display() const;
+  void	init_entities();
   void	add_entities();
   void	remove_entities();
   void	move_entities();

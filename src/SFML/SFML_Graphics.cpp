@@ -81,7 +81,7 @@ void SFMLGraphics::destroyWindow()
 void SFMLGraphics::handleKey(sf::Event event, bool *key)
 {
   int		keys[LAST] = { sf::Keyboard::Left, sf::Keyboard::Up, sf::Keyboard::Right,
-			       sf::Keyboard::Down, sf::Keyboard::Escape, sf::Keyboard::P};
+			       sf::Keyboard::Down, sf::Keyboard::Escape, sf::Keyboard::P, sf::Keyboard::R};
   int		i;
 
   for (i = 0; i < LAST; i++)
