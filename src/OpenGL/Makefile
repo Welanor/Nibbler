@@ -5,7 +5,7 @@
 ## Login   <debas_e@epitech.net>
 ## 
 ## Started on  Mon Mar 31 15:43:18 2014 Etienne
-## Last update Mon Mar 31 20:22:27 2014 Etienne
+## Last update Thu Apr  3 17:00:26 2014 Etienne
 ##
 
 LIBDIR	= ../../bin/
@@ -17,13 +17,15 @@ RM      = rm -f
 
 INCDIR	= -I../Includes/
 SRCDIR 	= ./
-SRC	= Graphic.cpp
+
+SRC	= Graphic.cpp \
+	  GLEvent.cpp \
 
 OBJDIR  = ../../obj/OpenGL/
 OBJS    = $(addprefix $(OBJDIR), $(SRC:.cpp=.o))
 
 CXXFLAGS += -Wextra -Wall -W -fPIC
-LDFLAGS	+= -shared -lglut -lX11 -lGL
+LDFLAGS	+= -shared -lglut -lX11 -lGL -lGLU -lm -g
 
 dummy	:= $(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
 	   $(shell test -d $(LIBDIR) || mkdir $(LIBDIR))
