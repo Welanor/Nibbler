@@ -4,6 +4,7 @@ Graphics::Graphics()
 {
   std::cout << "Constructor NCURSE" << std::endl;
   initscr();
+  start_color();
   curs_set(0);
   noecho();
 }

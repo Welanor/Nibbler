@@ -10,34 +10,14 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 {
   IGraphics	*(*createGraphics)();
 
-  _player.score = 0;
   _player.name = "Unknown";
   _fps = FPS;
   parse_arg(ac, av);
   createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
   if (createGraphics == NULL)
     throw(Exception(""));
-
   std::srand(time(NULL));
-  for (int i = 0; i < 4; ++i)
-    {
-      t_snake tmp = {_x / 2, _y / 2 - i, LEFT};
-      _snake.push_back(tmp);
-    }
-  for (int i = APPLE; i <= KIWI; ++i)
-    {
-      t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1, NOTIME};
-      _entlist.push_back(tmp);
-    }
-  for (int i = 0; i < 10; ++i)
-    {
-      t_ent tmp = {(std::rand() % _x), (std::rand() % _y), WALL, 0, NOTIME};
-      _ent.push_back(tmp);
-    }
-  t_ent tmp = {0, 0, BOOSTER, 10, 0};
-  _entlist.push_back(tmp);
-  t_ent tmp1 = {0, 0, MONSTER, 100, NOTIME};
-  _entlist.push_back(tmp1);
+  init_entities();
   _window = (createGraphics)();
 }
 
@@ -65,6 +45,33 @@ void	Game::parse_arg(const int ac, char **av)
   if (ac == 5)
     _player.name = av[3];
   _lib.open(av[ac - 1], RTLD_LAZY);
+}
+
+void	Game::init_entities()
+{
+  _snake.clear();
+  _ent.clear();
+  _entlist.clear();
+  _player.score = 0;
+  for (int i = 0; i < 4; ++i)
+    {
+      t_snake tmp = {_x / 2, _y / 2 - i, LEFT};
+      _snake.push_back(tmp);
+    }
+  for (int i = APPLE; i <= KIWI; ++i)
+    {
+      t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1, NOTIME};
+      _entlist.push_back(tmp);
+    }
+  for (int i = 0; i < 10; ++i)
+    {
+      t_ent tmp = {(std::rand() % _x), (std::rand() % _y), WALL, 0, NOTIME};
+      _ent.push_back(tmp);
+    }
+  t_ent tmp = {0, 0, BOOSTER, 10, 0};
+  _entlist.push_back(tmp);
+  t_ent tmp1 = {0, 0, MONSTER, 100, NOTIME};
+  _entlist.push_back(tmp1);
 }
 
 void		Game::remove_entities()
@@ -382,7 +389,7 @@ void	Game::end_score(bool *key, bool &done) const
       _window->handleEvent(key);
       usleep(1000);
     }
-  done = key[NEWGAME];
+  done = !key[NEWGAME];
 }
 
 void	Game::start()
@@ -422,6 +429,10 @@ void	Game::start()
       if (end < frameRate)
       	usleep((frameRate - end.getTime()) * 1000);
       if (done || key[ESC])
-	end_score(key, done);
+	{
+	  end_score(key, done);
+	  if (!done && !key[ESC])
+	    init_entities();
+	}
     }
 }
