@@ -1,22 +1,12 @@
 #include "SFML_Graphics.hpp"
 
-SFMLGraphics::SFMLGraphics(): IGraphics(), _background(), _music(), _font(),
+SFMLGraphics::SFMLGraphics(): IGraphics(), _sprites(), _background(), _music(), _font(),
 			      _win(), _vol(50)
 {
   _size_map[0] = 0;
   _size_map[1] = 0;
   _size_win[0] = 0;
   _size_win[1] = 0;
-  _color[HEAD] = sf::Color(255, 255, 255);
-  _color[BUDDY] = sf::Color(255, 255, 255);
-  _color[TAIL] = sf::Color(255, 255, 255);
-  _color[APPLE] = sf::Color(124, 252, 0);
-  _color[PEAR] = sf::Color(255, 215, 0);
-  _color[STRAWBERRY] = sf::Color(205, 133, 63);
-  _color[BANANA] = sf::Color(255, 228, 181);
-  _color[KIWI] = sf::Color(245, 222, 179);
-  _color[WALL] = sf::Color(255, 0, 0);
-  _color[MONSTER] = sf::Color(0, 0, 255);
   std::cout << "Constructor SFML" << std::endl;
 }
 
@@ -30,26 +20,21 @@ bool	SFMLGraphics::create_window(const std::string &name, const int *size_win, c
 {
   sf::Texture tmp;
 
-  _sprites[HEAD] = NULL;
-  _sprites[BUDDY] = NULL;
-  _sprites[TAIL] = NULL;
-  _sprites[APPLE] = NULL;
-  _sprites[PEAR] = NULL;
-  _sprites[STRAWBERRY] = NULL;
-  _sprites[BANANA] = NULL;
-  _sprites[KIWI] = NULL;
   _size_win[0] = size_win[0];
   _size_win[1] = size_win[1];
   _size_map[0] = size_map[0];
   _size_map[1] = size_map[1];
   _win.create(sf::VideoMode(size_win[0], size_win[1]), name);
-  if (!_background.loadFromFile(std::string(RESSOURCE_SFML) + "grass.png") ||
-      !_music.openFromFile(std::string(RESSOURCE_SFML) + "music.ogg") ||
+  if (!_sprites.loadFromFile(std::string(RESSOURCE_SFML) + "sprite.png") ||
+      !_background.loadFromFile(std::string(RESSOURCE_SFML) + "grass.png") ||
       !_font.loadFromFile(std::string(RESSOURCE_SFML) + "font.ttf"))
     return (false);
-  _music.setLoop(true);
-  _music.setVolume(_vol);
-  _music.play();
+  if (_music.openFromFile(std::string(RESSOURCE_SFML) + "music.ogg"))
+    {
+      _music.setLoop(true);
+      _music.setVolume(_vol);
+      _music.play();
+    }
   return (true);
 }
 
@@ -64,8 +49,11 @@ void	SFMLGraphics::clear()
   _win.draw(tmp);
 }
 
+#include <cstdio>
+
 void SFMLGraphics::draw(int x, int y, int type, int dir)
 {
+  sf::Sprite		tmp(_sprites);
   double		rate_x, rate_y, _x, _y;
   sf::RectangleShape	rect;
 
@@ -73,13 +61,16 @@ void SFMLGraphics::draw(int x, int y, int type, int dir)
   _y = y;
   rate_x = _size_win[0] / _size_map[0];
   rate_y = _size_win[1] / _size_map[1];
-  std::cout << rate_x << " | "<< rate_y << std::endl;
-  rect.setSize(sf::Vector2f(rate_x, rate_y));
-  rect.setPosition(_x  * rate_x, _y * rate_y);
-  if (_sprites[type] == NULL)
-    rect.setFillColor(_color[type]);
-  // else
-  _win.draw(rect);
+  if (dir == RIGHT)
+    tmp.setTextureRect(sf::IntRect((type + 1) * SIZE_PNG, 0, -SIZE_PNG, SIZE_PNG));
+  else
+    {
+      tmp.setTextureRect(sf::IntRect(type * SIZE_PNG, 0, SIZE_PNG, SIZE_PNG));
+      tmp.rotate(dir * 90);
+    }
+  tmp.scale(sf::Vector2f(rate_x / SIZE_PNG, rate_y / SIZE_PNG));
+  tmp.setPosition(sf::Vector2f(_x * rate_x, _y * rate_y));
+  _win.draw(tmp);
 }
 
 void SFMLGraphics::destroyWindow()
@@ -89,15 +80,30 @@ void SFMLGraphics::destroyWindow()
 
 void SFMLGraphics::handleKey(sf::Event event, bool *key)
 {
-  int		keys[LAST] = { sf::Keyboard::Down, sf::Keyboard::Up, sf::Keyboard::Left,
-			       sf::Keyboard::Right, sf::Keyboard::Escape, sf::Keyboard::P};
+  int		keys[LAST] = { sf::Keyboard::Left, sf::Keyboard::Up, sf::Keyboard::Right,
+			       sf::Keyboard::Down, sf::Keyboard::Escape, sf::Keyboard::P};
   int		i;
 
   for (i = 0; i < LAST; i++)
-    key[i] = false;
+    {
+      if (i != PAUSE)
+	key[i] = false;
+    }
   for (i = 0; i < LAST && keys[i] != event.key.code; i++);
   if (i < LAST)
-    key[i] = true;
+    key[i] = !key[i];
+  if (event.key.code == sf::Keyboard::Add)
+    {
+      _vol += 5;
+      _music.setVolume(_vol);
+    }
+  else if (event.key.code == sf::Keyboard::Subtract)
+    {
+      _vol -= 5;
+      _music.setVolume(_vol);
+    }
+  if (event.key.code == sf::Keyboard::Multiply)
+    (_music.getStatus() == sf::SoundSource::Paused) ? _music.play() : _music.pause();
 }
 
 void SFMLGraphics::handleEvent(bool *key)
@@ -114,6 +120,7 @@ void SFMLGraphics::handleEvent(bool *key)
         case sf::Event::Resized:
 	  _size_win[0] = event.size.width;
 	  _size_win[1] = event.size.height;
+	  _win.setView(sf::View(sf::FloatRect(0, 0, _size_win[0], _size_win[1])));
 	  std::cout << _size_win[0] << " | " << _size_win[1] << std::endl;
 	  break;
         case sf::Event::KeyPressed:

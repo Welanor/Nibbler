@@ -8,6 +8,7 @@
 # include "IGraphics.hpp"
 
 # define RESSOURCE_SFML "../Ressource/SFML/"
+# define SIZE_PNG 32
 
 class SFMLGraphics : public IGraphics
 {
@@ -28,8 +29,7 @@ public:
   virtual void handleKey(sf::Event event, bool *key);
 
 private:
-  std::map<int, sf::Texture *>	_sprites;
-  std::map<int, sf::Color>	_color;
+  sf::Texture			_sprites;
   sf::Texture			_background;
   sf::Music			_music;
   sf::Font			_font;
