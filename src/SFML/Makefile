@@ -5,7 +5,7 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 22:16:29 2014 luc sinet
-## Last update Sat Mar 29 23:48:26 2014 
+## Last update Thu Apr  3 21:24:58 2014 
 ##
 
 LIBDIR	= ../../bin/
@@ -23,7 +23,7 @@ OBJDIR  = ../../obj/SFML/
 OBJS    = $(addprefix $(OBJDIR), $(SRC:.cpp=.o))
 
 CXXFLAGS += -Wextra -Wall -W -fPIC -g
-LDFLAGS	+= -shared -lpthread -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
+LDFLAGS	+= -shared -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
 
 dummy	:= $(shell test -d $(OBJDIR) || mkdir $(OBJDIR)) \
 	   $(shell test -d $(LIBDIR) || mkdir $(LIBDIR))
