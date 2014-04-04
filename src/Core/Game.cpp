@@ -90,9 +90,9 @@ void		Game::remove_entities()
     }
 }
 
-bool	Game::monster_colision(vit &beg, vit &end)
+bool	Game::monster_colision(vit &beg)
 {
-  for (vit tmp = _ent.begin(); tmp != end; ++tmp)
+  for (vit tmp = _ent.begin(); tmp != _ent.end(); ++tmp)
     {
       if (tmp->x == beg->x && tmp->y == beg->y &&
 	  (tmp->type == WALL || (tmp->type >= HEAD && tmp->type <= TAIL) ||
@@ -103,10 +103,8 @@ bool	Game::monster_colision(vit &beg, vit &end)
 	  else if (tmp->type == WALL)
 	    {
 	      beg = _ent.erase(beg);
-	      end = _ent.end();
 	      return (true);
 	    }
-	  end = _ent.end();
 	  return (false);
 	}
     }
@@ -116,18 +114,17 @@ bool	Game::monster_colision(vit &beg, vit &end)
 void	Game::move_entities()
 {
   vit  	beg = _ent.begin();
-  vit  	end = _ent.end();
   vit	tmp;
   c_lit	lbeg;
   c_lit	lend;
   t_ent	*ent = NULL;
   int	dist[2];
 
-  for (;beg != end; ++beg)
+  for (;beg != _ent.end(); ++beg)
     {
       if (beg->type != MONSTER)
 	continue ;
-      for (tmp = _ent.begin(); tmp != end; ++tmp)
+      for (tmp = _ent.begin(); tmp != _ent.end(); ++tmp)
 	{
 	  if (tmp->type >= APPLE && tmp->type <= KIWI)
 	    {
@@ -151,7 +148,7 @@ void	Game::move_entities()
 	  else
 	    beg->y += (beg->y > ent->y) ? -1 : 1;
 	}
-      if (monster_colision(beg, end) || beg == end)
+      if (monster_colision(beg) || beg == _ent.end())
 	{
 	  beg = _ent.begin();
 	  break ;
@@ -161,11 +158,10 @@ void	Game::move_entities()
 	  if (lbeg->x == beg->x && lbeg->y == beg->y)
 	    {
 	      beg = _ent.erase(beg);
-	      end = _ent.end();
 	      break;
 	    }
 	}
-      if (beg == end)
+      if (beg == _ent.end())
 	break ;
     }
 }
