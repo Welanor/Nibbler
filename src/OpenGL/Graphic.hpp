@@ -32,6 +32,7 @@ public:
   virtual void display_f_score(const std::string &, int, int);
   virtual void display_pause_msg();
   virtual void changeFirst();
+  virtual void changeFollowSnake();
   void	       create_plane();
 private:
   bool					_key[LAST];		// status des key
@@ -44,6 +45,7 @@ private:
   float					_eye[3];
   float					_vecdir[3];
   bool					_isFirst;
+  bool					_followSnake;
   Camera				*cam;
 };
 

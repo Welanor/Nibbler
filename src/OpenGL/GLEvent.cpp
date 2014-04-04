@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 21:14:38 2014 Etienne
-// Last update Thu Apr  3 23:04:31 2014 Etienne
+// Last update Fri Apr  4 14:38:50 2014 Etienne
 //
 
 #include "Graphic.hpp"
@@ -36,6 +36,9 @@ void		catchSpecialKey(int key, int x, int y)
       break;
     case GLUT_KEY_F1 :
       graphic->changeFirst();
+      break;
+    case GLUT_KEY_F2 :
+      graphic->changeFollowSnake();
       break;
     }
   glutPostRedisplay();

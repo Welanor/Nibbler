@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:50:28 2014 Etienne
-// Last update Thu Apr  3 22:50:01 2014 Etienne
+// Last update Fri Apr  4 15:13:23 2014 Etienne
 //
 
 #include <GL/glut.h>
@@ -48,22 +48,38 @@ void		Camera::reinit_pos()
   _custom_pos["dirz"] = _base_pos["dirz"];
 }
 
-void	        Camera::left()
+void	        Camera::followSnake(int snakedir, int *headPos)
 {
-
+  switch (snakedir)
+    {
+    case DOWN :
+      _custom_pos["eyez"] -= _sensivity;
+      break;
+    case UP :
+      _custom_pos["eyez"] += _sensivity;
+      break;
+    case LEFT :
+      _custom_pos["eyex"] -= _sensivity;
+      break;
+    case RIGHT :
+      _custom_pos["eyex"] += _sensivity;
+      break;
+    }
 }
 
-void	        Camera::right()
+void	        Camera::moveEye(int eyex, int eyey, int eyez)
 {
-
+  _custom_pos["eyex"] = eyex;
+  _custom_pos["eyey"] = eyey;
+  _custom_pos["eyez"] = eyez;
 }
 
-void	        Camera::near()
+const std::map<std::string, float>	Camera::getEyePos() const
 {
-
+  return _custom_pos;
 }
 
-void	        Camera::far()
-{
+// void	        Camera::far()
+// {
 
-}
+// }
