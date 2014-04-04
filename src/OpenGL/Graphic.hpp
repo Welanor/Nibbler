@@ -9,7 +9,7 @@
 # include <string>
 # include <utility>
 
-# define VIEW_FOV       100.0
+# define VIEW_FOV       120.0
 # define FOV_ANGLE      40.0
 # define COLOR_FLOAT(x)	(static_cast<float>(x) / 255.0)
 
@@ -70,5 +70,7 @@ void		catchBasicKey(unsigned char key, int x, int y);
 void		resize(int width, int height);
 void		display(void);
 void		idle(void);
+void		catchBasicKeyUp(unsigned char key, int x, int y);
+void		updateCamTimer(int value);
 
 #endif /* _GRAPHICS_H_ */

@@ -6,16 +6,21 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:50:28 2014 Etienne
-// Last update Fri Apr  4 20:35:06 2014 Etienne
+// Last update Fri Apr  4 23:20:50 2014 Etienne
 //
 
 #include <GL/glut.h>
+#include <iostream>
 #include "Camera.hpp"
 
 Camera::Camera(float eyex, float eyey, float eyez,
 	       float dirx, float diry, float dirz,
 	       float sensivity)
 {
+  for (int i = 0 ; i < 4 ; i++)
+    {
+      _eventCam[static_cast<camMovement>(i)] = false;
+    }
   _base_pos["eyex"] = _custom_pos["eyex"] = eyex;
   _base_pos["eyey"] = _custom_pos["eyey"] = eyey;
   _base_pos["eyez"] = _custom_pos["eyez"] = eyez;
@@ -29,13 +34,6 @@ void		Camera::look()
 {
   gluLookAt(_custom_pos["eyex"], _custom_pos["eyey"], _custom_pos["eyez"],
 	    _custom_pos["dirx"], _custom_pos["diry"], _custom_pos["dirz"],
-	    0, 1, 0);
-}
-
-void		Camera::look(float dirx, float diry, float dirz)
-{
-  gluLookAt(_custom_pos["eyex"], _custom_pos["eyey"], _custom_pos["eyez"],
-	    dirx, diry, dirz,
 	    0, 1, 0);
 }
 
@@ -74,33 +72,56 @@ void	        Camera::moveEye(int eyex, int eyey, int eyez)
   _custom_pos["eyey"] = eyey;
   _custom_pos["eyez"] = eyez;
 }
+void	        Camera::moveDir(int dirx, int diry, int dirz)
+{
+  _custom_pos["dirx"] = dirx;
+  _custom_pos["diry"] = diry;
+  _custom_pos["dirz"] = dirz;
+}
 
 const std::map<std::string, float>	Camera::getEyePos() const
 {
   return _custom_pos;
 }
 
-void	        Camera::moveEye(camMovement mov, int *headPos)
+void	        Camera::moveEye(camMovement mov)
 {
   switch (mov)
     {
     case CAM_UP :
       _custom_pos["eyey"] += _sensivity;
-      if (_custom_pos["eyey"] > MAX_UP)
+      if (_custom_pos["eyey"] >= MAX_UP)
 	_custom_pos["eyey"] = MAX_UP;
       break;
     case CAM_DOWN :
       _custom_pos["eyey"] -= _sensivity;
-      if (_custom_pos["eyey"] < MAX_DOWN)
+      if (_custom_pos["eyey"] <= MAX_DOWN)
 	_custom_pos["eyey"] = MAX_DOWN;
       break;
     case CAM_NEAR :
       _custom_pos["eyez"] -= _sensivity;
-      if (_custom_pos["eyez"] < static_cast<float>(-headPos[1]))
-	_custom_pos["eyez"] = static_cast<float>(-headPos[1]);
+      if (_custom_pos["eyez"] < _custom_pos["dirz"])
+	_custom_pos["eyez"] += _sensivity;
       break;
     case CAM_FAR :
       _custom_pos["eyez"] += _sensivity;
       break;
+    }
+}
+
+void		Camera::setEvent(camMovement event, bool status)
+{
+  _eventCam[event] = status;
+}
+
+void		Camera::updateEvent()
+{
+  camMovement	mov;
+
+  for (int i = 0 ; i < 4 ; i++)
+    {
+      mov = static_cast<camMovement>(i);
+      if (_eventCam[mov] == true)
+	this->moveEye(mov);
     }
 }

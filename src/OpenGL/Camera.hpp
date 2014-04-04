@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:39:57 2014 Etienne
-// Last update Fri Apr  4 20:14:57 2014 Etienne
+// Last update Fri Apr  4 23:18:33 2014 Etienne
 //
 
 #ifndef _CAMERA_H_
@@ -39,9 +39,13 @@ public:
   void		reinit_pos();
   void		followSnake(int dir, int *headPos);
   void		moveEye(int eyex, int eyey, int eyez);
-  void		moveEye(camMovement mov, int *headPos);
+  void		moveDir(int dirx, int diry, int dirz);
+  void		moveEye(camMovement mov);
+  void		setEvent(camMovement, bool);
+  void		updateEvent();
   const std::map<std::string, float>    getEyePos() const;
 private:
+  std::map<camMovement, bool>	_eventCam;
   std::map<std::string, float>	_base_pos;
   std::map<std::string, float>	_custom_pos;
   float				_sensivity;

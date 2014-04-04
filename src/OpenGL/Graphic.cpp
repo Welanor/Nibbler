@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Fri Apr  4 20:29:36 2014 Etienne
+// Last update Fri Apr  4 23:38:42 2014 Etienne
 //
 
 #include <unistd.h>
@@ -74,8 +74,10 @@ bool		Graphics::create_window(const std::string &name,
   glutIdleFunc(idle);
   glutSpecialFunc(catchSpecialKey);
   glutKeyboardFunc(catchBasicKey);
+  glutKeyboardUpFunc(catchBasicKeyUp);
   glutReshapeFunc(resize);
   glutDisplayFunc(display);
+  glutTimerFunc(20, updateCamTimer, 0);
 
   initColor();
   init_light();
@@ -136,20 +138,22 @@ void		Graphics::setKey(int index, bool value)
 
 void		Graphics::updateCam()
 {
+  std::map<std::string, float> eyePos;
+
   if (_isFirst)
     {
-      cam->look(_headpos[0] + 0.5f, 0, -(_headpos[1] + 0.5f));
+      cam->moveDir(_headpos[0] + 0.5f, 0, -(_headpos[1] + 0.5f));
+      cam->look();
     }
   else if (_followSnake)
     {
       if (_type == HEAD)
 	{
-	  std::map<std::string, float> eyePos;
-
 	  eyePos = cam->getEyePos();
 	  cam->moveEye(_headpos[0] + 0.5f, eyePos["eyey"], -(_headpos[1] - 10 - 0.5f));
 	}
-      cam->look(_headpos[0], 0, -(_headpos[1]));
+      cam->moveDir(_headpos[0], 0, -(_headpos[1]));
+      cam->look();
     }
   else
     {
@@ -249,6 +253,15 @@ void		Graphics::display_pause_msg()
 
 void		Graphics::changeFirst()
 {
+  std::map<std::string, float> eyePos;
+
+  if (_isFirst == true)
+    cam->reinit_pos();
+  else
+    {
+      eyePos = cam->getEyePos();
+      cam->moveEye(_headpos[0] + 0.5f, eyePos["eyey"], -(_headpos[1] - 10 - 0.5f));
+    }
   _isFirst = !_isFirst;
 }
 
@@ -268,6 +281,8 @@ int		*Graphics::getHeadPos()
 {
   return _headpos;
 }
+
+
 
 extern "C"
 {

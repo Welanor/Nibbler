@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 21:14:38 2014 Etienne
-// Last update Fri Apr  4 20:19:53 2014 Etienne
+// Last update Fri Apr  4 23:36:45 2014 Etienne
 //
 
 #include "Graphic.hpp"
@@ -57,16 +57,38 @@ void		catchBasicKey(unsigned char key, int x, int y)
       graphic->setKey(ESC, true);
       break;
     case 'z' :
-      graphic->getCam()->moveEye(CAM_UP, graphic->getHeadPos());
+      graphic->getCam()->setEvent(CAM_UP, true);
       break;
     case 's' :
-      graphic->getCam()->moveEye(CAM_DOWN, graphic->getHeadPos());
+      graphic->getCam()->setEvent(CAM_DOWN, true);
       break;
     case 'e' :
-      graphic->getCam()->moveEye(CAM_NEAR, graphic->getHeadPos());
+      graphic->getCam()->setEvent(CAM_NEAR, true);
       break;
     case 'd' :
-      graphic->getCam()->moveEye(CAM_FAR, graphic->getHeadPos());
+      graphic->getCam()->setEvent(CAM_FAR, true);
+      break;
+    }
+}
+
+void		catchBasicKeyUp(unsigned char key, int x, int y)
+{
+  switch (key)
+    {
+    case 27 :
+      graphic->setKey(ESC, true);
+      break;
+    case 'z' :
+      graphic->getCam()->setEvent(CAM_UP, false);
+      break;
+    case 's' :
+      graphic->getCam()->setEvent(CAM_DOWN, false);
+      break;
+    case 'e' :
+      graphic->getCam()->setEvent(CAM_NEAR, false);
+      break;
+    case 'd' :
+      graphic->getCam()->setEvent(CAM_FAR, false);
       break;
     }
 }
@@ -82,6 +104,13 @@ void	resize(int width, int height)
   glFrustum(-ar, ar, -1.0, 1.0, 2.0, 5000.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+}
+
+void updateCamTimer(int value)
+{
+  graphic->getCam()->updateEvent();
+
+  glutTimerFunc (20, updateCamTimer, value);
 }
 
 void	display(void)
