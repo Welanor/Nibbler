@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Fri Apr  4 18:14:52 2014 Etienne
+// Last update Fri Apr  4 19:49:14 2014 Etienne
 //
 
 #include <unistd.h>
@@ -198,12 +198,15 @@ void		Graphics::init_light()
   // glMaterialf(GL_FRONT, GL_SHININESS, 30);
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
+  glEnable(GL_LIGHT1);
+  glEnable(GL_LIGHT2);
+  glEnable(GL_LIGHT3);
 }
 
 void		Graphics::create_plane()
 {
   GLfloat FLOOR[] = {COLOR_FLOAT(13), COLOR_FLOAT(123), COLOR_FLOAT(135)};
-  // GLfloat lightPosition[] = {_size["mapx"] / 2.0f, 30.0f, -(_size["mapy"]), 1.0f};
+  GLfloat lightPosition0[] = {_size["mapx"] / 2.0f, 30.0f, -(_size["mapy"] / 2.0f), 1.0f};
   GLfloat lightColor0[] = {COLOR_FLOAT(227), COLOR_FLOAT(223), COLOR_FLOAT(102), 0.0f};
   GLfloat high_shininess[] = { 50.0f };
 
@@ -211,15 +214,13 @@ void		Graphics::create_plane()
   glNewList(_displayId, GL_COMPILE);
 
   glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-  // glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-
+  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition0);
+  glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 10);
   glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-  // glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 100);
-
 
   glBegin(GL_QUADS);
   glNormal3d(0, 1, 0);
-  for (float z = 0; z < _size["mapy"] - 1; z++) {
+  for (float z = 0; z < _size["mapy"]; z++) {
     for (float x = 0; x < _size["mapx"]; x++) {
       glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, FLOOR);
       glVertex3d(x, 0, -z);
