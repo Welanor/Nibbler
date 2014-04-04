@@ -49,18 +49,17 @@ void	SFMLGraphics::clear()
   _win.draw(tmp);
 }
 
-#include <cstdio>
-
 void SFMLGraphics::draw(int x, int y, int type, int dir)
 {
   sf::Sprite		tmp(_sprites);
-  double		rate_x, rate_y, _x, _y;
+  double		rate_x, rate_y, _x, _y, minr;
   sf::RectangleShape	rect;
 
   _x = x;
   _y = y;
   rate_x = _size_win[0] / _size_map[0];
   rate_y = _size_win[1] / _size_map[1];
+  // minr = (rate_x < rate_y) ? rate_x : rate_y;
   if (dir == RIGHT)
     {
       tmp.setTextureRect(sf::IntRect((type + 1) * SIZE_PNG, 0, -SIZE_PNG, SIZE_PNG));
@@ -70,10 +69,11 @@ void SFMLGraphics::draw(int x, int y, int type, int dir)
     {
       tmp.setTextureRect(sf::IntRect(type * SIZE_PNG, 0, SIZE_PNG, SIZE_PNG));
       tmp.setOrigin(SIZE_PNG / 2, SIZE_PNG / 2);
-      tmp.setRotation(dir * 90);
+      tmp.rotate(dir * 90);
     }
   tmp.scale(sf::Vector2f(rate_x / SIZE_PNG, rate_y / SIZE_PNG));
-  tmp.setPosition(sf::Vector2f(_x * rate_x, _y * rate_y));
+  tmp.setPosition(sf::Vector2f(_x * rate_x + (rate_x  / 2),
+			       _y * rate_y + (rate_y  / 2)));
   _win.draw(tmp);
 }
 
