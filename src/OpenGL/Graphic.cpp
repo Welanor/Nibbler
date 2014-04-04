@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Fri Apr  4 15:14:53 2014 Etienne
+// Last update Fri Apr  4 15:34:17 2014 Etienne
 //
 
 #include <unistd.h>
@@ -136,10 +136,9 @@ void		Graphics::updateCam()
 	  std::map<std::string, float> eyePos;
 
 	  eyePos = cam->getEyePos();
-	  cam->moveEye(_pos[0], eyePos["eyey"], -(_pos[1] - 10));
-	  cam->followSnake(_dir, _headpos);
+	  cam->moveEye(_headpos[0] + 0.5f, eyePos["eyey"], -(_headpos[1] - 10 - 0.5f));
 	}
-      cam->look(_headpos[0] + 0.5f, 0, -(_headpos[1] + 0.5f));
+      cam->look(_headpos[0], 0, -(_headpos[1]));
     }
   else
     {
@@ -246,6 +245,8 @@ void		Graphics::changeFirst()
 
 void		Graphics::changeFollowSnake()
 {
+  if (_followSnake == true)
+    cam->reinit_pos();
   _followSnake = !_followSnake;
 }
 
