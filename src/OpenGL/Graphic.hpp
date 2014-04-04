@@ -46,6 +46,8 @@ public:
   virtual void display_pause_msg();
   virtual void changeFirst();
   virtual void changeFollowSnake();
+  int		*getHeadPos();
+  Camera	*getCam();
   void	       create_plane();
 private:
   bool					_key[LAST];		// status des key

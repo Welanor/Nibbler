@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Fri Apr  4 18:14:52 2014 Etienne
+// Last update Fri Apr  4 20:29:36 2014 Etienne
 //
 
 #include <unistd.h>
@@ -16,6 +16,21 @@ Graphics	*graphic = NULL;
 
 Graphics::Graphics()
 {
+  _isFirst = false;
+  _followSnake = false;
+
+  for (int i = 0 ; i < LAST ; i++)
+    _key[i] = false;
+  for (int i = 0 ; i < 2 ; i++)
+    {
+      _pos[i] = 0;
+      _headpos[i] = 0;
+    }
+  for (int i = 0 ; i < 3 ; i++)
+    {
+      _eye[i] = 0;
+      _vecdir[i] = 0;
+    }
 }
 
 Graphics::~Graphics()
@@ -51,12 +66,6 @@ bool		Graphics::create_window(const std::string &name,
   _size["winy"] = size_win[1];
   _size["mapx"] = size_map[0];
   _size["mapy"] = size_map[1];
-
-  _isFirst = false;
-  _followSnake = false;
-
-  for (int i = 0 ; i < LAST ; i++)
-    _key[i] = false;
 
   glutInitWindowSize(1920, 1080);
   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
@@ -192,18 +201,18 @@ void		Graphics::init_light()
 
   glCullFace(GL_FRONT);
   glEnable(GL_DEPTH_TEST);
-  // glLightfv(GL_LIGHT0, GL_DIFFUSE, WHITE);
-  // glLightfv(GL_LIGHT0, GL_SPECULAR, WHITE);
-  // glMaterialfv(GL_FRONT, GL_SPECULAR, WHITE);
-  // glMaterialf(GL_FRONT, GL_SHININESS, 30);
+  glMaterialf(GL_FRONT, GL_SHININESS, 40);
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
+  glEnable(GL_LIGHT1);
+  glEnable(GL_LIGHT2);
+  glEnable(GL_LIGHT3);
 }
 
 void		Graphics::create_plane()
 {
   GLfloat FLOOR[] = {COLOR_FLOAT(13), COLOR_FLOAT(123), COLOR_FLOAT(135)};
-  // GLfloat lightPosition[] = {_size["mapx"] / 2.0f, 30.0f, -(_size["mapy"]), 1.0f};
+  GLfloat lightPosition0[] = {_size["mapx"] / 2.0f, 30.0f, -(_size["mapy"] / 2.0f), 1.0f};
   GLfloat lightColor0[] = {COLOR_FLOAT(227), COLOR_FLOAT(223), COLOR_FLOAT(102), 0.0f};
   GLfloat high_shininess[] = { 50.0f };
 
@@ -211,15 +220,13 @@ void		Graphics::create_plane()
   glNewList(_displayId, GL_COMPILE);
 
   glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-  // glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-
+  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition0);
+  glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 10);
   glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-  // glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 100);
-
 
   glBegin(GL_QUADS);
   glNormal3d(0, 1, 0);
-  for (float z = 0; z < _size["mapy"] - 1; z++) {
+  for (float z = 0; z < _size["mapy"]; z++) {
     for (float x = 0; x < _size["mapx"]; x++) {
       glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, FLOOR);
       glVertex3d(x, 0, -z);
@@ -250,6 +257,16 @@ void		Graphics::changeFollowSnake()
   if (_followSnake == true)
     cam->reinit_pos();
   _followSnake = !_followSnake;
+}
+
+Camera		*Graphics::getCam()
+{
+  return cam;
+}
+
+int		*Graphics::getHeadPos()
+{
+  return _headpos;
 }
 
 extern "C"
