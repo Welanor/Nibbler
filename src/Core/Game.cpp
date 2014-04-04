@@ -151,10 +151,11 @@ void	Game::move_entities()
 	  else
 	    beg->y += (beg->y > ent->y) ? -1 : 1;
 	}
-      if (monster_colision(beg, end))
-	beg = _ent.begin();
-      if (beg == end)
-	break ;
+      if (monster_colision(beg, end) || beg == end)
+	{
+	  beg = _ent.begin();
+	  break ;
+	}
       for (lbeg = _snake.begin(), lend = _snake.end(); lbeg != lend; ++lbeg)
 	{
 	  if (lbeg->x == beg->x && lbeg->y == beg->y)
