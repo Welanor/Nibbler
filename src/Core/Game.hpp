@@ -55,7 +55,7 @@ private:
   void	move_entities();
   void	handle_fps(int &idx);
   void	print_scores() const;
-  bool	monster_colision(vit &beg, vit &end);
+  bool	monster_colision(vit &beg);
   void	encrypt_line(std::string &line) const;
   void	decrypt_line(std::string &line) const;
   void	end_score(bool *key, bool &done) const;
