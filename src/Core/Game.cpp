@@ -53,6 +53,7 @@ void	Game::init_entities()
   _ent.clear();
   _entlist.clear();
   _player.score = 0;
+  _fps = FPS;
   for (int i = 0; i < 4; ++i)
     {
       t_snake tmp = {_x / 2, _y / 2 - i, LEFT};
@@ -101,7 +102,8 @@ bool	Game::monster_colision(vit &beg, vit &end)
 	    _ent.erase(tmp);
 	  else if (tmp->type == WALL)
 	    {
-	      _ent.erase(beg);
+	      beg = _ent.erase(beg);
+	      end = _ent.end();
 	      return (true);
 	    }
 	  end = _ent.end();
@@ -157,7 +159,7 @@ void	Game::move_entities()
 	{
 	  if (lbeg->x == beg->x && lbeg->y == beg->y)
 	    {
-	      _ent.erase(beg);
+	      beg = _ent.erase(beg);
 	      end = _ent.end();
 	      break;
 	    }
