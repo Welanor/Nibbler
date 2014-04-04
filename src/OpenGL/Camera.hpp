@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:39:57 2014 Etienne
-// Last update Fri Apr  4 16:27:49 2014 Etienne
+// Last update Fri Apr  4 20:14:57 2014 Etienne
 //
 
 #ifndef _CAMERA_H_
@@ -16,7 +16,16 @@
 #include <vector>
 #include "Snake.hpp"
 
-typedef std::vector<float> color;
+# define MAX_UP 100
+# define MAX_DOWN 1
+
+enum camMovement
+  {
+    CAM_UP = 0,
+    CAM_DOWN,
+    CAM_NEAR,
+    CAM_FAR,
+  };
 
 class		Camera
 {
@@ -30,11 +39,8 @@ public:
   void		reinit_pos();
   void		followSnake(int dir, int *headPos);
   void		moveEye(int eyex, int eyey, int eyez);
+  void		moveEye(camMovement mov, int *headPos);
   const std::map<std::string, float>    getEyePos() const;
-  // void	        left();
-  // void	        right();
-  // void	        near();
-  // void	        far();
 private:
   std::map<std::string, float>	_base_pos;
   std::map<std::string, float>	_custom_pos;

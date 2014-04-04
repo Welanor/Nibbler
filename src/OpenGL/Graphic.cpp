@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Fri Apr  4 19:49:14 2014 Etienne
+// Last update Fri Apr  4 20:29:36 2014 Etienne
 //
 
 #include <unistd.h>
@@ -16,6 +16,21 @@ Graphics	*graphic = NULL;
 
 Graphics::Graphics()
 {
+  _isFirst = false;
+  _followSnake = false;
+
+  for (int i = 0 ; i < LAST ; i++)
+    _key[i] = false;
+  for (int i = 0 ; i < 2 ; i++)
+    {
+      _pos[i] = 0;
+      _headpos[i] = 0;
+    }
+  for (int i = 0 ; i < 3 ; i++)
+    {
+      _eye[i] = 0;
+      _vecdir[i] = 0;
+    }
 }
 
 Graphics::~Graphics()
@@ -51,12 +66,6 @@ bool		Graphics::create_window(const std::string &name,
   _size["winy"] = size_win[1];
   _size["mapx"] = size_map[0];
   _size["mapy"] = size_map[1];
-
-  _isFirst = false;
-  _followSnake = false;
-
-  for (int i = 0 ; i < LAST ; i++)
-    _key[i] = false;
 
   glutInitWindowSize(1920, 1080);
   glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
@@ -192,10 +201,7 @@ void		Graphics::init_light()
 
   glCullFace(GL_FRONT);
   glEnable(GL_DEPTH_TEST);
-  // glLightfv(GL_LIGHT0, GL_DIFFUSE, WHITE);
-  // glLightfv(GL_LIGHT0, GL_SPECULAR, WHITE);
-  // glMaterialfv(GL_FRONT, GL_SPECULAR, WHITE);
-  // glMaterialf(GL_FRONT, GL_SHININESS, 30);
+  glMaterialf(GL_FRONT, GL_SHININESS, 40);
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
   glEnable(GL_LIGHT1);
@@ -251,6 +257,16 @@ void		Graphics::changeFollowSnake()
   if (_followSnake == true)
     cam->reinit_pos();
   _followSnake = !_followSnake;
+}
+
+Camera		*Graphics::getCam()
+{
+  return cam;
+}
+
+int		*Graphics::getHeadPos()
+{
+  return _headpos;
 }
 
 extern "C"

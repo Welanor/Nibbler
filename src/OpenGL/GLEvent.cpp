@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 21:14:38 2014 Etienne
-// Last update Fri Apr  4 14:38:50 2014 Etienne
+// Last update Fri Apr  4 20:19:53 2014 Etienne
 //
 
 #include "Graphic.hpp"
@@ -55,6 +55,18 @@ void		catchBasicKey(unsigned char key, int x, int y)
     {
     case 27 :
       graphic->setKey(ESC, true);
+      break;
+    case 'z' :
+      graphic->getCam()->moveEye(CAM_UP, graphic->getHeadPos());
+      break;
+    case 's' :
+      graphic->getCam()->moveEye(CAM_DOWN, graphic->getHeadPos());
+      break;
+    case 'e' :
+      graphic->getCam()->moveEye(CAM_NEAR, graphic->getHeadPos());
+      break;
+    case 'd' :
+      graphic->getCam()->moveEye(CAM_FAR, graphic->getHeadPos());
       break;
     }
 }

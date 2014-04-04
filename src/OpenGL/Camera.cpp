@@ -1,3 +1,4 @@
+
 //
 // Camera.cpp for cam in /home/debas_e/Project/C++/cpp_nibbler/src/OpenGL
 //
@@ -5,7 +6,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:50:28 2014 Etienne
-// Last update Fri Apr  4 15:13:23 2014 Etienne
+// Last update Fri Apr  4 20:35:06 2014 Etienne
 //
 
 #include <GL/glut.h>
@@ -79,7 +80,27 @@ const std::map<std::string, float>	Camera::getEyePos() const
   return _custom_pos;
 }
 
-// void	        Camera::far()
-// {
-
-// }
+void	        Camera::moveEye(camMovement mov, int *headPos)
+{
+  switch (mov)
+    {
+    case CAM_UP :
+      _custom_pos["eyey"] += _sensivity;
+      if (_custom_pos["eyey"] > MAX_UP)
+	_custom_pos["eyey"] = MAX_UP;
+      break;
+    case CAM_DOWN :
+      _custom_pos["eyey"] -= _sensivity;
+      if (_custom_pos["eyey"] < MAX_DOWN)
+	_custom_pos["eyey"] = MAX_DOWN;
+      break;
+    case CAM_NEAR :
+      _custom_pos["eyez"] -= _sensivity;
+      if (_custom_pos["eyez"] < static_cast<float>(-headPos[1]))
+	_custom_pos["eyez"] = static_cast<float>(-headPos[1]);
+      break;
+    case CAM_FAR :
+      _custom_pos["eyez"] += _sensivity;
+      break;
+    }
+}
