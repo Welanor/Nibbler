@@ -62,11 +62,15 @@ void SFMLGraphics::draw(int x, int y, int type, int dir)
   rate_x = _size_win[0] / _size_map[0];
   rate_y = _size_win[1] / _size_map[1];
   if (dir == RIGHT)
-    tmp.setTextureRect(sf::IntRect((type + 1) * SIZE_PNG, 0, -SIZE_PNG, SIZE_PNG));
+    {
+      tmp.setTextureRect(sf::IntRect((type + 1) * SIZE_PNG, 0, -SIZE_PNG, SIZE_PNG));
+      tmp.setOrigin(SIZE_PNG / 2, SIZE_PNG / 2);
+    }
   else
     {
       tmp.setTextureRect(sf::IntRect(type * SIZE_PNG, 0, SIZE_PNG, SIZE_PNG));
-      tmp.rotate(dir * 90);
+      tmp.setOrigin(SIZE_PNG / 2, SIZE_PNG / 2);
+      tmp.setRotation(dir * 90);
     }
   tmp.scale(sf::Vector2f(rate_x / SIZE_PNG, rate_y / SIZE_PNG));
   tmp.setPosition(sf::Vector2f(_x * rate_x, _y * rate_y));
