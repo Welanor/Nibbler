@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:39:57 2014 Etienne
-// Last update Fri Apr  4 15:14:26 2014 Etienne
+// Last update Fri Apr  4 16:27:49 2014 Etienne
 //
 
 #ifndef _CAMERA_H_
@@ -13,7 +13,10 @@
 
 #include <map>
 #include <string>
+#include <vector>
 #include "Snake.hpp"
+
+typedef std::vector<float> color;
 
 class		Camera
 {

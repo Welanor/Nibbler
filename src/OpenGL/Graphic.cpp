@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Fri Apr  4 15:34:17 2014 Etienne
+// Last update Fri Apr  4 18:14:52 2014 Etienne
 //
 
 #include <unistd.h>
@@ -20,6 +20,23 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
+  // delete cam;
+}
+
+void		Graphics::initColor()
+{
+  _color_entities[MONSTER] = new colorEntities(COLOR_FLOAT(15), COLOR_FLOAT(15), COLOR_FLOAT(13));
+  _color_entities[BUDDY] = new colorEntities(COLOR_FLOAT(20), COLOR_FLOAT(130), COLOR_FLOAT(12));
+  _color_entities[TAIL] = new colorEntities(COLOR_FLOAT(20), COLOR_FLOAT(130), COLOR_FLOAT(12));
+  _color_entities[HEAD] = new colorEntities(COLOR_FLOAT(44), COLOR_FLOAT(94), COLOR_FLOAT(41));
+  _color_entities[WALL] = new colorEntities(COLOR_FLOAT(66), COLOR_FLOAT(62), COLOR_FLOAT(62));
+  _color_entities[BANANA] = new colorEntities(COLOR_FLOAT(198), COLOR_FLOAT(201), COLOR_FLOAT(22));
+  _color_entities[STRAWBERRY] = new colorEntities(235, 7, 7);
+
+  _color_entities[APPLE] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
+  _color_entities[PEAR] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
+  _color_entities[KIWI] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
+  _color_entities[BOOSTER] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
 }
 
 bool		Graphics::create_window(const std::string &name,
@@ -51,6 +68,7 @@ bool		Graphics::create_window(const std::string &name,
   glutReshapeFunc(resize);
   glutDisplayFunc(display);
 
+  initColor();
   init_light();
   init_cam();
 
@@ -84,22 +102,6 @@ void		Graphics::draw(int x, int y, int type, int dir)
     }
   _type = type;
   _dir = dir;
-  // if (type == HEAD)
-  //   switch (dir)
-  //     {
-  //     case DOWN :
-  // 	std::cout << "UP" << std::endl;
-  // 	break;
-  //     case UP :
-  // 	std::cout << "DOWN" << std::endl;
-  // 	break;
-  //     case LEFT :
-  // 	std::cout << "LEFT" << std::endl;
-  // 	break;
-  //     case RIGHT :
-  // 	std::cout << "RIGHT" << std::endl;
-  // 	break;
-  //     }
   glutMainLoopEvent();
 }
 
@@ -173,12 +175,12 @@ void		Graphics::init_cam()
 
 void		Graphics::updateDisplayMap()
 {
-  GLfloat GREEN[] = {0, 1, 0};
+  GLfloat *color = _color_entities[static_cast<Entities>(_type)]->rgb;
 
   glCallList(_displayId);
 
   glPushMatrix();
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, GREEN);
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
   glTranslated(_pos[0] + 0.5f, 0.5f, -(_pos[1] + 0.5f));
   glutSolidCube(1);
   glPopMatrix();
@@ -190,19 +192,19 @@ void		Graphics::init_light()
 
   glCullFace(GL_FRONT);
   glEnable(GL_DEPTH_TEST);
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, WHITE);
-  glLightfv(GL_LIGHT0, GL_SPECULAR, WHITE);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, WHITE);
-  glMaterialf(GL_FRONT, GL_SHININESS, 30);
+  // glLightfv(GL_LIGHT0, GL_DIFFUSE, WHITE);
+  // glLightfv(GL_LIGHT0, GL_SPECULAR, WHITE);
+  // glMaterialfv(GL_FRONT, GL_SPECULAR, WHITE);
+  // glMaterialf(GL_FRONT, GL_SHININESS, 30);
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
 }
 
 void		Graphics::create_plane()
 {
-  GLfloat RED[] = {0, 0, 0.5};
+  GLfloat FLOOR[] = {COLOR_FLOAT(13), COLOR_FLOAT(123), COLOR_FLOAT(135)};
   // GLfloat lightPosition[] = {_size["mapx"] / 2.0f, 30.0f, -(_size["mapy"]), 1.0f};
-  GLfloat lightColor0[] = {1.0f, 1.0f, 0.0f, 1.0f}; //Color (0.5, 0.5, 0.5)
+  GLfloat lightColor0[] = {COLOR_FLOAT(227), COLOR_FLOAT(223), COLOR_FLOAT(102), 0.0f};
   GLfloat high_shininess[] = { 50.0f };
 
   _displayId = glGenLists(1);
@@ -212,14 +214,14 @@ void		Graphics::create_plane()
   // glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
   glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-  glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 100);
+  // glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 100);
 
 
   glBegin(GL_QUADS);
   glNormal3d(0, 1, 0);
   for (float z = 0; z < _size["mapy"] - 1; z++) {
     for (float x = 0; x < _size["mapx"]; x++) {
-      glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, RED);
+      glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, FLOOR);
       glVertex3d(x, 0, -z);
       glVertex3d(x, 0, -(z+1));
       glVertex3d(x+1, 0, -(z+1));

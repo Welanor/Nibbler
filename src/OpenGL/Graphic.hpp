@@ -7,9 +7,21 @@
 # include "Camera.hpp"
 # include <map>
 # include <string>
+# include <utility>
 
 # define VIEW_FOV       100.0
 # define FOV_ANGLE      40.0
+# define COLOR_FLOAT(x)	(static_cast<float>(x) / 255.0)
+
+struct		colorEntities
+{
+  colorEntities(GLfloat r, GLfloat g, GLfloat b) {
+    rgb[0] = r;
+    rgb[1] = g;
+    rgb[2] = b;
+  }
+  GLfloat	rgb[3];
+};
 
 class Graphics : public IGraphics
 {
@@ -28,6 +40,7 @@ public:
   virtual void updateDisplayMap();
   virtual void updateCam();
   virtual void init_cam();
+  virtual void initColor();
   virtual void init_light();
   virtual void display_f_score(const std::string &, int, int);
   virtual void display_pause_msg();
@@ -38,6 +51,7 @@ private:
   bool					_key[LAST];		// status des key
   int					_displayId;
   std::map<std::string, float>		_size;
+  std::map<Entities, colorEntities *>	_color_entities;
   int					_pos[2];
   int					_headpos[2];
   int					_type;
