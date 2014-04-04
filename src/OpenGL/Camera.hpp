@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:39:57 2014 Etienne
-// Last update Thu Apr  3 22:49:07 2014 Etienne
+// Last update Fri Apr  4 15:14:26 2014 Etienne
 //
 
 #ifndef _CAMERA_H_
@@ -13,6 +13,7 @@
 
 #include <map>
 #include <string>
+#include "Snake.hpp"
 
 class		Camera
 {
@@ -24,10 +25,13 @@ public:
   void		look();
   void		look(float,float,float);
   void		reinit_pos();
-  void	        left();
-  void	        right();
-  void	        near();
-  void	        far();
+  void		followSnake(int dir, int *headPos);
+  void		moveEye(int eyex, int eyey, int eyez);
+  const std::map<std::string, float>    getEyePos() const;
+  // void	        left();
+  // void	        right();
+  // void	        near();
+  // void	        far();
 private:
   std::map<std::string, float>	_base_pos;
   std::map<std::string, float>	_custom_pos;

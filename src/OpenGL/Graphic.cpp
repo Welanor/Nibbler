@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Thu Apr  3 23:40:22 2014 Etienne
+// Last update Fri Apr  4 15:14:53 2014 Etienne
 //
 
 #include <unistd.h>
@@ -36,6 +36,7 @@ bool		Graphics::create_window(const std::string &name,
   _size["mapy"] = size_map[1];
 
   _isFirst = false;
+  _followSnake = false;
 
   for (int i = 0 ; i < LAST ; i++)
     _key[i] = false;
@@ -83,7 +84,22 @@ void		Graphics::draw(int x, int y, int type, int dir)
     }
   _type = type;
   _dir = dir;
-
+  // if (type == HEAD)
+  //   switch (dir)
+  //     {
+  //     case DOWN :
+  // 	std::cout << "UP" << std::endl;
+  // 	break;
+  //     case UP :
+  // 	std::cout << "DOWN" << std::endl;
+  // 	break;
+  //     case LEFT :
+  // 	std::cout << "LEFT" << std::endl;
+  // 	break;
+  //     case RIGHT :
+  // 	std::cout << "RIGHT" << std::endl;
+  // 	break;
+  //     }
   glutMainLoopEvent();
 }
 
@@ -111,6 +127,18 @@ void		Graphics::updateCam()
 {
   if (_isFirst)
     {
+      cam->look(_headpos[0] + 0.5f, 0, -(_headpos[1] + 0.5f));
+    }
+  else if (_followSnake)
+    {
+      if (_type == HEAD)
+	{
+	  std::map<std::string, float> eyePos;
+
+	  eyePos = cam->getEyePos();
+	  cam->moveEye(_pos[0], eyePos["eyey"], -(_pos[1] - 10));
+	  cam->followSnake(_dir, _headpos);
+	}
       cam->look(_headpos[0] + 0.5f, 0, -(_headpos[1] + 0.5f));
     }
   else
@@ -141,7 +169,7 @@ void		Graphics::init_cam()
   dirz = -_size["mapy"] / 2.0;
   cam = new Camera(eyex, eyey, eyez,
 		   dirx, diry, dirz,
-		   3);
+		   1);
 }
 
 void		Graphics::updateDisplayMap()
@@ -214,6 +242,11 @@ void		Graphics::display_pause_msg()
 void		Graphics::changeFirst()
 {
   _isFirst = !_isFirst;
+}
+
+void		Graphics::changeFollowSnake()
+{
+  _followSnake = !_followSnake;
 }
 
 extern "C"
