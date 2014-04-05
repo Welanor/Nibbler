@@ -4,18 +4,23 @@
 #include <fstream>
 #include <algorithm>
 #include <cmath>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xos.h>
 #include "Game.hpp"
 
 Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
 {
   IGraphics	*(*createGraphics)();
+  Display	*dis;
 
   _player.name = "Unknown";
   _fps = FPS;
   parse_arg(ac, av);
   createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
-  if (createGraphics == NULL)
-    throw(Exception(""));
+  if ((dis = XOpenDisplay(NULL)) == NULL || createGraphics == NULL)
+    throw(Exception("Connection to server X could not be established"));
+  XCloseDisplay(dis);
   std::srand(time(NULL));
   init_entities();
   _window = (createGraphics)();
@@ -408,7 +413,7 @@ void	Game::end_score(bool *key, bool &done) const
 void	Game::start()
 {
   double frameRate;
-  Time	begin, end;
+  Timer	begin, end;
   bool	key[LAST] = { false };
   bool	done = false;
   int	size_win[] = { WINX, WINY };
@@ -421,7 +426,7 @@ void	Game::start()
     {
       handle_fps(idx);
       frameRate = (1.0 / static_cast<double>(_fps)) * 1000.0;
-      begin.startTime();
+      begin.startTimer();
       /* Evenement */
       for (int i = 0; i == 0 || key[PAUSE]; i = 1)
 	{
@@ -437,10 +442,10 @@ void	Game::start()
       move_entities();
       add_entities();
       display();
-      end.startTime();
+      end.startTimer();
       end -= begin;
       if (end < frameRate)
-      	usleep((frameRate - end.getTime()) * 1000);
+      	usleep((frameRate - end.getTimer()) * 1000);
       if (done || key[ESC])
 	{
 	  end_score(key, done);

@@ -21,7 +21,7 @@
 # include "LibLoader.hpp"
 # include "Snake.hpp"
 # include "IGraphics.hpp"
-# include "Time.hpp"
+# include "Timer.hpp"
 
 typedef std::list<t_snake>::iterator lit;
 typedef std::list<t_snake>::const_iterator c_lit;
