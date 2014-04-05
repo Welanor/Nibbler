@@ -83,7 +83,8 @@ void SFMLGraphics::handleKey(sf::Event event, bool *key)
 {
   int		keys[LAST] = { sf::Keyboard::Q, sf::Keyboard::Z, sf::Keyboard::D,
 			       sf::Keyboard::S, sf::Keyboard::Left, sf::Keyboard::Right,
-			       sf::Keyboard::Escape, sf::Keyboard::P, sf::Keyboard::R};
+			       sf::Keyboard::Escape, sf::Keyboard::P, sf::Keyboard::R,
+			       sf::Keyboard::C};
   int		i;
 
   for (i = 0; i < LAST && keys[i] != event.key.code; i++);

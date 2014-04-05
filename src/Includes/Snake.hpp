@@ -12,6 +12,7 @@ enum Keypos
     ESC,
     PAUSE,
     NEWGAME,
+    SWITCHLIB,
     LAST
   };
 

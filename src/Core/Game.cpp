@@ -9,7 +9,7 @@
 #include <X11/Xos.h>
 #include "Game.hpp"
 
-Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _snake()
+Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _current_lib(0), _snake()
 {
   IGraphics	*(*createGraphics)();
   Display	*dis;
@@ -39,7 +39,7 @@ void	Game::parse_arg(const int ac, char **av)
   std::string libname("");
 
   if (ac < 4)
-    throw(Exception("Usage: ./nibbler size_x size_y [Name] lib_nibbler_XXX.so"));
+    throw(Exception("Usage: ./nibbler size_x size_y lib_nibbler_XXX.so [--name NAME] [other lib]"));
   ss.str(av[1]);
   if (!(ss >> _x) || _x <= 0)
     throw(Exception("Size X invalid"));
@@ -47,9 +47,20 @@ void	Game::parse_arg(const int ac, char **av)
   ss.str(av[2]);
   if (!(ss >> _y) || _y <= 0)
     throw(Exception("Size Y invalid"));
-  if (ac == 5)
-    _player.name = av[3];
-  _lib.open(av[ac - 1], RTLD_LAZY);
+  for (int i = 3;i < ac;i++)
+    {
+      if (std::string(av[i]) == "--name")
+	{
+	  if (i + 1 < ac)
+	    _player.name = av[i + 1];
+	  else
+	    throw(Exception("Usage: ./nibbler size_x size_y lib_nibbler_XXX.so [--name NAME] [other lib]"));
+	  ++i;
+	}
+      else
+	_all_lib.push_back(av[i]);
+    }
+  _lib.open(_all_lib.front(), RTLD_LAZY);
 }
 
 void	Game::init_entities()
@@ -444,6 +455,24 @@ void	Game::end_score(bool *key, bool &done) const
   done = !key[NEWGAME];
 }
 
+void	Game::switch_lib()
+{
+  int		size_win[] = { WINX, WINY };
+  int		size_map[] = { _x, _y };
+  IGraphics	*(*createGraphics)();
+
+  _window->destroyWindow();
+  delete _window;
+  _lib.close();
+  _current_lib = (_current_lib + 1) % _all_lib.size();
+  _lib.open(_all_lib[_current_lib], RTLD_LAZY);
+  createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
+  _window = (createGraphics)();
+  if (_window->create_window("Nibbler", size_win, size_map) == false)
+    throw (Exception("Init Windows Failed"));
+}
+
+
 void	Game::start()
 {
   double frameRate;
@@ -469,6 +498,8 @@ void	Game::start()
 	    _window->display_pause_msg();
 	  usleep(1000);
 	}
+      if (key[SWITCHLIB])
+	switch_lib();
       _window->clear();
       move_snake(key);
       done = check_collision();
