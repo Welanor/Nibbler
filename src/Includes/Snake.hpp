@@ -7,6 +7,8 @@ enum Keypos
     UP,
     RIGHT,
     DOWN,
+    ARIGHT,
+    ALEFT,
     ESC,
     PAUSE,
     NEWGAME,
