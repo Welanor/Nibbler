@@ -75,10 +75,18 @@ void	Game::init_entities()
       t_ent tmp = {(std::rand() % _x), (std::rand() % _y), WALL, 0, NOTIME, 0};
       _ent.push_back(tmp);
     }
-  t_ent tmp = {0, 0, BOOSTER, 10, 0, 0};
-  _entlist.push_back(tmp);
-  t_ent tmp1 = {0, 0, MONSTER, 100, NOTIME, 0};
-  _entlist.push_back(tmp1);
+  {
+    t_ent tmp = {0, 0, BOOSTER, 10, 0, 0};
+    _entlist.push_back(tmp);
+  }
+  {
+    t_ent tmp = {0, 0, MONSTER, 100, NOTIME, 0};
+    _entlist.push_back(tmp);
+  }
+  {
+    t_ent tmp = {0, 0, WARP, 300, 0, 0};
+    _entlist.push_back(tmp);
+  }
 }
 
 void		Game::remove_entities()
@@ -199,11 +207,18 @@ void		Game::add_entities()
     if (beg->type == ent.type || (beg->x == ent.x && beg->y == ent.y))
       return ;
   _ent.push_back(ent);
+  if (ent.type == WARP)
+    {
+      ent.x = std::rand() % _x;
+      ent.y = std::rand() % _y;
+      _ent.push_back(ent);
+    }
 }
 
 int		Game::spe_collision(vit &vbeg, vit &vend)
 {
   bool		ret = 1;
+  vit		tbeg;
 
   if (vbeg->type >= APPLE && vbeg->type <= KIWI)
     {
@@ -213,12 +228,31 @@ int		Game::spe_collision(vit &vbeg, vit &vend)
 	ret = 0;
       _player.score += vbeg->score;
     }
-  else if (vbeg->type == BOOSTER)
-    _fps = (rand() % 2) == 0 ? (FPS / 4) : (FPS * 2);
-  else if (vbeg->type == WALL)
-    return (2);
-  else if (vbeg->type == MONSTER)
-    _player.score += vbeg->score;
+  switch (static_cast<int>(vbeg->type))
+    {
+    case (BOOSTER):
+      _fps = (rand() % 2) == 0 ? (FPS / 4) : (FPS * 2);
+      break;
+    case (WALL):
+      return (2);
+      break ;
+    case (MONSTER):
+      _player.score += vbeg->score;
+      break;
+    case (WARP):
+      for (tbeg = _ent.begin(); tbeg != vend; tbeg++)
+	{
+	  if (tbeg == vbeg)
+	    continue ;
+	  if (tbeg->type == WARP)
+	    {
+	      _snake.begin()->x = tbeg->x;
+	      _snake.begin()->y = tbeg->y;
+	      break ;
+	    }
+	}
+      break;
+    }
   _ent.erase(vbeg);
   return (ret);
 }

@@ -28,6 +28,7 @@ enum Entities
     BOOSTER,
     WALL,
     MONSTER,
+    WARP,
     ELAST
   };
 
