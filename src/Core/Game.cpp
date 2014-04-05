@@ -78,7 +78,7 @@ void	Game::init_entities()
   for (int i = APPLE; i <= KIWI; ++i)
     {
       t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1,
-		   NOTIME, pow(2, i - APPLE)};
+		   NOTIME, pow(2, i)};
       _entlist.push_back(tmp);
     }
   for (int i = 0; i < 10; ++i)
@@ -249,6 +249,8 @@ int		Game::spe_collision(vit &vbeg, vit &vend)
       break ;
     case (MONSTER):
       _player.score += vbeg->score;
+      for (int i = 0; i < std::sqrt(vbeg->score); i++)
+	_snake.push_back(*_snake.begin());
       break;
     case (WARP):
       for (tbeg = _ent.begin(); tbeg != vend; tbeg++)
@@ -264,7 +266,8 @@ int		Game::spe_collision(vit &vbeg, vit &vend)
 	}
       break;
     }
-  _ent.erase(vbeg);
+  if (vbeg->type != WARP)
+    _ent.erase(vbeg);
   return (ret);
 }
 
