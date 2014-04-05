@@ -61,17 +61,18 @@ void	Game::init_entities()
     }
   for (int i = APPLE; i <= KIWI; ++i)
     {
-      t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1, NOTIME};
+      t_ent tmp = {0, 0, static_cast<Entities>(i), (i - APPLE) * 100 + 1,
+		   NOTIME, pow(2, i - APPLE)};
       _entlist.push_back(tmp);
     }
   for (int i = 0; i < 10; ++i)
     {
-      t_ent tmp = {(std::rand() % _x), (std::rand() % _y), WALL, 0, NOTIME};
+      t_ent tmp = {(std::rand() % _x), (std::rand() % _y), WALL, 0, NOTIME, 0};
       _ent.push_back(tmp);
     }
-  t_ent tmp = {0, 0, BOOSTER, 10, 0};
+  t_ent tmp = {0, 0, BOOSTER, 10, 0, 0};
   _entlist.push_back(tmp);
-  t_ent tmp1 = {0, 0, MONSTER, 100, NOTIME};
+  t_ent tmp1 = {0, 0, MONSTER, 100, NOTIME, 0};
   _entlist.push_back(tmp1);
 }
 
@@ -99,7 +100,10 @@ bool	Game::monster_colision(vit &beg)
 	   (tmp->type >= APPLE && tmp->type <= KIWI)))
 	{
 	  if (tmp->type >= APPLE && tmp->type <= KIWI)
-	    _ent.erase(tmp);
+	    {
+	      (*beg).score += tmp->score;
+	      _ent.erase(tmp);
+	    }
 	  else if (tmp->type == WALL)
 	    {
 	      beg = _ent.erase(beg);
@@ -171,7 +175,7 @@ void		Game::add_entities()
   int		nb_ent = _ent.size();
   c_vit		beg = _entlist.begin();
   c_vit		end = _entlist.end();
-  t_ent		ent = {0, 0, ELAST, 0, NOTIME};
+  t_ent		ent = {0, 0, ELAST, 0, NOTIME, 0};
   unsigned int	nb;
 
   if (nb_ent >= MAXENT)
@@ -202,12 +206,14 @@ int		Game::spe_collision(vit &vbeg, vit &vend)
 	_snake.push_back(*_snake.begin());
       if ((vend = _ent.end()) == vbeg)
 	ret = 0;
-      _player.score += pow(2, vbeg->type);
+      _player.score += vbeg->score;
     }
   else if (vbeg->type == BOOSTER)
     _fps = (rand() % 2) == 0 ? (FPS / 4) : (FPS * 2);
   else if (vbeg->type == WALL)
     return (2);
+  else if (vbeg->type == MONSTER)
+    _player.score += vbeg->score;
   _ent.erase(vbeg);
   return (ret);
 }
