@@ -50,14 +50,13 @@ void	SFMLGraphics::clear()
 void SFMLGraphics::draw(int x, int y, int type, int dir)
 {
   sf::Sprite		tmp(_sprites);
-  double		rate_x, rate_y, _x, _y, minr;
+  double		rate_x, rate_y, _x, _y;
   sf::RectangleShape	rect;
 
   _x = x;
   _y = y;
   rate_x = _size_win[0] / _size_map[0];
   rate_y = _size_win[1] / _size_map[1];
-  // minr = (rate_x < rate_y) ? rate_x : rate_y;
   if (dir == RIGHT)
     {
       tmp.setTextureRect(sf::IntRect((type + 1) * SIZE_PNG, 0, -SIZE_PNG, SIZE_PNG));
