@@ -59,18 +59,21 @@ private:
   void	encrypt_line(std::string &line) const;
   void	decrypt_line(std::string &line) const;
   void	end_score(bool *key, bool &done) const;
+  void	switch_lib();
 
 private:
-  int			_x;
-  int			_y;
-  unsigned int		_fps;
-  IGraphics		*_window;
-  LibLoader		_lib;
-  bool			_key[4];
-  std::list<t_snake>	_snake;
-  std::vector<t_ent>	_ent;
-  std::vector<t_ent>	_entlist;
-  t_player		_player;
+  int				_x;
+  int				_y;
+  unsigned int			_fps;
+  IGraphics			*_window;
+  LibLoader			_lib;
+  std::vector<std::string>	_all_lib;
+  int				_current_lib;
+  bool				_key[4];
+  std::list<t_snake>		_snake;
+  std::vector<t_ent>		_ent;
+  std::vector<t_ent>		_entlist;
+  t_player			_player;
 };
 
 #endif /* _GAME_H_ */

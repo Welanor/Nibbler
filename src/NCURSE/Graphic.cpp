@@ -50,7 +50,7 @@ void	Graphics::destroyWindow()
 
 void	Graphics::handleEvent(bool *key)
 {
-  static int	keys[LAST] = {'q', 'z', 'd', 's', KEY_LEFT, KEY_RIGHT, 27, 'p', 'r'};
+  static int	keys[LAST] = {'q', 'z', 'd', 's', KEY_LEFT, KEY_RIGHT, 27, 'p', 'r', 'c'};
   int		i;
   int		tmp;
 
