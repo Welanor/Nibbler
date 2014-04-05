@@ -7,13 +7,11 @@ SFMLGraphics::SFMLGraphics(): IGraphics(), _sprites(), _background(), _music(), 
   _size_map[1] = 0;
   _size_win[0] = 0;
   _size_win[1] = 0;
-  std::cout << "Constructor SFML" << std::endl;
 }
 
 SFMLGraphics::~SFMLGraphics()
 {
   _music.stop();
-  std::cout << "Destructor SFML" << std::endl;
 }
 
 bool	SFMLGraphics::create_window(const std::string &name, const int *size_win, const int *size_map)
@@ -89,17 +87,9 @@ void SFMLGraphics::handleKey(sf::Event event, bool *key)
 			       sf::Keyboard::Escape, sf::Keyboard::P, sf::Keyboard::R};
   int		i;
 
-  for (i = 0; i < LAST; i++)
-    {
-      if (i != PAUSE)
-	key[i] = false;
-    }
   for (i = 0; i < LAST && keys[i] != event.key.code; i++);
   if (i < LAST)
-    {
-      key[i] = !key[i];
-      std::cerr << " pressed: " << i << std::endl;
-    }
+    key[i] = !key[i];
   if (event.key.code == sf::Keyboard::Add)
     {
       _vol += 5;
@@ -118,6 +108,11 @@ void SFMLGraphics::handleEvent(bool *key)
 {
   sf::Event event;
 
+  for (int i = 0; i < LAST; i++)
+    {
+      if (i != PAUSE)
+	key[i] = false;
+    }
   while (_win.pollEvent(event))
     {
       switch (event.type)
@@ -129,7 +124,6 @@ void SFMLGraphics::handleEvent(bool *key)
 	  _size_win[0] = event.size.width;
 	  _size_win[1] = event.size.height;
 	  _win.setView(sf::View(sf::FloatRect(0, 0, _size_win[0], _size_win[1])));
-	  std::cout << _size_win[0] << " | " << _size_win[1] << std::endl;
 	  break;
         case sf::Event::KeyPressed:
 	  handleKey(event, key);
@@ -170,7 +164,6 @@ void	SFMLGraphics::display_f_score(const std::string &name, int score, int y)
   ss << " ";
   ss << score;
 
-  std::cout << ss.str() << std::endl;
   text.setFont(_font);
   text.setString(ss.str());
   text.setCharacterSize(24);
@@ -183,7 +176,6 @@ void	SFMLGraphics::display_pause_msg()
 {
   sf::Text text;
 
-  std::cout << "Pause" << std::endl;
   text.setFont(_font);
   text.setString("PAUSE");
   text.setCharacterSize(24);
