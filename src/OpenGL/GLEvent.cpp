@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 21:14:38 2014 Etienne
-// Last update Sat Apr  5 21:56:20 2014 Etienne
+// Last update Sat Apr  5 22:03:29 2014 Etienne
 //
 
 #include "Graphic.hpp"
@@ -13,7 +13,7 @@
 
 extern Graphics	*graphic;
 
-void		catchSpecialKey(int key, int x, int y)
+void		catchSpecialKey(int key, int, int)
 {
   int		glut[2] = {GLUT_KEY_LEFT, GLUT_KEY_RIGHT};
   Keypos	associative[2] = {ARIGHT, ALEFT};
@@ -32,7 +32,7 @@ void		catchSpecialKey(int key, int x, int y)
   glutPostRedisplay();
 }
 
-void		catchBasicKey(unsigned char key, int x, int y)
+void		catchBasicKey(unsigned char key, int, int)
 {
   std::map<unsigned char, camMovement>		associatedKeyCam = graphic->getCam()->getAssocitedKey();
   std::map<unsigned char, Keypos>		associatedKeySnake = graphic->getAssocitedKey();
@@ -55,7 +55,7 @@ void		catchBasicKey(unsigned char key, int x, int y)
     graphic->setKey(ESC, true);
 }
 
-void		catchBasicKeyUp(unsigned char key, int x, int y)
+void		catchBasicKeyUp(unsigned char key, int, int)
 {
   std::map<unsigned char, camMovement>	associatedKey = graphic->getCam()->getAssocitedKey();
   std::map<unsigned char, camMovement>::iterator it = associatedKey.find(key);

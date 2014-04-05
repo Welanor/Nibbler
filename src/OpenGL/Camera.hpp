@@ -6,7 +6,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:39:57 2014 Etienne
-// Last update Sat Apr  5 21:23:07 2014 Etienne
+// Last update Sat Apr  5 22:04:34 2014 Etienne
 //
 
 #ifndef _CAMERA_H_
@@ -38,7 +38,7 @@ public:
   void		look();
   void		look(float,float,float);
   void		reinit_pos();
-  void		followSnake(int dir, int *headPos);
+  void		followSnake(int dir);
   void		moveEye(int eyex, int eyey, int eyez);
   void		moveDir(int dirx, int diry, int dirz);
   void		moveEye(camMovement mov);

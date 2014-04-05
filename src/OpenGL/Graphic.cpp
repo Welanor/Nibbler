@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Sat Apr  5 21:56:27 2014 Etienne
+// Last update Sat Apr  5 21:58:24 2014 Etienne
 //
 
 #include <unistd.h>
@@ -208,8 +208,6 @@ void		Graphics::updateDisplayMap()
 
 void		Graphics::init_light()
 {
-  GLfloat	WHITE[] = {1, 1, 1, 1.0};
-
   glCullFace(GL_FRONT);
   glEnable(GL_DEPTH_TEST);
   glMaterialf(GL_FRONT, GL_SHININESS, 40);

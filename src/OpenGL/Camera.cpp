@@ -6,7 +6,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:50:28 2014 Etienne
-// Last update Sat Apr  5 21:23:05 2014 Etienne
+// Last update Sat Apr  5 22:03:58 2014 Etienne
 //
 
 #include <GL/glut.h>
@@ -51,7 +51,7 @@ void		Camera::reinit_pos()
   _custom_pos["dirz"] = _base_pos["dirz"];
 }
 
-void	        Camera::followSnake(int snakedir, int *headPos)
+void	        Camera::followSnake(int snakedir)
 {
   switch (snakedir)
     {
