@@ -84,8 +84,9 @@ void SFMLGraphics::destroyWindow()
 
 void SFMLGraphics::handleKey(sf::Event event, bool *key)
 {
-  int		keys[LAST] = { sf::Keyboard::Left, sf::Keyboard::Up, sf::Keyboard::Right,
-			       sf::Keyboard::Down, sf::Keyboard::Escape, sf::Keyboard::P, sf::Keyboard::R};
+  int		keys[LAST] = { sf::Keyboard::Q, sf::Keyboard::Z, sf::Keyboard::D,
+			       sf::Keyboard::S, sf::Keyboard::Left, sf::Keyboard::Right,
+			       sf::Keyboard::Escape, sf::Keyboard::P, sf::Keyboard::R};
   int		i;
 
   for (i = 0; i < LAST; i++)
@@ -95,7 +96,10 @@ void SFMLGraphics::handleKey(sf::Event event, bool *key)
     }
   for (i = 0; i < LAST && keys[i] != event.key.code; i++);
   if (i < LAST)
-    key[i] = !key[i];
+    {
+      key[i] = !key[i];
+      std::cerr << " pressed: " << i << std::endl;
+    }
   if (event.key.code == sf::Keyboard::Add)
     {
       _vol += 5;
