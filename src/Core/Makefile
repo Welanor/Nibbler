@@ -5,7 +5,7 @@
 ## Login   <dellam_a@epitech.net>
 ##
 ## Started on  Sun Mar  9 03:35:24 2014 Adrien
-## Last update Fri Mar 28 11:32:27 2014 
+## Last update Sat Apr  5 16:49:33 2014 luc sinet
 ##
 
 
@@ -17,7 +17,7 @@ CC		=	g++
 RM		=	rm -f
 
 CXXFLAGS	+=	-Wextra -Wall -W -g
-LDFLAGS		+=	-ldl
+LDFLAGS		+=	-ldl -lX11
 
 INCDIR		=	-I../Includes/
 SRCDIR		=	./
@@ -25,7 +25,7 @@ SRC		=	main.cpp \
 			Game.cpp \
 			Exception.cpp \
 			LibLoader.cpp \
-			Time.cpp
+			Timer.cpp
 
 OBJDIR		=	../../obj/Core/
 OBJS		=	$(addprefix $(OBJDIR), $(SRC:.cpp=.o))

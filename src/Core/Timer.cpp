@@ -1,33 +1,33 @@
-#include "Time.hpp"
+#include "Timer.hpp"
 
-Time::Time()
+Timer::Timer()
 {
 
 }
 
-Time::~Time()
+Timer::~Timer()
 {
 
 }
 
-Time	&Time::operator-=(const Time &cpy)
+Timer	&Timer::operator-=(const Timer &cpy)
 {
   _time.tv_sec -= cpy._time.tv_sec;
   _time.tv_usec -= cpy._time.tv_usec;
   return (*this);
 }
 
-bool	Time::operator<(double val) const
+bool	Timer::operator<(double val) const
 {
   return ((_time.tv_sec * 1000.0 + _time.tv_usec / 1000.0) < val);
 }
 
-double	Time::getTime() const
+double	Timer::getTimer() const
 {
   return (_time.tv_sec * 1000.0 + _time.tv_usec / 1000.0);
 }
 
-void	Time::startTime()
+void	Timer::startTimer()
 {
   gettimeofday(&_time, NULL);
 }
