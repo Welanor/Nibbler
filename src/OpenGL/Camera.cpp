@@ -6,7 +6,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:50:28 2014 Etienne
-// Last update Sat Apr  5 17:27:56 2014 Etienne
+// Last update Sat Apr  5 21:23:05 2014 Etienne
 //
 
 #include <GL/glut.h>
@@ -27,10 +27,10 @@ Camera::Camera(float eyex, float eyey, float eyez,
   _base_pos["dirx"] = _custom_pos["dirx"] = dirx;
   _base_pos["diry"] = _custom_pos["diry"] = diry;
   _base_pos["dirz"] = _custom_pos["dirz"] = dirz;
-  _associativeKey['w'] = CAM_UP;
-  _associativeKey['x'] = CAM_DOWN;
-  _associativeKey['c'] = CAM_NEAR;
-  _associativeKey['v'] = CAM_FAR;
+  _associatedKey['w'] = CAM_UP;
+  _associatedKey['x'] = CAM_DOWN;
+  _associatedKey['c'] = CAM_NEAR;
+  _associatedKey['v'] = CAM_FAR;
   _sensivity = sensivity;
 }
 
@@ -118,6 +118,11 @@ void		Camera::setEvent(camMovement event, bool status)
   _eventCam[event] = status;
 }
 
+std::map<unsigned char, camMovement>	Camera::getAssocitedKey() const
+{
+  return _associatedKey;
+}
+
 void		Camera::updateEvent()
 {
   camMovement	mov;
@@ -128,9 +133,4 @@ void		Camera::updateEvent()
       if (_eventCam[mov] == true)
 	this->moveEye(mov);
     }
-}
-
-std::map<unsigned char, camMovement>	Camera::getAssociativKey()
-{
-  return _associativeKey;
 }

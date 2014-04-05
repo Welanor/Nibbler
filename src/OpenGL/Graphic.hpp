@@ -19,8 +19,9 @@ struct		colorEntities
     rgb[0] = r;
     rgb[1] = g;
     rgb[2] = b;
+    rgb[3] = 1.0;
   }
-  GLfloat	rgb[3];
+  GLfloat	rgb[4];
 };
 
 class Graphics : public IGraphics
@@ -46,8 +47,10 @@ public:
   virtual void display_pause_msg();
   virtual void changeFirst();
   virtual void changeFollowSnake();
+  std::map<unsigned char, Keypos>	getAssocitedKey() const;
   int		*getHeadPos();
   Camera	*getCam();
+  void	       create_plane();
 private:
   bool					_key[LAST];		// status des key
   int					_displayId;
@@ -61,6 +64,7 @@ private:
   float					_vecdir[3];
   bool					_isFirst;
   bool					_followSnake;
+  std::map<unsigned char, Keypos>	_associatedKey;
   Camera				*cam;
 };
 

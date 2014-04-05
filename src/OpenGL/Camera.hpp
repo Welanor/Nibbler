@@ -1,3 +1,4 @@
+
 //
 // Camera.hpp for cam in /home/debas_e/Project/C++/cpp_nibbler/src/OpenGL
 //
@@ -5,7 +6,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:39:57 2014 Etienne
-// Last update Sat Apr  5 17:27:44 2014 Etienne
+// Last update Sat Apr  5 21:23:07 2014 Etienne
 //
 
 #ifndef _CAMERA_H_
@@ -43,13 +44,13 @@ public:
   void		moveEye(camMovement mov);
   void		setEvent(camMovement, bool);
   void		updateEvent();
-  std::map<unsigned char, camMovement>	getAssociativKey();
+  std::map<unsigned char, camMovement>	getAssocitedKey() const;
   const std::map<std::string, float>    getEyePos() const;
 private:
   std::map<camMovement, bool>		_eventCam;
   std::map<std::string, float>		_base_pos;
   std::map<std::string, float>		_custom_pos;
-  std::map<unsigned char, camMovement>	_associativeKey;
+  std::map<unsigned char, camMovement>	_associatedKey;
   float					_sensivity;
 };
 
