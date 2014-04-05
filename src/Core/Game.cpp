@@ -258,7 +258,7 @@ void	Game::move_snake(bool *key)
       !key[RIGHT] && !key[ARIGHT] && !key[ALEFT])
     key[beg->dir] = true;
   old = *beg;
-  for (int i = 0; i <= ALEFT; i++)
+  for (int i = 0; i < ESC; i++)
     if (key[i])
       {
 	if (i == ALEFT)
@@ -269,6 +269,7 @@ void	Game::move_snake(bool *key)
 	  beg->dir = static_cast<Keypos>(i);
 	key[beg->dir] = true;
       }
+  std::cerr << "r: " << key[RIGHT] << " l: " << key[LEFT] << " d: " << key[DOWN] << " u: " << key[UP] << std::endl;
   beg->x += (key[RIGHT]) ? 1 : (key[LEFT]) ? -1 : 0;
   beg->y += (key[DOWN]) ? 1 : (key[UP]) ? -1 : 0;
   ++beg;
