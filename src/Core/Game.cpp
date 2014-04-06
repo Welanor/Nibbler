@@ -28,9 +28,12 @@ Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _current_lib(0), _snake()
 
 Game::~Game()
 {
-  _window->destroyWindow();
-  delete _window;
-  _lib.close();
+  if (_window != NULL)
+    {
+      _window->destroyWindow();
+      delete _window;
+      _lib.close();
+    }
 }
 
 void	Game::parse_arg(const int ac, char **av)
@@ -466,12 +469,14 @@ void	Game::switch_lib()
 
   _window->destroyWindow();
   delete _window;
+  _window = NULL;
   _lib.close();
   _current_lib = (_current_lib + 1) % _all_lib.size();
   _lib.open(_all_lib[_current_lib], RTLD_LAZY);
-  createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"));
+  if ((createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"))) == NULL)
+    throw(Exception("Error unknow symbol"));
   _window = (createGraphics)();
-  if (_window->create_window("Nibbler", size_win, size_map) == false)
+  if (_window == NULL || _window->create_window("Nibbler", size_win, size_map) == false)
     throw (Exception("Init Windows Failed"));
 }
 
