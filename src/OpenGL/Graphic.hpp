@@ -7,6 +7,7 @@
 # include "Camera.hpp"
 # include <map>
 # include <string>
+# include <sstream>
 # include <utility>
 
 # define VIEW_FOV       120.0
@@ -50,7 +51,9 @@ public:
   std::map<unsigned char, Keypos>	getAssocitedKey() const;
   int		*getHeadPos();
   Camera	*getCam();
-  void	       create_plane();
+  void		create_plane();
+  void		printFinalScore(const char *score, int x, int y);
+  void		setWinSize(int width, int height);
 private:
   bool					_key[LAST];		// status des key
   int					_displayId;
@@ -75,5 +78,5 @@ void		display(void);
 void		idle(void);
 void		catchBasicKeyUp(unsigned char key, int x, int y);
 void		updateCamTimer(int value);
-
+void		DrawScreen();
 #endif /* _GRAPHICS_H_ */

@@ -6,7 +6,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Thu Apr  3 21:50:28 2014 Etienne
-// Last update Sat Apr  5 22:03:58 2014 Etienne
+// Last update Sun Apr  6 00:11:26 2014 Etienne
 //
 
 #include <GL/glut.h>
@@ -27,10 +27,10 @@ Camera::Camera(float eyex, float eyey, float eyez,
   _base_pos["dirx"] = _custom_pos["dirx"] = dirx;
   _base_pos["diry"] = _custom_pos["diry"] = diry;
   _base_pos["dirz"] = _custom_pos["dirz"] = dirz;
-  _associatedKey['w'] = CAM_UP;
-  _associatedKey['x'] = CAM_DOWN;
-  _associatedKey['c'] = CAM_NEAR;
-  _associatedKey['v'] = CAM_FAR;
+  _associatedKey['t'] = CAM_UP;
+  _associatedKey['y'] = CAM_DOWN;
+  _associatedKey['u'] = CAM_NEAR;
+  _associatedKey['i'] = CAM_FAR;
   _sensivity = sensivity;
 }
 

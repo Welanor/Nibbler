@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 21:14:38 2014 Etienne
-// Last update Sat Apr  5 22:03:29 2014 Etienne
+// Last update Sun Apr  6 10:26:29 2014 Etienne
 //
 
 #include "Graphic.hpp"
@@ -18,10 +18,6 @@ void		catchSpecialKey(int key, int, int)
   int		glut[2] = {GLUT_KEY_LEFT, GLUT_KEY_RIGHT};
   Keypos	associative[2] = {ARIGHT, ALEFT};
 
-  for (int i = 0; i < LAST ; i++)
-    {
-      graphic->setKey(i, false);
-    }
   for (int i = 0 ; i < 2 ; i++)
     if (glut[i] == key)
       graphic->setKey(associative[i], true);
@@ -39,10 +35,6 @@ void		catchBasicKey(unsigned char key, int, int)
   std::map<unsigned char, camMovement>::iterator itCam = associatedKeyCam.find(key);
   std::map<unsigned char, Keypos>::iterator	 itSnake = associatedKeySnake.find(key);
 
-  for (int i = 0; i < LAST ; i++)
-    {
-      graphic->setKey(i, false);
-    }
   if (itCam != associatedKeyCam.end())
     {
       graphic->getCam()->setEvent(itCam->second, true);
@@ -79,6 +71,7 @@ void	resize(int width, int height)
   glFrustum(-ar, ar, -1.0, 1.0, 2.0, 5000.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+  graphic->setWinSize(width, height);
 }
 
 void updateCamTimer(int value)
@@ -88,12 +81,24 @@ void updateCamTimer(int value)
   glutTimerFunc (20, updateCamTimer, value);
 }
 
+// void DrawScreen()
+// {
+//   glColor3f(1,0,0);
+
+//   std::string text;
+//   text = "This is a simple text.";
+//   glColor3f(0, 1, 0);
+//   drawText(text.data(), text.size(), 50, 200);
+// }
+
 void	display(void)
 {
   glLoadIdentity();
 
   graphic->updateCam();
   graphic->updateDisplayMap();
+
+  // DrawScreen();
 
   glutPostRedisplay();
 }
