@@ -50,11 +50,11 @@ void	Game::parse_arg(const int ac, char ** const &av)
   ss.str(av[2]);
   if (!(ss >> _y) || _y <= 0)
     throw(Exception("Size Y invalid"));
-  for (int i = 3;i < ac;i++)
+  for (int i = 3; i < ac; i++)
     {
       if (std::string(av[i]) == "--name")
 	{
-	  if (i + 1 < ac)
+	  if (ac >= 6)
 	    _player.name = av[i + 1];
 	  else
 	    throw(Exception("Usage: ./nibbler size_x size_y lib_nibbler_XXX.so [--name NAME] [other lib]"));
@@ -480,10 +480,10 @@ void	Game::switch_lib()
   _current_lib = (_current_lib + 1) % _all_lib.size();
   _lib.open(_all_lib[_current_lib], RTLD_LAZY);
   if ((createGraphics = reinterpret_cast<IGraphics *(*)()>(_lib.getSym("init_graphics"))) == NULL)
-    throw(Exception("Error unknow symbol"));
+    throw(Exception("Error: unknown symbol"));
   _window = (createGraphics)();
   if (_window == NULL || _window->create_window("Nibbler", size_win, size_map) == false)
-    throw (Exception("Init Windows Failed"));
+    throw (Exception("Init Window Failed"));
 }
 
 
@@ -498,7 +498,7 @@ void	Game::start()
   int	idx = -1;
 
   if (_window->create_window("Nibbler", size_win, size_map) == false)
-    throw (Exception("Init Windows Failed"));
+    throw (Exception("Init Window Failed"));
   while (!done && !key[ESC])
     {
       handle_fps(idx);
