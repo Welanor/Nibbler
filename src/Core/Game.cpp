@@ -504,7 +504,6 @@ void	Game::start()
       handle_fps(idx);
       frameRate = (1.0 / static_cast<double>(_fps)) * 1000.0;
       begin.startTimer();
-      /* Evenement */
       for (int i = 0; i == 0 || key[PAUSE]; i = 1)
 	{
 	  _window->handleEvent(key);
