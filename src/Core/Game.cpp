@@ -9,7 +9,7 @@
 #include <X11/Xos.h>
 #include "Game.hpp"
 
-Game::Game(int ac, char **av) : _x(0), _y(0), _lib(), _current_lib(0), _snake()
+Game::Game(const int ac, char **av) : _x(0), _y(0), _lib(), _current_lib(0), _snake()
 {
   IGraphics	*(*createGraphics)();
   Display	*dis;
@@ -36,7 +36,7 @@ Game::~Game()
     }
 }
 
-void	Game::parse_arg(const int ac, char **av)
+void	Game::parse_arg(const int ac, char ** const &av)
 {
   std::stringstream ss("");
   std::string libname("");
