@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Sun Apr  6 18:17:43 2014 Etienne
+// Last update Sun Apr  6 18:23:19 2014 Etienne
 //
 
 #include <unistd.h>
@@ -301,7 +301,7 @@ void		Graphics::display_f_score(const std::string& score, int x, int y)
   glLineWidth(10.0);
   glEnable(GL_LINE_SMOOTH);
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
-  displayString(ss.str().c_str(), _size["winx"] / 2, _size["winy"] - (y * 10) - 40);
+  displayString(ss.str().c_str(), _size["winx"] / 2, _size["winy"] - (y * 24) * 2);
 }
 
 void		Graphics::display_pause_msg()
