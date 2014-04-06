@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Sun Apr  6 18:26:24 2014 Etienne
+// Last update Sun Apr  6 19:29:40 2014 Etienne
 //
 
 #include <unistd.h>
@@ -158,6 +158,12 @@ void		Graphics::update()
 
 void		Graphics::destroyWindow()
 {
+  // std::map<Entities, colorEntities *>::iterator	it;
+
+  // for (it = _color_entities.begin() ; it != _color_entities.end() ; it++)
+  //   {
+      // delete (*it).second;
+    // }
 }
 
 void		Graphics::setKey(int index, bool value)
@@ -171,22 +177,22 @@ void		Graphics::updateCam()
 
   if (_isFirst)
     {
-      cam->moveDir(_headpos[0] + 0.5f, 0, -(_headpos[1] + 0.5f));
-      cam->look();
+      _cam->moveDir(_headpos[0] + 0.5f, 0, -(_headpos[1] + 0.5f));
+      _cam->look();
     }
   else if (_followSnake)
     {
       if (_type == HEAD)
 	{
-	  eyePos = cam->getEyePos();
-	  cam->moveEye(_headpos[0] + 0.5f, eyePos["eyey"], -(_headpos[1] - 10 - 0.5f));
+	  eyePos = _cam->getEyePos();
+	  _cam->moveEye(_headpos[0] + 0.5f, eyePos["eyey"], -(_headpos[1] - 10 - 0.5f));
 	}
-      cam->moveDir(_headpos[0], 0, -(_headpos[1]));
-      cam->look();
+      _cam->moveDir(_headpos[0], 0, -(_headpos[1]));
+      _cam->look();
     }
   else
     {
-      cam->look();
+      _cam->look();
     }
 }
 
@@ -210,9 +216,9 @@ void		Graphics::init_cam()
   dirx = _size["mapx"] / 2.0;
   diry = 0;
   dirz = -_size["mapy"] / 2.0;
-  cam = new Camera(eyex, eyey, eyez,
-		   dirx, diry, dirz,
-		   1);
+  _cam = new Camera(eyex, eyey, eyez,
+		    dirx, diry, dirz,
+		    1);
 }
 
 void		Graphics::updateDisplayMap()
@@ -227,7 +233,7 @@ void		Graphics::updateDisplayMap()
   glPopMatrix();
 }
 
-void		Graphics::init_light()
+void		Graphics::init_light() const
 {
   glCullFace(GL_FRONT);
   glEnable(GL_DEPTH_TEST);
@@ -301,7 +307,7 @@ void		Graphics::display_f_score(const std::string& score, int x, int y)
   glLineWidth(10.0);
   glEnable(GL_LINE_SMOOTH);
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
-  displayString(ss.str().c_str(), _size["winx"] / 2 - (score.size() / 2.0 * 24) , _size["winy"] - (y * 24) * 2);
+  displayString(ss.str().c_str(), _size["winx"] / 2, _size["winy"] - (y * 24) * 2);
 }
 
 void		Graphics::display_pause_msg()
@@ -313,11 +319,11 @@ void		Graphics::changeFirst()
   std::map<std::string, float> eyePos;
 
   if (_isFirst == true)
-    cam->reinit_pos();
+    _cam->reinit_pos();
   else
     {
-      eyePos = cam->getEyePos();
-      cam->moveEye(_headpos[0] + 0.5f, eyePos["eyey"], -(_headpos[1] - 10 - 0.5f));
+      eyePos = _cam->getEyePos();
+      _cam->moveEye(_headpos[0] + 0.5f, eyePos["eyey"], -(_headpos[1] - 10 - 0.5f));
     }
   _isFirst = !_isFirst;
 }
@@ -325,16 +331,16 @@ void		Graphics::changeFirst()
 void		Graphics::changeFollowSnake()
 {
   if (_followSnake == true)
-    cam->reinit_pos();
+    _cam->reinit_pos();
   _followSnake = !_followSnake;
 }
 
 Camera		*Graphics::getCam()
 {
-  return cam;
+  return _cam;
 }
 
-int		*Graphics::getHeadPos()
+const int	*Graphics::getHeadPos() const
 {
   return _headpos;
 }
