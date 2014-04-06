@@ -379,20 +379,26 @@ void	Game::print_scores() const
   std::list<t_player>::iterator end;
   unsigned int	i = 0;
 
-  file.open (filename.c_str(), std::ios::in);
-  if (file.is_open())
+  std::ifstream infile(filename.c_str());
+  if (infile.is_open())
     {
-      for (; std::getline(file, line) && i < 6; ++i)
+      std::stringstream iss("");
+      iss << infile.rdbuf();
+      line = iss.str();
+      decrypt_line(line);
+      iss.clear();
+      iss.str(std::string());
+      iss << line;
+      for (i = 0; std::getline(iss, line) && i < 6; ++i)
 	{
-	  decrypt_line(line);
 	  t_player player;
-	  std::stringstream iss(line);
 
-	  iss >> player.name >> player.score;
+	  std::stringstream ioss(line);
+	  ioss >> player.name >> player.score;
 	  pl.push_back(player);
 	  _window->display_f_score(player.name, player.score, i);
 	}
-      file.close();
+      infile.close();
     }
   _window->display_f_score(_player.name, _player.score, i + 1);
   pl.push_back(_player);
