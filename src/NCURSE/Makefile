@@ -5,11 +5,11 @@
 ## Login   <sinet_l@epitech.net>
 ## 
 ## Started on  Tue Mar 18 22:16:29 2014 luc sinet
-## Last update Thu Apr  3 21:24:30 2014 
+## Last update Sun Apr  6 20:15:06 2014 luc sinet
 ##
 
 LIBDIR	= ../../bin/
-NAME    = $(addprefix $(LIBDIR), lib_nibbler_NCURSE.so)
+NAME    = $(addprefix $(LIBDIR), lib_nibbler_NCURSES.so)
 
 CC      = g++
 
