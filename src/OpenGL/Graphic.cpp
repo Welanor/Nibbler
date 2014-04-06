@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Sun Apr  6 18:28:29 2014 Etienne
+// Last update Sun Apr  6 18:53:11 2014 Etienne
 //
 
 #include <unistd.h>
@@ -227,7 +227,7 @@ void		Graphics::updateDisplayMap()
   glPopMatrix();
 }
 
-void		Graphics::init_light()
+void		Graphics::init_light() const
 {
   glCullFace(GL_FRONT);
   glEnable(GL_DEPTH_TEST);
@@ -334,7 +334,7 @@ Camera		*Graphics::getCam()
   return cam;
 }
 
-int		*Graphics::getHeadPos()
+const int	*Graphics::getHeadPos() const
 {
   return _headpos;
 }
