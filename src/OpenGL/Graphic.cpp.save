@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Sat Apr  5 23:15:50 2014 luc sinet
+// Last update Sat Apr  5 18:21:20 2014 Etienne
 //
 
 #include <unistd.h>
@@ -32,31 +32,28 @@ Graphics::Graphics()
       _eye[i] = 0;
       _vecdir[i] = 0;
     }
-  _associatedKey['z'] = DOWN;
-  _associatedKey['s'] = UP;
-  _associatedKey['d'] = RIGHT;
-  _associatedKey['q'] = LEFT;
 }
 
 Graphics::~Graphics()
 {
+  // delete cam;
 }
 
 void		Graphics::initColor()
 {
-  _color_entities[MONSTER] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
-  _color_entities[BUDDY] = new colorEntities(COLOR_FLOAT(65), COLOR_FLOAT(97), COLOR_FLOAT(10));
-  _color_entities[TAIL] = new colorEntities(COLOR_FLOAT(43), COLOR_FLOAT(66), COLOR_FLOAT(3));
-  _color_entities[HEAD] = new colorEntities(COLOR_FLOAT(151), COLOR_FLOAT(212), COLOR_FLOAT(47));
-  _color_entities[WALL] = new colorEntities(COLOR_FLOAT(99), COLOR_FLOAT(54), COLOR_FLOAT(3));
-  _color_entities[BANANA] = new colorEntities(COLOR_FLOAT(227), COLOR_FLOAT(205), COLOR_FLOAT(9));
-  _color_entities[STRAWBERRY] = new colorEntities(COLOR_FLOAT(200), COLOR_FLOAT(9), COLOR_FLOAT(23));
-  _color_entities[WARP] = new colorEntities(COLOR_FLOAT(10), COLOR_FLOAT(10), COLOR_FLOAT(10));
+  _color_entities[MONSTER] = new colorEntities(COLOR_FLOAT(15), COLOR_FLOAT(15), COLOR_FLOAT(13));
+  _color_entities[BUDDY] = new colorEntities(COLOR_FLOAT(20), COLOR_FLOAT(130), COLOR_FLOAT(12));
+  _color_entities[TAIL] = new colorEntities(COLOR_FLOAT(20), COLOR_FLOAT(130), COLOR_FLOAT(12));
+  _color_entities[HEAD] = new colorEntities(COLOR_FLOAT(44), COLOR_FLOAT(94), COLOR_FLOAT(41));
+  _color_entities[WALL] = new colorEntities(COLOR_FLOAT(66), COLOR_FLOAT(62), COLOR_FLOAT(62));
+  _color_entities[BANANA] = new colorEntities(COLOR_FLOAT(198), COLOR_FLOAT(201), COLOR_FLOAT(22));
+  _color_entities[STRAWBERRY] = new colorEntities(COLOR_FLOAT(235), COLOR_FLOAT(7), COLOR_FLOAT(7));
 
-  _color_entities[APPLE] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(0), COLOR_FLOAT(0));
-  _color_entities[PEAR] = new colorEntities(COLOR_FLOAT(182), COLOR_FLOAT(201), COLOR_FLOAT(10));
-  _color_entities[KIWI] = new colorEntities(COLOR_FLOAT(30), COLOR_FLOAT(64), COLOR_FLOAT(3));
-  _color_entities[BOOSTER] = new colorEntities(COLOR_FLOAT(36), COLOR_FLOAT(191), COLOR_FLOAT(150));
+  _color_entities[APPLE] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
+  _color_entities[PEAR] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
+  _color_entities[KIWI] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
+  _color_entities[BOOSTER] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
+  _color_entities[ELAST] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
 }
 
 bool		Graphics::create_window(const std::string &name,
@@ -88,20 +85,18 @@ bool		Graphics::create_window(const std::string &name,
   init_light();
   init_cam();
 
-  create_plane();
-
   return (true);
 }
 
 void		Graphics::handleEvent(bool *key)
 {
   for (int i = 0 ; i < LAST ; i++)
-    key[i] = false;
-  for (int i = 0 ; i < LAST ; i++)
     {
-      key[i] = _key[i];
+      key[i] = false;
       _key[i] = false;
     }
+  for (int i = 0 ; i < LAST ; i++)
+    key[i] = _key[i];
   glutMainLoopEvent();
 }
 
@@ -196,42 +191,8 @@ void		Graphics::init_cam()
 
 void		Graphics::updateDisplayMap()
 {
-  GLfloat *color = _color_entities[static_cast<Entities>(_type)]->rgb;
-
-  glCallList(_displayId);
-  glPushMatrix();
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
-  glTranslated(_pos[0] + 0.5f, 0.5f, -(_pos[1] + 0.5f));
-  glutSolidCube(1);
-  glPopMatrix();
-}
-
-void		Graphics::init_light()
-{
-  glCullFace(GL_FRONT);
-  glEnable(GL_DEPTH_TEST);
-  glMaterialf(GL_FRONT, GL_SHININESS, 40);
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-  glEnable(GL_LIGHT1);
-  glEnable(GL_LIGHT2);
-  glEnable(GL_LIGHT3);
-}
-
-void		Graphics::create_plane()
-{
-  GLfloat FLOOR[] = {COLOR_FLOAT(13), COLOR_FLOAT(123), COLOR_FLOAT(135), 1.0};
-  GLfloat lightPosition0[] = {_size["mapx"] / 2.0f, 30.0f, -(_size["mapy"] / 2.0f), 1.0f};
-  GLfloat lightColor0[] = {COLOR_FLOAT(227), COLOR_FLOAT(223), COLOR_FLOAT(102), 0.0f};
-  GLfloat high_shininess[] = { 50.0f };
-
-  _displayId = glGenLists(1);
-  glNewList(_displayId, GL_COMPILE);
-
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-  glLightfv(GL_LIGHT0, GL_POSITION, lightPosition0);
-  glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 10);
-  glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+  GLfloat *COLOR = _color_entities[static_cast<Entities>(_type)]->rgb;
+  GLfloat FLOOR[] = {COLOR_FLOAT(13), COLOR_FLOAT(123), COLOR_FLOAT(135)};
 
   glBegin(GL_QUADS);
   glNormal3d(0, 1, 0);
@@ -245,8 +206,34 @@ void		Graphics::create_plane()
     }
   }
   glEnd();
-  glEndList();
+
+  glPushMatrix();
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, COLOR);
+  glTranslated(_pos[0] + 0.5f, 0.5f, -(_pos[1] + 0.5f));
+  glutSolidCube(1);
+  glPopMatrix();
 }
+
+void		Graphics::init_light()
+{
+  GLfloat	WHITE[] = {1, 1, 1};
+  GLfloat lightColor0[] = {COLOR_FLOAT(227), COLOR_FLOAT(223), COLOR_FLOAT(102), 0.0f};
+
+  glCullFace(GL_FRONT);
+  glEnable(GL_DEPTH_TEST);
+  glMaterialf(GL_FRONT, GL_SHININESS, 40);
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  glEnable(GL_LIGHT1);
+  glEnable(GL_LIGHT2);
+  glEnable(GL_LIGHT3);
+
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+}
+
+// void		Graphics::create_plane()
+// {
+// }
 
 void		Graphics::display_f_score(const std::string&, int, int)
 {
@@ -287,10 +274,7 @@ int		*Graphics::getHeadPos()
   return _headpos;
 }
 
-std::map<unsigned char, Keypos> Graphics::getAssocitedKey() const
-{
-  return _associatedKey;
-}
+
 
 extern "C"
 {
