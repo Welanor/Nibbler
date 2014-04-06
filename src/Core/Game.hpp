@@ -44,7 +44,7 @@ public:
   void	start();
 
 private:
-  void	parse_arg(const int ac, char **av);
+  void	parse_arg(const int ac, char ** const &av);
   bool	check_collision();
   int	spe_collision(vit &vbeg, vit &vend);
   void	move_snake(bool *key);
