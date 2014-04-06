@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Sun Apr  6 19:29:40 2014 Etienne
+// Last update Sun Apr  6 21:51:21 2014 luc sinet
 //
 
 #include <unistd.h>
@@ -360,7 +360,6 @@ extern "C"
 {
   IGraphics	*init_graphics()
   {
-    std::cout << "init_graphics" << std::endl;
     graphic = new Graphics;
     return (graphic);
   }

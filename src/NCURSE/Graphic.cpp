@@ -2,7 +2,6 @@
 
 Graphics::Graphics()
 {
-  std::cout << "Constructor NCURSE" << std::endl;
   initscr();
   start_color();
   curs_set(0);
@@ -11,7 +10,6 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
-  std::cout << "Destructor NCURSE" << std::endl;
   endwin();
 }
 
@@ -90,7 +88,6 @@ extern "C"
 {
   IGraphics	*init_graphics()
   {
-    std::cout << "init_graphics" << std::endl;
     return (new Graphics);
   }
 }
