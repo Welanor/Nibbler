@@ -52,7 +52,7 @@ public:
   int		*getHeadPos();
   Camera	*getCam();
   void		create_plane();
-  void		printFinalScore(const char *score, int x, int y);
+  void		displayString(const char *score, int x, int y);
   void		setWinSize(int width, int height);
 private:
   bool					_key[LAST];		// status des key

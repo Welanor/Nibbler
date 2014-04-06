@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Sun Apr  6 13:10:59 2014 luc sinet
+// Last update Sun Apr  6 18:17:43 2014 Etienne
 //
 
 #include <unistd.h>
@@ -138,7 +138,16 @@ void		Graphics::draw(int x, int y, int type, int dir)
 
 void		Graphics::display_score(int score)
 {
+  std::stringstream ss("");
+  GLfloat	color[] = {1.0, 1.0, 1.0, 1.0};
 
+  ss << "SCORE : " << score;
+  glLineWidth(10.0);
+  glDisable(GL_LIGHTING);
+  glEnable(GL_LINE_SMOOTH);
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
+  displayString(ss.str().c_str(), 20, _size["winy"] - 40);
+  glEnable(GL_LIGHTING);
 }
 
 void		Graphics::update()
@@ -260,14 +269,14 @@ void		Graphics::create_plane()
   glEndList();
 }
 
-void		Graphics::printFinalScore(const char *score, int x, int y)
+void		Graphics::displayString(const char *score, int x, int y)
 {
   double	matrix[16];
 
   glMatrixMode(GL_PROJECTION);
   glGetDoublev(GL_PROJECTION_MATRIX, matrix);
   glLoadIdentity();
-  glOrtho(0, _size["winx"], 0, _size["winy"], -5, 5);
+  glOrtho(0, _size["winx"], 0, _size["winy"], -1, 1);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glPushMatrix();
@@ -285,10 +294,14 @@ void		Graphics::printFinalScore(const char *score, int x, int y)
 void		Graphics::display_f_score(const std::string& score, int x, int y)
 {
   std::stringstream	ss("");
+  GLfloat	color[] = {1.0, 1.0, 1.0, 1.0};
 
+  glDisable(GL_LIGHTING);
   ss << score + " : " << x;
-  std::cout <<  score <<  " " << x << " " << y << std::endl;
-  printFinalScore(ss.str().c_str(), _size["winx"] / 2, _size["winy"] - (y * 40));
+  glLineWidth(10.0);
+  glEnable(GL_LINE_SMOOTH);
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
+  displayString(ss.str().c_str(), _size["winx"] / 2, _size["winy"] - (y * 10) - 40);
 }
 
 void		Graphics::display_pause_msg()
