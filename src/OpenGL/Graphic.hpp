@@ -68,7 +68,7 @@ private:
   bool					_isFirst;
   bool					_followSnake;
   std::map<unsigned char, Keypos>	_associatedKey;
-  Camera				*cam;
+  Camera				*_cam;
 };
 
 void		catchSpecialKey(int key, int x, int y);
