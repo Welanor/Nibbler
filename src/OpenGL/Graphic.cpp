@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Mon Mar 31 15:44:39 2014 Etienne
-// Last update Sun Apr  6 12:01:51 2014 Etienne
+// Last update Sun Apr  6 13:10:59 2014 luc sinet
 //
 
 #include <unistd.h>
@@ -47,19 +47,19 @@ Graphics::~Graphics()
 
 void		Graphics::initColor()
 {
-  _color_entities[MONSTER] = new colorEntities(COLOR_FLOAT(15), COLOR_FLOAT(15), COLOR_FLOAT(13));
-  _color_entities[BUDDY] = new colorEntities(COLOR_FLOAT(20), COLOR_FLOAT(130), COLOR_FLOAT(12));
-  _color_entities[TAIL] = new colorEntities(COLOR_FLOAT(20), COLOR_FLOAT(130), COLOR_FLOAT(12));
-  _color_entities[HEAD] = new colorEntities(COLOR_FLOAT(44), COLOR_FLOAT(94), COLOR_FLOAT(41));
-  _color_entities[WALL] = new colorEntities(COLOR_FLOAT(66), COLOR_FLOAT(62), COLOR_FLOAT(62));
-  _color_entities[BANANA] = new colorEntities(COLOR_FLOAT(198), COLOR_FLOAT(201), COLOR_FLOAT(22));
-  _color_entities[STRAWBERRY] = new colorEntities(COLOR_FLOAT(235), COLOR_FLOAT(7), COLOR_FLOAT(7));
-  _color_entities[WARP] = new colorEntities(COLOR_FLOAT(235), COLOR_FLOAT(7), COLOR_FLOAT(7));
+  _color_entities[MONSTER] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
+  _color_entities[BUDDY] = new colorEntities(COLOR_FLOAT(65), COLOR_FLOAT(97), COLOR_FLOAT(10));
+  _color_entities[TAIL] = new colorEntities(COLOR_FLOAT(43), COLOR_FLOAT(66), COLOR_FLOAT(3));
+  _color_entities[HEAD] = new colorEntities(COLOR_FLOAT(151), COLOR_FLOAT(212), COLOR_FLOAT(47));
+  _color_entities[WALL] = new colorEntities(COLOR_FLOAT(99), COLOR_FLOAT(54), COLOR_FLOAT(3));
+  _color_entities[BANANA] = new colorEntities(COLOR_FLOAT(227), COLOR_FLOAT(205), COLOR_FLOAT(9));
+  _color_entities[STRAWBERRY] = new colorEntities(COLOR_FLOAT(200), COLOR_FLOAT(9), COLOR_FLOAT(23));
+  _color_entities[WARP] = new colorEntities(COLOR_FLOAT(10), COLOR_FLOAT(10), COLOR_FLOAT(10));
 
-  _color_entities[APPLE] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
-  _color_entities[PEAR] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
-  _color_entities[KIWI] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
-  _color_entities[BOOSTER] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(255), COLOR_FLOAT(255));
+  _color_entities[APPLE] = new colorEntities(COLOR_FLOAT(255), COLOR_FLOAT(0), COLOR_FLOAT(0));
+  _color_entities[PEAR] = new colorEntities(COLOR_FLOAT(182), COLOR_FLOAT(201), COLOR_FLOAT(10));
+  _color_entities[KIWI] = new colorEntities(COLOR_FLOAT(30), COLOR_FLOAT(64), COLOR_FLOAT(3));
+  _color_entities[BOOSTER] = new colorEntities(COLOR_FLOAT(36), COLOR_FLOAT(191), COLOR_FLOAT(150));
 }
 
 bool		Graphics::create_window(const std::string &name,
